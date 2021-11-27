@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
+
 const app=createApp(App).use(store).use(router).use(ElementPlus, {
     locale: zhCn,
 }).mount('#app')
