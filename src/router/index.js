@@ -6,6 +6,7 @@ import home from '../views/home'
 import myReservation from '../views/myReservation'
 import dept from '../views/Seldept'
 import doc from '../views/Doctor'
+import patientinfo from '../views/patientinfo'
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: '/hospital',
     name: 'hospital',
     component: hospital
+  },
+  {
+    path: '/pinfo',
+    name: 'patientinfo',
+    component: patientinfo
   },
 
 ]

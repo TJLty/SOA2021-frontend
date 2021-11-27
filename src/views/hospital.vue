@@ -60,26 +60,42 @@
               </div>
             </el-row>
           </div>
-          <ul>
+          <!-- <ul>
             
-            <!--上一页按钮-->
-            <!-- <li><button class="el-icon-arrow-left"></button></li> -->
-            <span><el-button >
-              <el-icon class="el-icon--right"><ArrowLeft /></el-icon>
-            </el-button></span>
-            <!--页码数按钮-->
+            <span
+              ><el-button>
+                <el-icon class="el-icon--right"
+                  ><ArrowLeft
+                /></el-icon> </el-button
+            ></span>
+           
             <span v-for="(item, index) in total" :key="index">
-              <!-- <button :class="index == queryInfo.pagenum - 1 ? 'active' : ''"> -->
-              <el-button >
+              <button :class="index == queryInfo.pagenum - 1 ? 'active' : ''">
+              <el-button>
                 {{ index + 1 }}
-                <!-- {{ item }} -->
               </el-button>
             </span>
-            <!--下一页按钮-->
-            <span><el-button >
-              <el-icon class="el-icon--right"><ArrowRight /></el-icon>
-            </el-button></span>
-          </ul>
+            
+            <span
+              ><el-button>
+                <el-icon class="el-icon--right"
+                  ><ArrowRight
+                /></el-icon> </el-button
+            ></span>
+          </ul> -->
+          <div class="demo-pagination-block">
+            <span class="demonstration"></span>
+            <el-pagination
+              v-model:currentPage="currentPage4"
+              :page-sizes="[1, 2, 5, 10]"
+              :page-size="2"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="10"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            >
+            </el-pagination>
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -101,7 +117,7 @@ export default {
   data() {
     return {
       input: "",
-      total: ["a", "b", "c","a", "b", "c","a", "b", "c","a", "b", "c"],
+      total: ["a", "b", "c", "a", "b", "c", "a", "b", "c", "a", "b", "c"],
       pickerOptions: {
         // 限制预约时间
         disabledDate(time) {
@@ -273,6 +289,12 @@ export default {
 
       return;
     },
+    handleSizeChange(newSize){
+      console.log(newSize);
+    },
+    handleCurrentChange(newPage){
+      console.log(newPage);
+    }
   },
 };
 </script>
@@ -338,5 +360,10 @@ li {
 .active {
   color: #fff;
   background-color: #2959df;
+}
+.demo-pagination-block{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 </style>
