@@ -10,7 +10,8 @@
           <Header />
         </el-header>
         <el-main>
-          <div class="pinfotable">
+          <el-text> 这是个人信息</el-text>
+          <!-- <div class="pinfotable">
             <el-table :data="tableData" style="width: 100%">
               <el-table-column prop="date" label="Date" width="180" />
               <el-table-column prop="name" label="Name" width="180" />
@@ -33,7 +34,7 @@
                 <el-input v-model="formLabelAlign.type"></el-input>
               </el-form-item>
             </el-form>
-          </div>
+          </div> -->
         </el-main>
       </el-container>
     </el-container>
