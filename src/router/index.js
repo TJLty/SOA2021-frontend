@@ -7,6 +7,7 @@ import myReservation from '../views/myReservation'
 import dept from '../views/Seldept'
 import doc from '../views/Doctor'
 import patientinfo from '../views/patientinfo'
+import ltyinfo from '../views/lty_personInfo'
 
 const routes = [
   {
@@ -44,7 +45,10 @@ const routes = [
     name: 'patientinfo',
     component: patientinfo
   },
-
+{
+  path: '/ltyinfo',
+  component: ltyinfo
+}
 ]
 
 const router = createRouter({

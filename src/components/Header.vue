@@ -31,7 +31,7 @@ export default defineComponent({
   },
   methods:{
     topinfo(){
-      this.$router.push("/pinfo");
+      this.$router.push("/ltyinfo");
     },
     logout()
     {
