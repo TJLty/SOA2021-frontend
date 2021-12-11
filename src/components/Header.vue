@@ -31,7 +31,7 @@ export default defineComponent({
   },
   methods:{
     toinfo(){
-      if(1)
+      if(!1)
       this.$router.push("/pinfo");
       else
       this.$router.push("/dinfo");

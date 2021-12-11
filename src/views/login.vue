@@ -796,8 +796,8 @@ var requestOptions = {
    redirect: 'follow'
 };
 var res
-
 await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
+//await fetch("http://127.0.0.1:4523/mock/465655/login", requestOptions)
    .then(response => response.text())
    .then(result => res=result)
    .catch(error => console.log('error', error));

@@ -63,6 +63,7 @@ export default {
   },
   data() {
     return {
+      satoken:"ca97d54a-313e-4a57-83ef-8b280c7b3d9c",
       name: "",
       intro: "",
       department_name: "",
@@ -70,16 +71,37 @@ export default {
     };
   },
   methods: {
-    init() {
-      (this.name = "张三3"),
-        (this.intro =
-          "15512138121155121381211551213812115512138121155121381211551213812115512138121"),
-        (this.department_name = "内科"),
-        (this.hospital_name = "长海医院");
-    },
+    getInfo() {
+      fetch("http://220.179.227.205:6019/doctor", {
+        headers: {
+          // 'satoken':localStorage.getItem('token')
+          "satoken": this.satoken,
+          // 'Authorization':this.satoken
+        },
+      })
+        // 第一个 then 接受到的是请求头的相关信息
+        .then((res) => {
+          
+          return res.json();
+        })
+        .then((res) => {
+          console.log(res);
+          console.log(this.satoken);
+         
+            this.name = res.name,
+            this.intro= res.intro,
+            this.department_name=res.department_name,
+            this.hospital_name=res.hospital_name;
+          
+        })
+        // 请求错误时执行
+        .catch((err) => {
+          console.log(err);
+        });
+      }
   },
   created() {
-    this.init();
+    this.getInfo();
   },
   // mounted(){
   //   console.log(1);
@@ -151,7 +173,7 @@ export default {
   color: black;
 }
 .user-info {
-    word-break: break-all;
+  word-break: break-all;
   word-wrap: break-word;
   margin: 5px;
   background: white;
