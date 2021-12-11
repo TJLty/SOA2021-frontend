@@ -65,23 +65,8 @@
               width="50%"
               center
           >
-              <el-date-picker
-                  v-model="dateValue"
-                  value-format="YYYY-MM-DD"
-                  type="date"
-                  placeholder="请选择日期"
-                  :disabled-date="disabledDate"
-                  :shortcuts="shortcuts"
-                  @focus="loadAvailTime()"
-              >
-              </el-date-picker>
+            <FullCalendar  :options="calendarOptions"/>
 
-            <template #footer>
-              <span class="dialog-footer">
-                <el-button type="primary" @click="appointment(1)">上午</el-button>
-                <el-button type="primary" @click="appointment(2)">下午</el-button>
-              </span>
-            </template>
           </el-dialog>
 
             <el-dialog
@@ -118,11 +103,19 @@ import { Search } from '@element-plus/icons'
 import Header from "@/components/Header";
 import Aside from "@/components/Aside";
 
+import "@fullcalendar/core/vdom";
+import FullCalendar from "@fullcalendar/vue3";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import zhCnLocale from '@fullcalendar/core/locales/zh-cn'
+
 export default {
   name: 'Doctor',
   components: {
     Header,
     Aside,
+    FullCalendar,
   },
   setup() {
 
@@ -132,41 +125,9 @@ export default {
     //最后确认框
     const dialogVisible = ref(false)
 
-    //日期选择器
-    const state = reactive({
-      disabledDate(time) {
-        var oneDay=3600*1000*24;
-        var thirtyDays=oneDay*30;
-        return (time.getTime() < (Date.now()-oneDay)) || (time.getTime()>(Date.now()+thirtyDays));
-      },
-      shortcuts: [
-        {
-          text: 'Today',
-          value: new Date(),
-        },
-        {
-          text: 'Tomorrow',
-          value: () => {
-            const date = new Date()
-            date.setTime(date.getTime() + 3600 * 1000 * 24)
-            return date
-          },
-        },
-        {
-          text: 'A week later',
-          value: () => {
-            const date = new Date()
-            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
-            return date
-          },
-        },
-      ],
-      dateValue: '',
-    })
 
 
     return {
-      ...toRefs(state),
       dialogVisible,
       selectTimeDialog,
     }
@@ -194,6 +155,60 @@ export default {
       availTime:[
 
       ],
+      calendarOptions: {
+        plugins: [
+          // 加载插件，V5采用插件模块方式加入
+          dayGridPlugin,
+          timeGridPlugin,
+          interactionPlugin, // needed for dateClick
+        ],
+        height: 600, //日历高度
+        aspectRatio:1,
+        headerToolbar: {
+          // 头部toolba
+          left: 'prev,next today',
+          center: 'title',
+          //right: 'timeGridDay,timeGridWeek,dayGridMonth',
+          right: 'dayGridMonth'
+        },
+        handleWindowResize: true, //随浏览器窗口变化
+        initialView: 'dayGridMonth', // 初始化插件显示
+        // initialDate:""//初始化日期
+        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        // editable: true, //是否可编辑
+        // droppable: true,//可拖拽的
+        // timeZone: 'local',//采用时区
+        selectable: true,
+        // selectMirror: true,
+        dayMaxEvents: true,
+        // weekends: true, // 是否显示一周七天
+        // select: this.handleDateSelect,
+        eventMouseEnter: this.handleEventMouseEnter, // 用户将鼠标悬停在事件上时触发
+        // eventsSet: this.handleEvents,
+        // dateClick: this.handleDateClick,//日期方格点击事件
+        eventClick: this.handleEventClick, //日程点击事件
+        locale: zhCnLocale,
+        nextDayThreshold: '01:00:00',
+        events: [
+          {title:'上午：15',date:'2021-12-12'},
+          {title:'下午：15',date:'2021-12-12'},
+          {title:'上午：5',date:'2021-12-13'},
+          {title:'下午：0',date:'2021-12-13',color:'red'},
+          //日程事件的json
+          // { title: 'event 1', date: '2021-04-23 12:00:00' },
+          // { title: 'event 2', date: '2021-04-24 05:59:23' },
+          // { title: 'event 3', date: '2021-04-25 08:23:00' },
+          // { title: 'event 4', date: '2021-04-25 09:30:00' },
+          // { title: 'event 5', date: '2021-04-26 12:00:00' },
+          // { title: 'event 2', date: '2021-04-26 15:00:00' }
+        ],
+        // datesSet: this.handleDateSet,
+        /* you can update a remote database when these fire:
+        eventAdd:
+        eventChange:
+        eventRemove:
+        */
+      },
     };
   },
   created() {
@@ -202,6 +217,39 @@ export default {
   },
   methods:{
 
+    //点击日历中的事件
+    handleEventClick(info){
+      console.log(info);
+      console.log(info.event.title);
+      console.log(info.event.startStr);
+
+      localStorage.setItem("date",info.event.startStr);
+      if(info.event.title.includes("上午")){
+        this.chineseSession="上午";
+        localStorage.setItem("session","Morning");
+      }else{
+        this.chineseSession="下午";
+        localStorage.setItem("session","Afternoon");
+      }
+
+      var hospital=localStorage.getItem("hospitalName");
+      var department=localStorage.getItem("SelectDepartmentName");
+      var doctor=localStorage.getItem("doctor")
+      var date=localStorage.getItem("date");
+      var session=localStorage.getItem("session")
+      this.finalInfo=[];
+      this.finalInfo.push({
+        hospital,
+        department,
+        doctor,
+        date,
+        session
+      });
+      console.log(this.finalInfo);
+
+      this.dialogVisible=true;
+
+    },
 
     clickDoctorCard(doctorId,doctorName){
       this.selectTimeDialog = true;
@@ -271,38 +319,6 @@ export default {
       //预约成功，回到主界面
       this.selectTimeDialog=false;
       this.dialogVisible=false;
-    },
-
-    appointment(amOrPm){
-      if(this.dateValue.length===0){
-        ElMessage('You must choose a date!');
-      }else{
-        localStorage.setItem("date",this.dateValue);
-        if(amOrPm===1){
-          this.chineseSession="上午";
-          localStorage.setItem("session","Morning");
-        }else if(amOrPm===2){
-          this.chineseSession="下午";
-          localStorage.setItem("session","Afternoon");
-        }
-
-        var hospital=localStorage.getItem("hospitalName");
-        var department=localStorage.getItem("SelectDepartmentName");
-        var doctor=localStorage.getItem("doctor")
-        var date=localStorage.getItem("date");
-        var session=localStorage.getItem("session")
-        this.finalInfo=[];
-        this.finalInfo.push({
-          hospital,
-          department,
-          doctor,
-          date,
-          session
-        });
-        console.log(this.finalInfo);
-
-        this.dialogVisible=true;
-      }
     },
 
 
