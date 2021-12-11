@@ -1,12 +1,11 @@
-<template> 
-<div class="login_container" style="width: 99vw;height: 97vh">
+<template>
+  <div class="login_container" style="width: 99vw; height: 97vh">
     <div>
       <div class="login_header">
         <h1>医生办公室预约系统</h1>
       </div>
 
       <div class="login_box">
-
         <!-- 登陆表单 -->
         <el-form
           ref="loginFormRef111"
@@ -16,7 +15,6 @@
           class="login_form"
         >
           <el-form-item prop="username">
-
             <el-input
               v-model="loginForm.username"
               placeholder="请输入您的用户ID"
@@ -40,7 +38,9 @@
 
           <el-form-item>
             <el-button type="primary" style="width: 70%" @click="login"
-              >登录</el-button>    <el-checkbox v-model="loginForm.checked">我是医生</el-checkbox>
+              >登录</el-button
+            >
+            <el-checkbox v-model="loginForm.checked">我是医生</el-checkbox>
           </el-form-item>
           <!-- <div class="tips">
         <span style="margin-right: 20px">user_id: admin</span>
@@ -54,7 +54,10 @@
               style="width: 48.55%; margin-left: 0px"
               >去注册</el-button
             >
-            <el-button type="info" @click="goFindPwd" style="width: 48.55%;margin-left: 10px"
+            <el-button
+              type="info"
+              @click="goFindPwd"
+              style="width: 48.55%; margin-left: 10px"
               >忘记密码？</el-button
             >
           </el-form-item>
@@ -67,25 +70,22 @@
       </div>
     </div>
   </div>
- 
 </template>
 
 <script>
-import {Search, User, Lock} from '@element-plus/icons'
+import { Search, User, Lock } from "@element-plus/icons";
+
 export default {
-  components:{
+  components: {
     Search,
     User,
-    Lock
+    Lock,
   },
   data() {
     return {
-
-
-
       //数据绑定对象
       loginForm: {
-        checked:true,
+        checked: true,
         username: "",
         password: "",
       },
@@ -115,62 +115,57 @@ export default {
   },
   methods: {
     async login() {
+      var myHeaders = new Headers();
+      //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("Content-Type", "application/json");
 
-       var myHeaders = new Headers();
-//myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify(this.loginForm);
 
-var raw = JSON.stringify(
-  this.loginForm
-);
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        credentials: "include",
+        redirect: "follow",
+      };
+      var res;
+      if (!this.loginForm.checked) {
+        await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
+          .then((response) => response.text())
+          .then((result) => (res = result))
+          .catch((error) => console.log("error", error));
+        res = JSON.parse(res);
+        //console.log(this.loginForm)
 
-var requestOptions = {
-   method: 'POST',
-   headers: myHeaders,
-   body: raw,
-   redirect: 'follow'
-};
-var res
-if(!this.loginForm.checked) {
-  await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
-      .then(response => response.text())
-      .then(result => res = result)
-      .catch(error => console.log('error', error));
-  res=JSON.parse(res)
-//console.log(this.loginForm)
+        if (res.status !== 1) {
+          return this.$message.error("登陆失败");
+        } else {
+          this.$message.success("登陆成功");
+          console.log(this.loginForm);
+          window.localStorage.setItem("username", this.loginForm.username);
 
-  if(res.status!==1) {
-    return this.$message.error("登陆失败");
-  }
-  else {
-    this.$message.success("登陆成功");
-    console.log(this.loginForm)
-    window.localStorage.setItem("username", this.loginForm.username);
+          this.$router.push("/hospital");
+        }
+      } else {
+        await fetch("http://220.179.227.205:6019/doctor/login", requestOptions)
+          .then((response) => response.text())
+          .then((result) => (res = result))
+          .catch((error) => console.log("error", error));
+        res = JSON.parse(res);
+        console.log(res);
 
-    this.$router.push("/hospital");
-  }
-}else{
-  await fetch("http://220.179.227.205:6019/doctor/login", requestOptions)
-      .then(response => response.text())
-      .then(result => res = result)
-      .catch(error => console.log('error', error));
-  res=JSON.parse(res)
-console.log(res)
+        if (res.code !== 200) {
+          return this.$message.error("登陆失败");
+        } else {
+          this.$message.success("登陆成功");
 
-  if(res.code!==200) {
-    return this.$message.error("登陆失败");
-  }
-  else {
-    this.$message.success("登陆成功");
-    console.log(this.loginForm)
-    window.localStorage.setItem("username", this.loginForm.username);
+          console.log(res);
+          window.localStorage.setItem("username", this.loginForm.username);
 
-    this.$router.push("/dinfo");
-  }
-}
-
-
-  },
+          this.$router.push("/dinfo");
+        }
+      }
+    },
   },
 };
 </script>
@@ -178,19 +173,18 @@ console.log(res)
 
 <style scoped>
 .login_container {
-  background:url("../assets/back-login.jpg");
-  background-size: 100%,100%;
+  background: url("../assets/back-login.jpg");
+  background-size: 100%, 100%;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-position: center,center;
+  background-position: center, center;
   max-width: 100vw;
   max-height: 100vh;
 }
-.login_header{
+.login_header {
   position: absolute;
-  left:40%;
+  left: 40%;
   top: 10%;
-
 }
 .login_box {
   width: 450px;
@@ -203,8 +197,6 @@ console.log(res)
   transform: translate(-50%, -50%);
 }
 
-
-
 .login_form {
   position: absolute;
   bottom: 0px;
@@ -212,6 +204,4 @@ console.log(res)
   padding: 0 20px;
   box-sizing: border-box;
 }
-
-
 </style>
