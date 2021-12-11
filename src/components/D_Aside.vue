@@ -1,0 +1,59 @@
+<template >
+  <div style="height: 18vh">
+    <img src="https://i.loli.net/2021/11/21/CFMak9Qj8RrHx4e.png">
+  </div>
+  <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose"
+      style="height: 81.9vh; border-right: 1px solid #3C3F41"
+      active-text-color="#409EFF"
+      background-color="#3C3F41"
+      text-color="#fff"
+      router
+  >
+    <el-menu-item index="hand">
+      <el-icon><location /></el-icon>
+      <span>叫号</span>
+    </el-menu-item>
+    <el-menu-item index="D_myReservation">
+      <el-icon><icon-menu /></el-icon>
+      <span>我的预约</span>
+    </el-menu-item>
+
+
+  </el-menu>
+</template>
+
+
+<script>
+import { defineComponent } from 'vue'
+import {
+  Location,
+  Document,
+  Menu as IconMenu,
+  Setting,
+} from '@element-plus/icons'
+
+export default defineComponent({
+  components: {
+    Location,
+    Document,
+    Setting,
+    IconMenu,
+  },
+  setup() {
+    const handleOpen = (key, keyPath) => {
+      console.log(key, keyPath)
+    }
+    const handleClose = (key, keyPath) => {
+      console.log(key, keyPath)
+    }
+    return {
+      handleOpen,
+      handleClose,
+    }
+  },
+})
+</script>

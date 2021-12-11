@@ -1,5 +1,5 @@
 <template> 
-<div class="login_container">
+<div class="login_container" style="width: 99vw;height: 97vh">
     <div>
       <el-dialog
         title="用户注册"
@@ -281,9 +281,8 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" style="width: 100%" @click="login"
-              >登录</el-button
-            >
+            <el-button type="primary" style="width: 70%" @click="login"
+              >登录</el-button>    <el-checkbox v-model="loginForm.checked">我是医生</el-checkbox>
           </el-form-item>
           <!-- <div class="tips">
         <span style="margin-right: 20px">user_id: admin</span>
@@ -598,6 +597,7 @@ export default {
       },
       //数据绑定对象
       loginForm: {
+        checked:true,
         username: "",
         password: "",
       },
@@ -765,22 +765,7 @@ export default {
       this.$refs.loginFormRef111.resetFields();
     },
     async login() {
-      // var loginRequest={
-      //   username:"1950698", 
-      //   password:"Lty@1950698"
-      // }
-    // console.log(this.loginForm.username)
-    //   this.$axios({url:'http://220.179.227.205:6015/patient/login', 
-    //   method:'POST',
-    //   data:JSON.stringify(this.loginForm),
-    //   dataType:'json',
-    //   headers:{'Content-Type':'applicaion/json','User-Agent':'apifox/1.0.0 (https://www.apifox.cn)'}
-    //   }).then(res=>{
-    //     console.log(res)  
-    //   }).catch(e=>{
-    //      console.log(e.response)
-    //      console.log(e.response.data)
-    //   });
+
        var myHeaders = new Headers();
 //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
 myHeaders.append("Content-Type", "application/json");
@@ -796,50 +781,45 @@ var requestOptions = {
    redirect: 'follow'
 };
 var res
-
-await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
-   .then(response => response.text())
-   .then(result => res=result)
-   .catch(error => console.log('error', error));
-   res=JSON.parse(res)
+if(!this.loginForm.checked) {
+  await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
+      .then(response => response.text())
+      .then(result => res = result)
+      .catch(error => console.log('error', error));
+  res=JSON.parse(res)
 //console.log(this.loginForm)
 
- if(res.status!==1) {
-          return this.$message.error("登陆失败");
-        } 
-        else {
-          this.$message.success("登陆成功");
-          console.log(this.loginForm)
-          window.localStorage.setItem("username", this.loginForm.username);
+  if(res.status!==1) {
+    return this.$message.error("登陆失败");
+  }
+  else {
+    this.$message.success("登陆成功");
+    console.log(this.loginForm)
+    window.localStorage.setItem("username", this.loginForm.username);
 
-       this.$router.push("/hospital");
-        }
-   
-        //window.sessionStorage.setItem("user_type", res.data.data.user_type);
+    this.$router.push("/hospital");
+  }
+}else{
+  await fetch("http://220.179.227.205:6019/doctor/login", requestOptions)
+      .then(response => response.text())
+      .then(result => res = result)
+      .catch(error => console.log('error', error));
+  res=JSON.parse(res)
+console.log(res)
 
-        //解构data属性为result
-        // const result = await this.$http.get("/try/ajax/json_demo.json");
-        // console.log(result);
-        // console.log(result.status);
+  if(res.code!==200) {
+    return this.$message.error("登陆失败");
+  }
+  else {
+    this.$message.success("登陆成功");
+    console.log(this.loginForm)
+    window.localStorage.setItem("username", this.loginForm.username);
 
-        // 1、将登陆成功之后的token, 保存到客户端的sessionStorage中; localStorage中是持久化的保存
-        //   1.1 项目中出现了登录之外的其他API接口，必须在登陆之后才能访问
-        //   1.2 token 只应在当前网站打开期间生效，所以将token保存在sessionStorage中
+    this.$router.push("/hand");
+  }
+}
 
-        // window.sessionStorage.setItem('token', res.data.token)
 
-       // window.sessionStorage.setItem("token", 12313);
-        // 2、通过编程式导航跳转到后台主页, 路由地址为：/home
-       //this.$router.push("/home");
-        if(res.data.data.user_type==='staff')
-        {this.$router.push("/home");}
-        if(res.data.data.user_type==='client')
-        {this.$router.push("/home_cli/");}
-      // this.$router.push("/home")
-    // isvalidPhone(str) {
-    //   const reg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-    //   return reg.test(str);
-    // },
   },
   },
 };
@@ -848,9 +828,13 @@ await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
 
 <style scoped>
 .login_container {
-
-  width: 100%;
-  height: 100%;
+  background:url("../assets/back-login.jpg");
+  background-size: 100%,100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center,center;
+  max-width: 100vw;
+  max-height: 100vh;
 }
 .login_header{
   position: absolute;
