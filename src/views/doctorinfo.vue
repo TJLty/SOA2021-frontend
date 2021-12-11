@@ -21,38 +21,24 @@
           <div class="info">
             <div class="info-row">
               <div class="user-info-label">姓名</div>
-              <div class="user-info">{{ user_name }}</div>
-            </div>
-            <!-- <div class="info-row">
-    <div class="user-info-label">学号/工号</div>
-    <div class="user-info">{{userid}}</div>
-  </div> -->
-            <!-- <div class="info-row">
-    <div class="user-info-label">积分</div>
-    <div class="user-info">{{credit}}</div>
-  </div> -->
-            <div class="info-row">
-              <div class="user-info-label">手机号</div>
-              <div class="user-info">{{ tel_num }}</div>
-            </div>
-            <div class="info-row">
-              <div class="user-info-label">地址</div>
-              <div class="user-info">{{ address }}</div>
+              <div class="user-info">{{ name }}</div>
             </div>
 
             <div class="info-row">
-              <div class="user-info-label">总预约数</div>
-              <div class="user-info">{{ total_res }}</div>
+              <div class="user-info-label">科室</div>
+              <div class="user-info">{{ department_name }}</div>
             </div>
 
             <div class="info-row">
-              <div class="user-info-label">未执行预约数</div>
-              <div class="user-info">{{ unfinished_res }}</div>
+              <div class="user-info-label">医院</div>
+              <div class="user-info">{{ hospital_name }}</div>
             </div>
+          </div>
 
+          <div class="introinfo">
             <div class="info-row">
-              <div class="user-info-label">性别</div>
-              <div class="user-info">{{ sex }}</div>
+              <div class="user-info-label">介绍</div>
+              <div class="user-info">{{ intro }}</div>
             </div>
           </div>
         </el-main>
@@ -77,23 +63,19 @@ export default {
   },
   data() {
     return {
-      userID:"",
-      user_name: "",
-      tel_num: "",
-      address: "",
-      total_res: "",
-      unfinished_res: "",
-      sex: "",
+      name: "",
+      intro: "",
+      department_name: "",
+      hospital_name: "",
     };
   },
   methods: {
     init() {
-      (this.user_name = "张三3"),
-        (this.tel_num = "15512138121"),
-        (this.address = "翻斗花园c楼202"),
-        (this.total_res = "2"),
-        (this.unfinished_res = "1"),
-        (this.sex = "男");
+      (this.name = "张三3"),
+        (this.intro =
+          "15512138121155121381211551213812115512138121155121381211551213812115512138121"),
+        (this.department_name = "内科"),
+        (this.hospital_name = "长海医院");
     },
   },
   created() {
@@ -144,6 +126,21 @@ export default {
   box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
     5px 5px 10px #cccccc, 5px 5px 10px #ffffff;
 }
+.introinfo {
+  float: left;
+  position: relative;
+  top: 50px;
+  left: 18.5%;
+  width: 500px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 10px 10px 10px;
+  background: white;
+  border-radius: 30px;
+  margin: 20px;
+  box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
+    5px 5px 10px #cccccc, 5px 5px 10px #ffffff;
+}
 .info-row {
   display: flex;
 }
@@ -154,6 +151,8 @@ export default {
   color: black;
 }
 .user-info {
+    word-break: break-all;
+  word-wrap: break-word;
   margin: 5px;
   background: white;
   color: black;
