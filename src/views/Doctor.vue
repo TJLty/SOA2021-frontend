@@ -23,7 +23,7 @@
               <el-row :gutter="25">
                 <div>
                   <el-col
-                      v-for="(doctor, index) in listObj" :key="index"
+                      v-for="(doctor, index) in doctorList" :key="index"
                       :span="5" class="ecol"
                       v-show="doctor.Visible"
                   >
@@ -185,7 +185,7 @@ export default {
         },
       },
       chineseSession,
-      listObj: [
+      doctorList: [
 
       ],
       finalInfo:[
@@ -309,13 +309,22 @@ export default {
     async getInfo()
     {
       var id="546456"
-      var name="麻婆豆腐";
+      var name="某医生";
       var pictue='https://gimg2.baidu.com/image_search/' +
           'src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F73%2F47%2F59602033edae0_610.jpg&refer=http%3A%2F%2Fpic.51yuansu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640063894&t=785307e927c01bb8beadb6a2818e29c6'
       //var pictue= 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhnrb.voc.com.cn%2Fhnrb_epaper%2Fimages%2F2014-12%2F15%2FF2%2Fres07_attpic_brief.jpg&refer=http%3A%2F%2Fhnrb.voc.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1639837269&t=2b2e1e684b4360e06688158e30d5f5b8';
-      var intro= "文案";
+      var intro= "医生介绍";
       var etype="success";
       var Visible=true;
+
+      this.doctorList.push({
+        id,
+        name,
+        pictue,
+        intro,
+        etype,
+        Visible
+      })
 
       var deptId=localStorage.getItem("SelectDepartmentId");
 
@@ -344,7 +353,7 @@ export default {
         intro=res[i].intro;
         //console.log(name)
         //console.log(intro)
-        this.listObj.push({
+        this.doctorList.push({
           id,
           name,
           pictue,
@@ -354,17 +363,17 @@ export default {
         });
       }
 
-      console.log(this.listObj);
+      console.log(this.doctorList);
     },
 
     search(input) {
-      for (let i = 0; i < this.listObj.length; i++) {
+      for (let i = 0; i < this.doctorList.length; i++) {
         var str = "";
-        str = this.listObj[i].name;
+        str = this.doctorList[i].name;
         if (str.includes(input)) {
-          this.listObj[i].Visible = true;
+          this.doctorList[i].Visible = true;
         } else {
-          this.listObj[i].Visible = false;
+          this.doctorList[i].Visible = false;
         }
       }
 
