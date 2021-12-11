@@ -9,7 +9,7 @@
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="toinfo">个人信息</el-dropdown-item>
+          <el-dropdown-item @click="topinfo">个人信息</el-dropdown-item>
           <el-dropdown-item @click="logout">账号登出</el-dropdown-item>
         </el-dropdown-menu>
       </template>
@@ -30,11 +30,10 @@ export default defineComponent({
     Avatar
   },
   methods:{
-    toinfo(){
-      if(!1)
+    topinfo(){
+    
       this.$router.push("/pinfo");
-      else
-      this.$router.push("/dinfo");
+    
     },
     
     logout()
