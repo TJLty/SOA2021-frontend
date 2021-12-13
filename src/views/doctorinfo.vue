@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      satoken:"ca97d54a-313e-4a57-83ef-8b280c7b3d9c",
+      satoken:"",
       name: "",
       intro: "",
       department_name: "",
@@ -72,22 +72,25 @@ export default {
   },
   methods: {
     getInfo() {
+      this.satoken=localStorage.getItem('satoken');
       fetch("http://220.179.227.205:6019/doctor", {
         headers: {
           // 'satoken':localStorage.getItem('token')
           "satoken": this.satoken,
           // 'Authorization':this.satoken
-        },
-      })
+          credentials: "include",   
+        }
+      }
+      )
         // 第一个 then 接受到的是请求头的相关信息
         .then((res) => {
           
           return res.json();
+          
         })
         .then((res) => {
           console.log(res);
-          console.log(this.satoken);
-         
+
             this.name = res.name,
             this.intro= res.intro,
             this.department_name=res.department_name,
