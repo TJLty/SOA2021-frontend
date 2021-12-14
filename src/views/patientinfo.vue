@@ -102,10 +102,10 @@ export default {
         .then((res) => {
           (this.user_name = res.data.username),
             (this.tel_num = res.data.phone),
-            (this.address = "翻斗花园"),
+            (this.address = res.data.address),
             (this.total_res = "3"),
             (this.unfinished_res = "2"),
-            (this.sex = "男");
+            (this.sex = res.data.sex);
         })
         // 请求错误时执行
         .catch((err) => {
