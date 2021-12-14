@@ -83,7 +83,7 @@ export default {
   },
   data() {
     return {
-      satoken:'',
+      satoken: "",
       //数据绑定对象
       loginForm: {
         checked: true,
@@ -131,20 +131,26 @@ export default {
       };
       var res;
       if (!this.loginForm.checked) {
-        await fetch("http://220.179.227.205:6015/patient/login", requestOptions)
+        await fetch(
+          "http://220.179.227.205:6015/patients/login",
+          requestOptions
+        )
           .then((response) => response.text())
           .then((result) => (res = result))
           .catch((error) => console.log("error", error));
         res = JSON.parse(res);
         //console.log(this.loginForm)
 
-        if (res.status !== 1) {
+        if (res.code !== 200) {
           return this.$message.error("登陆失败");
         } else {
           this.$message.success("登陆成功");
           console.log(this.loginForm);
           window.localStorage.setItem("username", this.loginForm.username);
-
+          this.satoken = res.data.tokenValue;
+          localStorage.removeItem("satoken");
+          localStorage.setItem("satoken", this.satoken);
+          console.log(res.data.tokenValue);
           this.$router.push("/hospital");
         }
       } else {
@@ -166,9 +172,9 @@ export default {
           console.log(res);
           window.localStorage.setItem("username", this.loginForm.username);
 
-          this.satoken=res.data.tokenValue;
-          localStorage.removeItem('satoken');
-          localStorage.setItem('satoken',this.satoken);
+          this.satoken = res.data.tokenValue;
+          localStorage.removeItem("satoken");
+          localStorage.setItem("satoken", this.satoken);
           console.log(res.data.tokenValue);
           this.$router.push("/dinfo");
         }

@@ -77,8 +77,8 @@ export default {
   },
   data() {
     return {
-     
-      
+      satoken: "",
+
       user_name: "",
       tel_num: "",
       address: "",
@@ -88,63 +88,34 @@ export default {
     };
   },
   methods: {
-    init() {
-      (this.user_name = "张三3"),
-        (this.tel_num = "15512138121"),
-        (this.address = "翻斗花园c楼202"),
-        (this.total_res = "2"),
-        (this.unfinished_res = "1"),
-        (this.sex = "男");
+    getInfo() {
+      this.satoken = localStorage.getItem("satoken");
+      fetch("http://220.179.227.205:6015/patients", {
+        headers: {
+          satoken: this.satoken,
+        },
+      })
+        // 第一个 then 接受到的是请求头的相关信息
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          (this.user_name = res.data.username),
+            (this.tel_num = res.data.phone),
+            (this.address = "翻斗花园"),
+            (this.total_res = "3"),
+            (this.unfinished_res = "2"),
+            (this.sex = "男");
+        })
+        // 请求错误时执行
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    // getInfo() {
-    //   fetch("http://127.0.0.1:4523/mock/465655/", {
-    //     headers: {
-    //       // 'satoken':localStorage.getItem('token')
-    //       satoken: this.satoken,
-    //     },
-    //   })
-    //     // 第一个 then 接受到的是请求头的相关信息
-    //     .then((res) => {
-    //       return res.json();
-    //     })
-    //     .then((res) => {
-    //       this.setState({
-    //         name: data.info.dealer_name,
-    //         phone: data.info.username,
-    //       });
-    //     })
-    //     // 请求错误时执行
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
   },
   created() {
-    this.init();
+    this.getInfo();
   },
-  // mounted(){
-  //   console.log(1);
-  //   console.log(localStorage.token);
-  //   console.log(localStorage.userID);
-  //   const url = "http://220.179.227.205:6007/User/GetInformation/GarbageMan?req=" + localStorage.userID;
-  //   fetch(url,{
-  //     method:'GET',
-  //     headers:{"accept": "text/plain","Authorization":"Bearer "+localStorage.token}}
-  //   ).then(response=>response.json()).then(data=>{
-  //     console.log(data);
-  //     this.userid=data.id;
-  //     this.phonenumber=data.phonenumber;
-  //     this.credit=data.credit;
-  //     this.address=data.address;
-  //     this.username=data.name;
-  //   })
-  // }
-  //   methods: {
-  //     closeThrowerInfo() {
-  //       this.$emit("changeShowThrowerInfo");
-  //     },
-  //   },
-  // };
 };
 </script>
 
