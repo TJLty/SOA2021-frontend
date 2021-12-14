@@ -104,8 +104,11 @@ export default {
             (this.tel_num = res.data.phone),
             (this.address = res.data.address),
             (this.total_res = "3"),
-            (this.unfinished_res = "2"),
-            (this.sex = res.data.sex);
+            (this.unfinished_res = "2");
+          console.log(res.data.sex);
+          if (res.data.sex == false) this.sex = "女";
+          else if (res.data.sex == true) this.sex = "男";
+          else this.sex = "不明";
         })
         // 请求错误时执行
         .catch((err) => {
