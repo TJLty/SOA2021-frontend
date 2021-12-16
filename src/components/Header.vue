@@ -31,8 +31,11 @@ export default defineComponent({
   },
   methods:{
     topinfo(){
+    
       this.$router.push("/pinfo");
+    
     },
+    
     logout()
     {
       window.sessionStorage.clear();

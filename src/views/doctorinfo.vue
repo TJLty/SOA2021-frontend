@@ -21,38 +21,24 @@
           <div class="info">
             <div class="info-row">
               <div class="user-info-label">姓名</div>
-              <div class="user-info">{{ user_name }}</div>
-            </div>
-            <!-- <div class="info-row">
-    <div class="user-info-label">学号/工号</div>
-    <div class="user-info">{{userid}}</div>
-  </div> -->
-            <!-- <div class="info-row">
-    <div class="user-info-label">积分</div>
-    <div class="user-info">{{credit}}</div>
-  </div> -->
-            <div class="info-row">
-              <div class="user-info-label">手机号</div>
-              <div class="user-info">{{ tel_num }}</div>
-            </div>
-            <div class="info-row">
-              <div class="user-info-label">地址</div>
-              <div class="user-info">{{ address }}</div>
+              <div class="user-info">{{ name }}</div>
             </div>
 
             <div class="info-row">
-              <div class="user-info-label">总预约数</div>
-              <div class="user-info">{{ total_res }}</div>
+              <div class="user-info-label">科室</div>
+              <div class="user-info">{{ department_name }}</div>
             </div>
 
             <div class="info-row">
-              <div class="user-info-label">未执行预约数</div>
-              <div class="user-info">{{ unfinished_res }}</div>
+              <div class="user-info-label">医院</div>
+              <div class="user-info">{{ hospital_name }}</div>
             </div>
+          </div>
 
+          <div class="introinfo">
             <div class="info-row">
-              <div class="user-info-label">性别</div>
-              <div class="user-info">{{ sex }}</div>
+              <div class="user-info-label">介绍</div>
+              <div class="user-info">{{ intro }}</div>
             </div>
           </div>
         </el-main>
@@ -77,48 +63,72 @@ export default {
   },
   data() {
     return {
-      satoken: "",
-
-      user_name: "",
-      tel_num: "",
-      address: "",
-      total_res: "",
-      unfinished_res: "",
-      sex: "",
+      satoken:"",
+      name: "",
+      intro: "",
+      department_name: "",
+      hospital_name: "",
     };
   },
   methods: {
     getInfo() {
-      this.satoken = localStorage.getItem("satoken");
-      fetch("http://220.179.227.205:6015/patients", {
+      this.satoken=localStorage.getItem('satoken');
+      fetch("http://220.179.227.205:6019/doctor", {
         headers: {
-          satoken: this.satoken,
-        },
-      })
+          // 'satoken':localStorage.getItem('token')
+          "satoken": this.satoken,
+          // 'Authorization':this.satoken
+          credentials: "include",   
+        }
+      }
+      )
         // 第一个 then 接受到的是请求头的相关信息
         .then((res) => {
+          
           return res.json();
+          
         })
         .then((res) => {
-          (this.user_name = res.data.username),
-            (this.tel_num = res.data.phone),
-            (this.address = res.data.address),
-            (this.total_res = "3"),
-            (this.unfinished_res = "2");
-          console.log(res.data.sex);
-          if (res.data.sex == false) this.sex = "女";
-          else if (res.data.sex == true) this.sex = "男";
-          else this.sex = "不明";
+          console.log(res);
+
+            this.name = res.name,
+            this.intro= res.intro,
+            this.department_name=res.department_name,
+            this.hospital_name=res.hospital_name;
+          
         })
         // 请求错误时执行
         .catch((err) => {
           console.log(err);
         });
-    },
+      }
   },
   created() {
     this.getInfo();
   },
+  // mounted(){
+  //   console.log(1);
+  //   console.log(localStorage.token);
+  //   console.log(localStorage.userID);
+  //   const url = "http://220.179.227.205:6007/User/GetInformation/GarbageMan?req=" + localStorage.userID;
+  //   fetch(url,{
+  //     method:'GET',
+  //     headers:{"accept": "text/plain","Authorization":"Bearer "+localStorage.token}}
+  //   ).then(response=>response.json()).then(data=>{
+  //     console.log(data);
+  //     this.userid=data.id;
+  //     this.phonenumber=data.phonenumber;
+  //     this.credit=data.credit;
+  //     this.address=data.address;
+  //     this.username=data.name;
+  //   })
+  // }
+  //   methods: {
+  //     closeThrowerInfo() {
+  //       this.$emit("changeShowThrowerInfo");
+  //     },
+  //   },
+  // };
 };
 </script>
 
@@ -138,6 +148,21 @@ export default {
   background: white;
   border-radius: 30px;
 
+  box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
+    5px 5px 10px #cccccc, 5px 5px 10px #ffffff;
+}
+.introinfo {
+  float: left;
+  position: relative;
+  top: 50px;
+  left: 18.5%;
+  width: 500px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 10px 10px 10px;
+  background: white;
+  border-radius: 30px;
+  margin: 20px;
   box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
     5px 5px 10px #cccccc, 5px 5px 10px #ffffff;
 }
