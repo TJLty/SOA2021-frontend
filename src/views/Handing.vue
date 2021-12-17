@@ -8,7 +8,7 @@
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
-          <Header/>
+          <D_Header/>
         </el-header>
         <el-main>
           <div class="hand_container">
@@ -79,12 +79,15 @@
 </template>
 
 <script>
-import Header from "@/components/D_header";
+import Header from "@/components/Header";
+import Aside from "@/components/Aside";
+import D_Header from "@/components/D_header";
 import D_Aside from "@/components/D_Aside";
+import H_Aside from "@/components/H_Aside";
 import {Search} from "@element-plus/icons";
 export default {
   components:{
-    Header,
+    D_Header,
     D_Aside,
     Search
   },

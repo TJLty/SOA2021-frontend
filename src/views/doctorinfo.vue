@@ -2,11 +2,11 @@
   <div>
     <el-container style="background-color: #3c3f41">
       <el-aside style="width: 230px">
-        <Aside />
+        <D_Aside />
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
-          <Header />
+          <D_header />
         </el-header>
         <el-main>
           <div class="pic" style="margin-left: 20px; margin-top: 20px">
@@ -53,6 +53,9 @@
 <script>
 import Header from "@/components/Header";
 import Aside from "@/components/Aside";
+import D_header from "@/components/D_header";
+import D_Aside from "@/components/D_Aside";
+import H_Aside from "@/components/H_Aside";
 import { Search } from "@element-plus/icons";
 
 export default {
@@ -60,6 +63,9 @@ export default {
     Header,
     Aside,
     Search,
+    D_Aside,
+    D_header,
+    H_Aside
   },
   data() {
     return {

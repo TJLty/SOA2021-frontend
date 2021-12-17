@@ -2,11 +2,11 @@
   <div>
     <el-container style="background-color: #3C3F41">
       <el-aside style="width: 230px">
-        <Aside/>
+        <D_Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
-          <Header/>
+          <D_Header/>
         </el-header>
         <el-main>
 
@@ -102,6 +102,9 @@ import { Search } from '@element-plus/icons'
 
 import Header from "@/components/Header";
 import Aside from "@/components/Aside";
+import D_Header from "@/components/D_header";
+import D_Aside from "@/components/D_Aside";
+import H_Aside from "@/components/H_Aside";
 
 import "@fullcalendar/core/vdom";
 import FullCalendar from "@fullcalendar/vue3";
@@ -116,6 +119,8 @@ export default {
     Header,
     Aside,
     FullCalendar,
+    D_Header,
+    D_Aside
   },
   setup() {
 

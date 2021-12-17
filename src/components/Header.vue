@@ -9,6 +9,7 @@
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
+          <el-dropdown-item @click="tohome">主页</el-dropdown-item>
           <el-dropdown-item @click="topinfo">个人信息</el-dropdown-item>
           <el-dropdown-item @click="logout">账号登出</el-dropdown-item>
         </el-dropdown-menu>
@@ -35,7 +36,11 @@ export default defineComponent({
       this.$router.push("/pinfo");
     
     },
+    tohome(){
     
+      this.$router.push("/hospital");
+    
+    },
     logout()
     {
       window.sessionStorage.clear();

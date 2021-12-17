@@ -13,7 +13,7 @@
       text-color="#fff"
       router
   >
-    <el-menu-item index="hand">
+    <el-menu-item index="handing">
       <el-icon><location /></el-icon>
       <span>叫号</span>
     </el-menu-item>
@@ -50,9 +50,11 @@ export default defineComponent({
     const handleClose = (key, keyPath) => {
       console.log(key, keyPath)
     }
+    
     return {
       handleOpen,
       handleClose,
+      
     }
   },
 })

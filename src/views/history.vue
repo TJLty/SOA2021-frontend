@@ -3,11 +3,11 @@
   <div>
     <el-container style="background-color: #3C3F41">
       <el-aside style="width: auto;height: 100vh">
-        <Aside/>
+        <D_Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
-          <Header/>
+          <D_Header/>
         </el-header>
         <el-main>
           <el-table :data="tableData" border stripe style="width: auto;height: auto" max-height="800">
@@ -44,13 +44,16 @@
 </template>
 
 <script>
-import Header from "@/components/D_header";
-import Aside from "@/components/D_Aside";
+import Header from "@/components/Header";
+import Aside from "@/components/Aside";
+import D_Header from "@/components/D_header";
+import D_Aside from "@/components/D_Aside";
+import H_Aside from "@/components/H_Aside";
 import { Search} from '@element-plus/icons'
 export default {
   components:{
-    Header,
-    Aside,
+    D_Header,
+    D_Aside,
 Search
   },
   data() {
