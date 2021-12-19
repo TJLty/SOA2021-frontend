@@ -10,7 +10,6 @@
           <Header/>
         </el-header>
         <el-main>
-
             <div class="select_container">
               <el-row :gutter="25">
                 <el-col
@@ -269,4 +268,5 @@ export default {
 .el-col {
   border-radius: 4px;
 }
+#container {width:300px; height: 180px; }  
 </style>

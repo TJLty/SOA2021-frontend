@@ -2,11 +2,11 @@
   <div>
     <el-container style="background-color: #3C3F41">
       <el-aside style="width: 230px">
-        <D_Aside/>
+        <Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
-          <D_Header/>
+          <Header/>
         </el-header>
         <el-main>
 

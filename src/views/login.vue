@@ -858,7 +858,7 @@ export default {
           localStorage.removeItem("satoken");
           localStorage.setItem("satoken", this.satoken);
           console.log(res.data.tokenValue);
-          this.$router.push("/doctor");
+          this.$router.push("/handing");
         }
       }
     },

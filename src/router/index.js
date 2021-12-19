@@ -10,7 +10,6 @@ import patientinfo from '../views/patientinfo'
 import doctorinfo from '../views/doctorinfo'
 import history from "../views/history"
 import handing from '../views/Handing'
-
 const routes = [
   {
     path: '/',
