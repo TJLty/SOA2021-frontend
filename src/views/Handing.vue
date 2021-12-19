@@ -249,7 +249,7 @@ export default {
 
 <style scoped>
 .hand_container {
-  width: 100%;
+  width: max-content;
   height: 100%;
   position: relative;
   left: 0%;

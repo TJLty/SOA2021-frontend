@@ -108,16 +108,7 @@ export default {
             { dname: item.departmentName, fname: item.fatherDepartmentId }
           );
         });
-        // console.log('2');
-        // console.log(this.s_fdnamelist);
-        // console.log(this.dnamelist);
-        // console.log(this.fdnamelist);
-        // console.log(this.r_dnamelist);
-        // console.log(this.r_fdnamelist);
       }
-
-      // console.log(pra.name);
-      // console.log(event.target.checked);
     },
     todoctor(id,dname) {
        

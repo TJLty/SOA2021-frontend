@@ -1,245 +1,282 @@
 <template>
-  <div class="login_container" style="width: 99vw; height: 97vh">
-    <div>
-      <el-dialog title="用户注册" v-model="dialogFormVisibleClient" width="80%">
-        <el-form
-          label-position="left"
-          label-width="150px"
-          :model="clientForm"
-          :rules="clientFormRules"
-          ref="clientRegisterRef"
-        >
-          <el-form-item label="客户ID：" prop="client_id">
-            <el-input v-model="clientForm.client_id"></el-input>
-          </el-form-item>
-          <el-form-item label="用户名：" prop="client_name">
-            <el-input v-model="clientForm.client_name"></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="性别：" >
+  <div>
+    <el-dialog title="用户注册" v-model="dialogFormVisibleClient" width="80%">
+      <el-form
+        label-position="left"
+        label-width="150px"
+        :model="clientForm"
+        :rules="clientFormRules"
+        ref="clientRegisterRef"
+      >
+        <el-form-item label="客户ID：" prop="client_id">
+          <el-input v-model="clientForm.client_id"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名：" prop="client_name">
+          <el-input v-model="clientForm.client_name"></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="性别：" >
             <el-input v-model="clientForm.client_sex"></el-input>
           </el-form-item> -->
-          <el-form-item label="性别：" prop="client_sex">
-            <!-- <el-input v-model="staffForm.staff_sex"></el-input> -->
-            <el-select
-              v-model="clientForm.client_sex"
-              placeholder="请选择您的性别"
-            >
-              <el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
-            </el-select>
-          </el-form-item>
-          <!-- <el-form-item label="生日：" >
+        <el-form-item label="性别：" prop="client_sex">
+          <!-- <el-input v-model="staffForm.staff_sex"></el-input> -->
+          <el-select
+            v-model="clientForm.client_sex"
+            placeholder="请选择您的性别"
+          >
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+        </el-form-item>
+        <!-- <el-form-item label="生日：" >
             <el-input v-model="clientForm.client_birthday"></el-input>
           </el-form-item> -->
-          <el-form-item label="生日：" prop="client_birthday">
-            <el-date-picker
-              type="date"
-              placeholder="选择输入您的生日"
-              value-format="yyyy-MM-dd"
-              v-model="clientForm.client_birthday"
-              style="width: 100%"
-            ></el-date-picker>
-          </el-form-item>
+        <el-form-item label="生日：" prop="client_birthday">
+          <el-date-picker
+            type="date"
+            placeholder="选择输入您的生日"
+            value-format="yyyy-MM-dd"
+            v-model="clientForm.client_birthday"
+            style="width: 100%"
+          ></el-date-picker>
+        </el-form-item>
 
-          <el-form-item label="电话号码：" prop="client_mobile">
-            <el-input v-model="clientForm.client_mobile"></el-input>
-          </el-form-item>
-          <el-form-item label="身份证号码：" prop="client_idCard">
-            <el-input v-model="clientForm.client_idCard"></el-input>
-          </el-form-item>
-          <el-form-item label="密码：" prop="password">
-            <el-input v-model="clientForm.password"></el-input>
-          </el-form-item>
-          <el-form-item label="密保问题：" prop="security_q">
-            <el-input v-model="clientForm.security_q"></el-input>
-          </el-form-item>
-          <el-form-item label="密保答案：" prop="s_q_answer">
-            <el-input v-model="clientForm.s_q_answer"></el-input>
-          </el-form-item>
+        <el-form-item label="电话号码：" prop="client_mobile">
+          <el-input v-model="clientForm.client_mobile"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号码：" prop="client_idCard">
+          <el-input v-model="clientForm.client_idCard"></el-input>
+        </el-form-item>
+        <el-form-item label="密码：" prop="password">
+          <el-input v-model="clientForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="密保问题：" prop="security_q">
+          <el-input v-model="clientForm.security_q"></el-input>
+        </el-form-item>
+        <el-form-item label="密保答案：" prop="s_q_answer">
+          <el-input v-model="clientForm.s_q_answer"></el-input>
+        </el-form-item>
 
-          <el-form-item>
-            <el-button
-              type="primary"
-              style="position: absolute; width: 100px"
-              @click="saveClient()"
-              >保存</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-dialog>
-      <el-dialog title="员工注册" v-model="dialogFormVisibleStaff" width="80%">
-        <el-form
-          label-position="left"
-          label-width="160px"
-          :rules="staffFormRules"
-          ref="staffRegisterRef"
-          :model="staffForm"
-        >
-          <el-form-item label="员工ID：" prop="staff_id">
-            <el-input v-model="staffForm.staff_id"></el-input>
-          </el-form-item>
-          <el-form-item label="员工姓名：" prop="staff_name">
-            <el-input v-model="staffForm.staff_name"></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="性别：">
+        <el-form-item>
+          <el-button
+            type="primary"
+            style="position: absolute; width: 100px"
+            @click="saveClient()"
+            >保存</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="员工注册" v-model="dialogFormVisibleStaff" width="80%">
+      <el-form
+        label-position="left"
+        label-width="160px"
+        :rules="staffFormRules"
+        ref="staffRegisterRef"
+        :model="staffForm"
+      >
+        <el-form-item label="员工ID：" prop="staff_id">
+          <el-input v-model="staffForm.staff_id"></el-input>
+        </el-form-item>
+        <el-form-item label="员工姓名：" prop="staff_name">
+          <el-input v-model="staffForm.staff_name"></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="性别：">
             <el-input v-model="staffForm.staff_sex"></el-input>
           </el-form-item> -->
-          <el-form-item label="性别：" prop="staff_sex">
-            <!-- <el-input v-model="staffForm.staff_sex"></el-input> -->
-            <el-select
-              v-model="staffForm.staff_sex"
-              placeholder="请选择您的性别"
-            >
-              <el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
-            </el-select>
-          </el-form-item>
+        <el-form-item label="性别：" prop="staff_sex">
+          <!-- <el-input v-model="staffForm.staff_sex"></el-input> -->
+          <el-select v-model="staffForm.staff_sex" placeholder="请选择您的性别">
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+        </el-form-item>
 
-          <el-form-item label="年龄：" prop="staff_age">
-            <el-input v-model.number="staffForm.staff_age"></el-input>
-          </el-form-item>
-          <el-form-item label="身份证号码：" prop="staff_identity_card_number">
-            <el-input v-model="staffForm.staff_identity_card_number"></el-input>
-          </el-form-item>
-          <el-form-item label="住址：" prop="staff_address">
-            <el-input v-model="staffForm.staff_address"></el-input>
-          </el-form-item>
-          <el-form-item label="部门：" prop="staff_department">
-            <el-input v-model="staffForm.staff_department"></el-input>
-          </el-form-item>
-          <el-form-item label="职位：" prop="staff_position">
-            <el-input v-model="staffForm.staff_position"></el-input>
-          </el-form-item>
-          <el-form-item label="入职日期：" prop="staff_entry_date">
-            <el-date-picker
-              type="date"
-              placeholder="选择入职日期"
-              value-format="yyyy-MM-dd"
-              v-model="staffForm.staff_entry_date"
-              style="width: 100%"
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item label="用户密码：" prop="password">
-            <el-input v-model="staffForm.password"></el-input>
-          </el-form-item>
-          <el-form-item label="密保问题：" prop="security_q">
-            <el-input v-model="staffForm.security_q"></el-input>
-          </el-form-item>
-          <el-form-item label="密保答案：" prop="s_q_answer">
-            <el-input v-model="staffForm.s_q_answer"></el-input>
-          </el-form-item>
-          <el-form-item label="身份验证：" prop="staff_secret_key">
-            <el-input v-model="staffForm.staff_secret_key"></el-input>
-          </el-form-item>
+        <el-form-item label="年龄：" prop="staff_age">
+          <el-input v-model.number="staffForm.staff_age"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证号码：" prop="staff_identity_card_number">
+          <el-input v-model="staffForm.staff_identity_card_number"></el-input>
+        </el-form-item>
+        <el-form-item label="住址：" prop="staff_address">
+          <el-input v-model="staffForm.staff_address"></el-input>
+        </el-form-item>
+        <el-form-item label="部门：" prop="staff_department">
+          <el-input v-model="staffForm.staff_department"></el-input>
+        </el-form-item>
+        <el-form-item label="职位：" prop="staff_position">
+          <el-input v-model="staffForm.staff_position"></el-input>
+        </el-form-item>
+        <el-form-item label="入职日期：" prop="staff_entry_date">
+          <el-date-picker
+            type="date"
+            placeholder="选择入职日期"
+            value-format="yyyy-MM-dd"
+            v-model="staffForm.staff_entry_date"
+            style="width: 100%"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="用户密码：" prop="password">
+          <el-input v-model="staffForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="密保问题：" prop="security_q">
+          <el-input v-model="staffForm.security_q"></el-input>
+        </el-form-item>
+        <el-form-item label="密保答案：" prop="s_q_answer">
+          <el-input v-model="staffForm.s_q_answer"></el-input>
+        </el-form-item>
+        <el-form-item label="身份验证：" prop="staff_secret_key">
+          <el-input v-model="staffForm.staff_secret_key"></el-input>
+        </el-form-item>
 
-          <el-form-item>
-            <el-button
-              type="primary"
-              style="position: absolute; width: 100"
-              @click="saveStaff()"
-              >保存</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-dialog>
-      <el-dialog title="身份选择" v-model="dialogFormVisible" width="30%">
-        <el-form label-position="left" label-width="160px">
-          <br /><br />
+        <el-form-item>
           <el-button
             type="primary"
-            style="text-align: center; margin-bottom: 30px; width: 120px"
-            @click="addClient"
-            >用户
-          </el-button>
-          <el-button
+            style="position: absolute; width: 100"
+            @click="saveStaff()"
+            >保存</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="身份选择" v-model="dialogFormVisible" width="30%">
+      <el-form label-position="left" label-width="160px">
+        <br /><br />
+        <el-button
+          type="primary"
+          style="text-align: center; margin-bottom: 30px; width: 120px"
+          @click="addClient"
+          >用户
+        </el-button>
+        <el-button
+          type="primary"
+          @click="addStaff"
+          style="
+            text-align: center;
+            float: right;
+            margin-bottom: 30px;
+            width: 120px;
+          "
+          >医生</el-button
+        >
+        <br /><br />
+      </el-form>
+    </el-dialog>
+    <el-dialog
+      title="请输入您的ID"
+      v-model="dialogFormVisibleRetrieve"
+      width="30%"
+    >
+      <el-form
+        label-position="left"
+        label-width="100px"
+        :model="getSQForm"
+        :rules="getSQFormRules"
+        ref="getSQRef"
+      >
+        <el-form-item label="用户ID：" prop="user_id">
+          <el-input v-model="getSQForm.user_id"></el-input>
+        </el-form-item>
+
+        <el-form-item
+          ><el-button
             type="primary"
-            @click="addStaff"
-            style="
-              text-align: center;
-              float: right;
-              margin-bottom: 30px;
-              width: 120px;
-            "
-            >医生</el-button
-          >
-          <br /><br />
-        </el-form>
-      </el-dialog>
-      <el-dialog
-        title="请输入您的ID"
-        v-model="dialogFormVisibleRetrieve"
-        width="30%"
-      >
-        <el-form
-          label-position="left"
-          label-width="100px"
-          :model="getSQForm"
-          :rules="getSQFormRules"
-          ref="getSQRef"
+            @click="confirmID"
+            style="text-align: center; float: right; width: 120px"
+            >提交</el-button
+          ></el-form-item
         >
-          <el-form-item label="用户ID：" prop="user_id">
-            <el-input v-model="getSQForm.user_id"></el-input>
-          </el-form-item>
-
-          <el-form-item
-            ><el-button
-              type="primary"
-              @click="confirmID"
-              style="text-align: center; float: right; width: 120px"
-              >提交</el-button
-            ></el-form-item
-          >
-        </el-form>
-      </el-dialog>
-      <el-dialog
-        title="请验证您的密保问题并输入新密码："
-        v-model="dialogFormVisibleConfirm"
-        width="50%"
+      </el-form>
+    </el-dialog>
+    <el-dialog
+      title="请验证您的密保问题并输入新密码："
+      v-model="dialogFormVisibleConfirm"
+      width="50%"
+    >
+      <el-form
+        label-position="left"
+        label-width="170px"
+        :model="newPwdForm"
+        :rules="newPwdFormRules"
+        ref="newPwdRef"
       >
-        <el-form
-          label-position="left"
-          label-width="170px"
-          :model="newPwdForm"
-          :rules="newPwdFormRules"
-          ref="newPwdRef"
-        >
-          <el-form-item label="您的密保问题为：">
-            <el-input
-              readonly="true"
-              v-model="getSQForm.security_q"
-              :disabled="true"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="请输入您的密保答案：" prop="s_q_answer">
-            <el-input
-              v-model="newPwdForm.s_q_answer"
-              placeholder="密保答案"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="请输入您的新密码：" prop="user_password">
-            <el-input
-              v-model="newPwdForm.user_password"
-              placeholder="新密码"
-            ></el-input>
-          </el-form-item>
+        <el-form-item label="您的密保问题为：">
+          <el-input
+            readonly="true"
+            v-model="getSQForm.security_q"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="请输入您的密保答案：" prop="s_q_answer">
+          <el-input
+            v-model="newPwdForm.s_q_answer"
+            placeholder="密保答案"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="请输入您的新密码：" prop="user_password">
+          <el-input
+            v-model="newPwdForm.user_password"
+            placeholder="新密码"
+          ></el-input>
+        </el-form-item>
 
-          <el-form-item
-            ><el-button
-              type="primary"
-              @click="updatePwd"
-              style="text-align: center; float: right; width: 120px"
-              >提交</el-button
-            ></el-form-item
-          >
-        </el-form>
-      </el-dialog>
-    </div>
-    <div>
-      <div class="login_header">
-        <h1>医生办公室预约系统</h1>
+        <el-form-item
+          ><el-button
+            type="primary"
+            @click="updatePwd"
+            style="text-align: center; float: right; width: 120px"
+            >提交</el-button
+          ></el-form-item
+        >
+      </el-form>
+    </el-dialog>
+  </div>
+  <el-header style="height: 10vh">
+    <div
+      style="
+        height: 10vh;
+        width: 95vw;
+        line-height: 10vh;
+        border-bottom: 1px solid #ccc;
+        display: flex;
+        min-height: 50px;
+      "
+    >
+      <div
+        style="
+          width: 200px;
+          padding-left: 10px;
+          font-weight: bold;
+          font-size: larger;
+          color: #409eff;
+        "
+      >
+        医院预约挂号平台
       </div>
+      <div style="flex: 1"></div>
+      <div style="width: 80px">
+        <el-dropdown>
+          <el-button type="primary">
+            <el-icon><avatar /></el-icon>
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="goRegister">注册</el-dropdown-item>
+              <el-dropdown-item @click="goFindPwd">找回密码</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </div>
+  </el-header>
+  <div class="login_container" style="width: 95vw; height: 87vh">
+    <div>
+      <!-- <div class="login_header">
+        <h1 style="width: 200px; padding-left: 10px;font-weight: bold;font-size: larger;color:#409EFF">医生办公室预约系统</h1>
+      </div> -->
 
-      <div class="login_box">
+      <el-card class="login_box">
+        <h2 class="l1">登录</h2>
+        <h2 class="l2">欢迎登录本系统</h2>
         <!-- 登陆表单 -->
         <el-form
           ref="loginFormRef111"
@@ -269,19 +306,24 @@
               </template>
             </el-input>
           </el-form-item>
-
-          <el-form-item>
-            <el-button type="primary" style="width: 70%" @click="login"
-              >登录</el-button
-            >
-            <el-checkbox v-model="loginForm.checked">我是医生</el-checkbox>
-          </el-form-item>
-          <!-- <div class="tips">
-        <span style="margin-right: 20px">user_id: admin</span>
-        <span> password: any</span>
-      </div> -->
-
-          <el-form-item>
+          <el-row
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <el-col :span="12">
+              <el-button style="width: 90%" type="primary" @click="login"
+                >登录</el-button
+              >
+            </el-col>
+            <el-col :span="12">
+              <el-switch
+                v-model="loginForm.checked"
+                active-text="我是医生"
+                inactive-text="我是患者"
+                >我是医生</el-switch
+              >
+            </el-col>
+          </el-row>
+          <!-- <el-form-item>
             <el-button
               type="success"
               @click="goRegister"
@@ -294,25 +336,23 @@
               style="width: 48.55%; margin-left: 10px"
               >忘记密码？</el-button
             >
-          </el-form-item>
-
-          <!-- <el-form-item class="btns">
-          <el-button type="primary" @click="login">登陆</el-button>
-          <el-button type="info" @click="resetLoginForm">重置</el-button>
-        </el-form-item> -->
+          </el-form-item> -->
         </el-form>
-      </div>
+      </el-card>
     </div>
   </div>
 </template>
 
 <script>
-import { Search, User, Lock } from "@element-plus/icons";
+import { Search, User, Lock, Avatar } from "@element-plus/icons";
+
 export default {
   components: {
     Search,
     User,
     Lock,
+
+    Avatar,
   },
   data() {
     return {
@@ -829,7 +869,7 @@ export default {
 
 <style scoped>
 .login_container {
-  /* background: url("../assets/back-login.jpg"); */
+  background: url("../assets/Pfizer-Brand-Motif-09 2.jpg");
   background-size: 100%, 100%;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -840,24 +880,43 @@ export default {
 .login_header {
   position: absolute;
   left: 40%;
+  top: 20%;
+}
+.l1 {
+  position: absolute;
+  left: 44%;
   top: 10%;
+  color: #409eff;
+}
+.l2 {
+  position: absolute;
+  left: 35%;
+  top: 30%;
+  font-weight: bold;
+  font-size: larger;
+  color: #409eff;
 }
 .login_box {
   width: 450px;
-  height: 280px;
-  background-color: #e4e3e3;
+  height: 500px;
+  background-color: #ffffff;
   border-radius: 5px;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(60%, -50%);
+  shadow: "hover";
 }
 
 .login_form {
   position: absolute;
-  bottom: 0px;
-  width: 100%;
-  padding: 0 20px;
+  top: 50%;
+  width: 80%;
+  left: 10%;
+
   box-sizing: border-box;
+}
+.el-header {
+  background-color: #ffffff;
 }
 </style>
