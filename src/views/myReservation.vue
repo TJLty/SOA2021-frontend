@@ -24,23 +24,20 @@
               </el-table-column>
             </el-table>
           </div>
-
-          
         </el-main>
         <div class="demo-pagination-block">
-            <span class="demonstration"></span>
-            <el-pagination
-              v-model:currentPage="currentPage4"
-              :page-sizes="[1, 2, 5, 10]"
-              :page-size="2"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="10"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-            >
-            </el-pagination>
-          </div>
-          
+          <span class="demonstration"></span>
+          <el-pagination
+            v-model:currentPage="currentPage"
+            :page-sizes="[1, 2, 5, 10]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="totalNumber"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          >
+          </el-pagination>
+        </div>
       </el-container>
     </el-container>
   </div>
@@ -61,21 +58,30 @@ export default {
       isCollapse: true,
       dialogVisible: false,
       tableData: [],
+
+      totalPage: "",
+      totalNumber: "",
+
+      pageSize: 5,
+      currentPage: 0,
+      history: true,
+      future: true,
+
+      gettable: {},
     };
   },
   created() {
     this.getInfo();
-    this.tableData = [
-      { name: "a", dept: "b", doctor: "c", date: "d", time: "e", number: "f" },
-      { name: "a", dept: "b", doctor: "c", date: "d", time: "e", number: "f" },
-    ];
   },
 
   methods: {
-    getAdvice(){
+    getAdvice() {
       window.confirm("nice");
     },
     async getInfo() {
+      this.tableData = [];
+      console.log("c " + this.currentPage);
+      console.log("p " + this.pageSize);
       var name = "麻婆豆腐";
       var dept = "";
       var time = "文案";
@@ -84,33 +90,47 @@ export default {
       var number = 11;
       var res;
       var myHeaders = new Headers();
-      // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      var url = "http://220.179.227.205:6018/appointment/Patient/";
-      console.log(localStorage.getItem("username"));
-      url = url + localStorage.getItem("username") + "/all";
-      console.log(url);
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("satoken", localStorage.getItem("satoken"));
+
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
       };
 
+      // var url = "http://220.179.227.205:6018/appointment/Patient/";
+      // console.log(localStorage.getItem("username"));
+      // url = url + localStorage.getItem("username") + "/all";
+      //http://220.179.227.205:6018/appointments/details?pageSize=5&currentPage=0&history=true&future=true
+      // console.log(url);
+
+      var url =
+        "http://220.179.227.205:6018/appointments/details?pageSize=" +
+        this.pageSize +
+        "&currentPage=" +
+        this.currentPage +
+        "&history=" +
+        this.history +
+        "&future=" +
+        this.future;
+
       await fetch(url, requestOptions)
         .then((response) => response.text())
         .then((result) => (res = result))
         .catch((error) => console.log("error", error));
-      console.log(res);
+
       res = JSON.parse(res);
-      console.log(res);
-      for (let i = 0; i < res.length; i++) {
-        name = res[i].hospital_name;
-        dept = res[i].department_name;
-        doctor = res[i].doctor_name;
-        time = res[i].slot;
+      this.gettable = res;
+      for (let i = 0; i < res.data.list.length; i++) {
+        name = res.data.list[i].hospital_name;
+        dept = res.data.list[i].department_name;
+        doctor = res.data.list[i].doctor_name;
+        time = res.data.list[i].slot;
         if (time == "MORNING") time = "上午";
         else time = "下午";
-        date = res[i].date;
-        number = res[i].code;
+        date = res.data.list[i].date;
+        number = res.data.list[i].code;
 
         this.tableData.push({
           name,
@@ -121,8 +141,17 @@ export default {
           number,
         });
       }
-    },
 
+      (this.CurrentPage = res.data.currentPage),
+        (this.totalPage = res.data.totalPage),
+        (this.totalNumber = res.data.totalNumber);
+    },
+    handleCurrentChange() {
+
+    },
+    handleSizeChange() {
+      
+    },
     logout() {
       window.sessionStorage.clear();
       this.$router.push("/");
@@ -138,8 +167,8 @@ export default {
   left: 0%;
   top: 0%;
 }
-.demo-pagination-block{
-  position:relative ;
+.demo-pagination-block {
+  position: relative;
   bottom: 0%;
   display: flex;
   flex-direction: row;

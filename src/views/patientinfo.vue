@@ -88,32 +88,87 @@ export default {
     };
   },
   methods: {
-     getInfo() {
-      this.satoken = localStorage.getItem("satoken");
-       fetch("http://220.179.227.205:6015/patients", {
-        headers: {
-          satoken: this.satoken,
-        },
-      })
-        // 第一个 then 接受到的是请求头的相关信息
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          (this.user_name = res.data.username),
-            (this.tel_num = res.data.phone),
-            (this.address = res.data.address),
-            (this.total_res = "3"),
-            (this.unfinished_res = "2");
-          console.log(res.data.sex);
-          if (res.data.sex == false) this.sex = "女";
-          else if (res.data.sex == true) this.sex = "男";
-          else this.sex = "不明";
-        })
-        // 请求错误时执行
-        .catch((err) => {
-          console.log(err);
-        });
+    async getInfo() {
+      var res1;
+      var res2;
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      await fetch(
+        "http://220.179.227.205:6015/patients/" +
+          localStorage.getItem("username"),
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res1 = result))
+        .catch((error) => console.log("error", error));
+
+      res1 = JSON.parse(res1);
+      console.log(res1);
+      if (res1.code != 200) {
+        console.log("fail to get pinfo");
+      } else {
+
+      //   (this.user_name = res1.data.username),
+      //   (this.tel_num = res1.data.phone),
+      //   (this.address = res1.data.address),
+      //   console.log(res1.data.sex);
+      // if (res1.data.sex == false) this.sex = "女";
+      // else if (res1.data.sex == true) this.sex = "男";
+      // else this.sex = "不明";
+      }
+
+      await fetch(
+        "http://220.179.227.205:6018/appointments/details/actions/count?future=true&history=true",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res2 = result))
+        .catch((error) => console.log("error", error));
+
+      res2 = JSON.parse(res2);
+      console.log(res2);
+      if (res2.code != 200) {
+        console.log("fail to get pinfo");
+      } else {
+        // this.total_res = res2.data;
+      }
+
+      var res3;
+      await fetch(
+        "http://220.179.227.205:6018/appointments/details/actions/count?future=true&history=false",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res3 = result))
+        .catch((error) => console.log("error", error));
+
+      res3 = JSON.parse(res3);
+      console.log(res3);
+      if (res3.code != 200) {
+        console.log("fail to get pinfo");
+      } else {
+        // this.unfinished_res = res3.data;
+      }
+
+      (this.user_name = res1.data.username),
+        (this.tel_num = res1.data.phone),
+        (this.address = res1.data.address),
+        console.log(res1.data.sex);
+      if (res1.data.sex == false) this.sex = "女";
+      else if (res1.data.sex == true) this.sex = "男";
+      else this.sex = "不明";
+
+this.total_res = res2.data;
+
+      this.unfinished_res = res3.data;
     },
   },
   created() {
