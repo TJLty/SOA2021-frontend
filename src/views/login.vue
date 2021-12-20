@@ -39,7 +39,7 @@
         <h1 style="width: 200px; padding-left: 10px;font-weight: bold;font-size: larger;color:#409EFF">医生办公室预约系统</h1>
       </div> -->
 
-        <el-card v-if="log" class="login_box">
+        <el-card v-if="log" class="login_box" shadow="hover">
           <h2 class="l1">登录</h2>
           <h2 class="l2">欢迎登录本系统</h2>
           <!-- 登陆表单 -->
@@ -96,7 +96,7 @@
           </el-form>
         </el-card>
 
-        <el-card v-if="!log" class="login_box">
+        <el-card v-if="!log" class="login_box" shadow="hover">
           <h2 class="l1">注册</h2>
           <!-- 注册表单 -->
           <el-form
@@ -392,7 +392,6 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(60%, -50%);
-  shadow: "hover";
 }
 
 .login_form {

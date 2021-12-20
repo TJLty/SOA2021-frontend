@@ -83,19 +83,7 @@
                 /></el-icon> </el-button
             ></span>
           </ul> -->
-          <div class="demo-pagination-block">
-            <span class="demonstration"></span>
-            <el-pagination
-              v-model:currentPage="currentPage4"
-              :page-sizes="[1, 2, 5, 10]"
-              :page-size="2"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="10"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-            >
-            </el-pagination>
-          </div>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -362,9 +350,5 @@ li {
   color: #fff;
   background-color: #2959df;
 }
-.demo-pagination-block{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
+
 </style>
