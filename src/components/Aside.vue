@@ -1,7 +1,6 @@
 <template >
   <div style="height: 18vh">
-  <img src="https://i.loli.net/2021/11/21/CFMak9Qj8RrHx4e.png">
-  </div>
+<img style="width:90%;height:100%" src="https://s2.loli.net/2021/12/19/umFxbDZChlEcUXS.png">  </div>
   <el-menu
       default-active="2"
       class="el-menu-vertical-demo"

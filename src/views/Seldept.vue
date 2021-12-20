@@ -117,9 +117,9 @@ export default {
       console.log(dname);
       this.$router.push("/doctor");
     },
-    initdata() {
+    async initdata() {
       
-      fetch(this.url + this.urlid + "/all")
+     await fetch(this.url + this.urlid + "/all")
         // 第一个 then 接受到的是请求头的相关信息
         .then((res) => {
           return res.json();
