@@ -88,6 +88,7 @@
                   v-model="loginForm.checked"
                   active-text="我是医生"
                   inactive-text="我是患者"
+                  
                   >我是医生</el-switch
                 >
               </el-col>
@@ -162,11 +163,13 @@
                   >注册</el-button
                 >
               </el-col>
+
               <el-col :span="12">
                 <el-switch
-                  v-model="loginForm.checked"
-                  active-text="我是医生"
-                  inactive-text="我是患者"
+                  v-model="resForm.checked"
+                  active-text="注册医生"
+                  inactive-text="注册患者"
+                  
                   >我是医生</el-switch
                 >
               </el-col>
@@ -223,7 +226,7 @@ export default {
       },
 
       resForm: {
-        checked: true,
+        checked: false,
         userID: "",
         username: "",
         password: "",
@@ -274,6 +277,7 @@ export default {
     };
   },
   methods: {
+    
     changelog() {
       this.log = !this.log;
     },
