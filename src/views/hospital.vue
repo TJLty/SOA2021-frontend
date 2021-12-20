@@ -301,7 +301,8 @@ export default {
 
 <style scoped>
 .row_container1 {
-  width: 100%;
+  background-color: aqua;
+  width: 96%;
   position: relative;
   left: 7%;
   top: 0%;

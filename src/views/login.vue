@@ -1,156 +1,181 @@
 <template>
-<div class='all'>
-  <el-header style="height: 10vh">
-    <div
-      style="
-        height: 10vh;
-        width: 95vw;
-        line-height: 10vh;
-        border-bottom: 1px solid #ccc;
-        display: flex;
-        min-height: 50px;
-      "
-    >
+  <div class="all">
+    <el-header style="height: 10vh">
       <div
         style="
-          width: 200px;
-          padding-left: 10px;
-          font-weight: bold;
-          font-size: larger;
-          color: #409eff;
+          height: 10vh;
+          width: 95vw;
+          line-height: 10vh;
+          border-bottom: 1px solid #ccc;
+          display: flex;
+          min-height: 50px;
         "
       >
-        医院预约挂号平台
-      </div>
-      <div style="flex: 1"></div>
-      <div style="width: 80px">
-        <el-dropdown>
-          <el-button type="primary" @click="changelog" v-if='log'>
-            <el-icon><avatar /></el-icon>
+        <div
+          style="
+            width: 200px;
+            padding-left: 10px;
+            font-weight: bold;
+            font-size: larger;
+            color: #409eff;
+          "
+        >
+          医院预约挂号平台
+        </div>
+        <div style="flex: 1"></div>
+        <div style="width: 80px">
+          <el-button type="primary" @click="changelog" v-if="log">
             去注册
           </el-button>
-           <el-button type="primary" @click="changelog" v-if='!log'>
-            <el-icon><avatar /></el-icon>
+          <el-button type="primary" @click="changelog" v-if="!log">
             去登陆
           </el-button>
-          
-        </el-dropdown>
+        </div>
       </div>
-    </div>
-  </el-header>
-  <div class="login_container" style="width: 95vw; height: 87vh">
-    <div>
-      <!-- <div class="login_header">
+    </el-header>
+    <div class="login_container" style="width: 95vw; height: 87vh">
+      <div>
+        <!-- <div class="login_header">
         <h1 style="width: 200px; padding-left: 10px;font-weight: bold;font-size: larger;color:#409EFF">医生办公室预约系统</h1>
       </div> -->
 
-      <el-card v-if='log' class="login_box">
-        <h2 class="l1">登录</h2>
-        <h2 class="l2">欢迎登录本系统</h2>
-        <!-- 登陆表单 -->
-        <el-form
-          ref="loginFormRef111"
-          :model="loginForm"
-          :rules="loginFormRules"
-          label-width="0px"
-          class="login_form"
-        >
-          <el-form-item prop="username">
-            <el-input
-              v-model="loginForm.username"
-              placeholder="请输入您的用户ID"
-            >
-              <template #prefix>
-                <el-icon class="el-input__icon"><User /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              type="password"
-              v-model="loginForm.password"
-              placeholder="请输入您的用户密码"
-            >
-              <template #prefix>
-                <el-icon class="el-input__icon"><Lock /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-row
-            style="display: flex; align-items: center; justify-content: center"
+        <el-card v-if="log" class="login_box">
+          <h2 class="l1">登录</h2>
+          <h2 class="l2">欢迎登录本系统</h2>
+          <!-- 登陆表单 -->
+          <el-form
+            ref="loginFormRef111"
+            :model="loginForm"
+            :rules="loginFormRules"
+            label-width="0px"
+            class="login_form"
           >
-            <el-col :span="12">
-              <el-button style="width: 90%" type="primary" @click="login"
-                >登录</el-button
+            <el-form-item prop="username">
+              <el-input
+                v-model="loginForm.username"
+                placeholder="请输入您的用户ID"
               >
-            </el-col>
-            <el-col :span="12">
-              <el-switch
-                v-model="loginForm.checked"
-                active-text="我是医生"
-                inactive-text="我是患者"
-                >我是医生</el-switch
+                <template #prefix>
+                  <el-icon class="el-input__icon"><User /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                type="password"
+                v-model="loginForm.password"
+                placeholder="请输入您的用户密码"
               >
-            </el-col>
-          </el-row>
-        </el-form>
-      </el-card>
+                <template #prefix>
+                  <el-icon class="el-input__icon"><Lock /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-row
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <el-col :span="12">
+                <el-button style="width: 90%" type="primary" @click="login"
+                  >登录</el-button
+                >
+              </el-col>
+              <el-col :span="12">
+                <el-switch
+                  v-model="loginForm.checked"
+                  active-text="我是医生"
+                  inactive-text="我是患者"
+                  >我是医生</el-switch
+                >
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-card>
 
-      <el-card v-if='!log' class="login_box">
-        <h2 class="l1">注册</h2>
-        <h2 class="l2">欢迎注册本系统</h2>
-        <!-- 注册表单 -->
-        <el-form
-          ref="loginFormRef111"
-          :model="loginForm"
-          :rules="loginFormRules"
-          label-width="0px"
-          class="login_form"
-        >
-          <el-form-item prop="username">
-            <el-input
-              v-model="loginForm.username"
-              placeholder="请输入您的用户ID"
-            >
-              <template #prefix>
-                <el-icon class="el-input__icon"><User /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              type="password"
-              v-model="loginForm.password"
-              placeholder="请输入您的用户密码"
-            >
-              <template #prefix>
-                <el-icon class="el-input__icon"><Lock /></el-icon>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-row
-            style="display: flex; align-items: center; justify-content: center"
+        <el-card v-if="!log" class="login_box">
+          <h2 class="l1">注册</h2>
+          <!-- 注册表单 -->
+          <el-form
+            ref="loginFormRef111"
+            :model="resForm"
+            :rules="resFormRules"
+            label-width="0px"
+            class="register_form"
           >
-            <el-col :span="12">
-              <el-button style="width: 90%" type="primary" @click="login"
-                >登录</el-button
+            <el-form-item prop="username">
+              <el-input
+                v-model="resForm.username"
+                placeholder="请输入您的姓名"
               >
-            </el-col>
-            <el-col :span="12">
-              <el-switch
-                v-model="loginForm.checked"
-                active-text="我是医生"
-                inactive-text="我是患者"
-                >我是医生</el-switch
-              >
-            </el-col>
-          </el-row>
-        </el-form>
-      </el-card>
+                <template #prefix>
+                  <el-icon class="el-input__icon"><User /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
 
+            <el-form-item prop="userID">
+              <el-input
+                v-model="resForm.userID"
+                placeholder="请输入您的身份证号作为ID"
+              >
+                <template #prefix>
+                  <el-icon class="el-input__icon"><User /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                type="password"
+                v-model="resForm.password"
+                placeholder="请输入您的用户密码"
+              >
+                <template #prefix>
+                  <el-icon class="el-input__icon"><Lock /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+
+            <el-form-item prop="password">
+              <el-input
+                type="password"
+                v-model="resForm.confirmpassword"
+                placeholder="请确认您的用户密码"
+              >
+                <template #prefix>
+                  <el-icon class="el-input__icon"><Lock /></el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+
+            <el-row
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <el-col :span="12">
+                <el-button style="width: 90%" type="primary" @click="register"
+                  >注册</el-button
+                >
+              </el-col>
+              <el-col :span="12">
+                <el-switch
+                  v-model="loginForm.checked"
+                  active-text="我是医生"
+                  inactive-text="我是患者"
+                  >我是医生</el-switch
+                >
+              </el-col>
+            </el-row>
+          </el-form>
+        </el-card>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -168,7 +193,7 @@ export default {
     return {
       log: true,
       satoken: "",
-    //数据绑定对象
+      //数据绑定对象
       loginForm: {
         checked: true,
         username: "",
@@ -196,12 +221,62 @@ export default {
           },
         ],
       },
+
+      resForm: {
+        checked: true,
+        userID: "",
+        username: "",
+        password: "",
+        confirmpassword:"",
+      },
+      //注册表单验证对象
+      resFormRules: {
+        //身份证号
+        userID: [
+          { required: true, message: "请输入身份证号", trigger: "blur" },
+          {
+            min: 18,
+            max: 18,
+            message: "长度需要等于18个字符",
+            trigger: "blur",
+          },
+        ],
+
+        //用户名
+        username: [
+          { required: true, message: "请输入用户姓名", trigger: "blur" },
+          {
+            min: 2,
+            message: "长度需要大于等于2个字符",
+            trigger: "blur",
+          },
+        ],
+
+        password: [
+          { required: true, message: "请输入用户密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 18,
+            message: "长度在 6 到 18 个字符",
+            trigger: "blur",
+          },
+        ],
+        confirmpassword: [
+          { required: true, message: "请确认用户密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 18,
+            message: "长度在 6 到 18 个字符",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   methods: {
-   changelog(){
-     this.log=!(this.log);
-   },
+    changelog() {
+      this.log = !this.log;
+    },
     async login() {
       var myHeaders = new Headers();
       //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -265,6 +340,9 @@ export default {
         }
       }
     },
+    async register() {
+      window.confirm("注册成功");
+    },
   },
 };
 </script>
@@ -279,9 +357,8 @@ export default {
   max-width: 100vw;
   max-height: 100vh;
 }
-.all{
+.all {
   background: url("../assets/Pfizer-Brand-Motif-09 2.jpg");
-
 }
 .login_header {
   position: absolute;
@@ -317,6 +394,14 @@ export default {
 .login_form {
   position: absolute;
   top: 50%;
+  width: 80%;
+  left: 10%;
+
+  box-sizing: border-box;
+}
+.register_form {
+  position: absolute;
+  top: 30%;
   width: 80%;
   left: 10%;
 
