@@ -83,7 +83,6 @@
                 /></el-icon> </el-button
             ></span>
           </ul> -->
-          
         </el-main>
       </el-container>
     </el-container>
@@ -216,8 +215,9 @@ export default {
       console.log(window.sessionStorage.getItem("token"));
       var res;
       var myHeaders = new Headers();
-      //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("Content-Type", "application/json");
 
+      myHeaders.append("satoken", localStorage.getItem("satoken"));
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -225,31 +225,36 @@ export default {
       };
 
       await fetch(
-        "http://220.179.227.205:6016/hospital/normal/all",
+        // "http://220.179.227.205:6016/hospital/normal/all",
+        "http://220.179.227.205:6016/hospitals?filter=",
         requestOptions
       )
         .then((response) => response.text())
         .then((result) => (res = result))
         .catch((error) => console.log("error", error));
       res = JSON.parse(res);
-      console.log(res.length);
-      for (let i = 0; i < res.length; i++) {
-        id = res[i].hospitalId;
-        name = res[i].name;
-        //pictue=res.data.data[i].dish_picture;
-        position = res[i].location;
-        console.log(name);
-        console.log(position);
-        this.listObj.push({
-          id,
-          name,
-          pictue,
-          position,
-          etype,
-          outerVisible,
-          innerVisible,
-          Visible,
-        });
+      if (res.code != 200) {
+        console.log("fail to get hospital");
+      } else {console.log(res.data);
+        console.log(res.data.length);
+        for (let i = 0; i < res.data.length; i++) {
+          id = res.data[i].hospitalId;
+          name = res.data[i].hospitalName;
+          //pictue=res.data.data[i].dish_picture;
+          position = res.data[i].location;
+          console.log(name);
+          console.log(position);
+          this.listObj.push({
+            id,
+            name,
+            pictue,
+            position,
+            etype,
+            outerVisible,
+            innerVisible,
+            Visible,
+          });
+        }
       }
 
       console.log(this.listObj);
@@ -277,22 +282,22 @@ export default {
 
       return;
     },
-    handleSizeChange(newSize){
+    handleSizeChange(newSize) {
       console.log(newSize);
     },
-    handleCurrentChange(newPage){
+    handleCurrentChange(newPage) {
       console.log(newPage);
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
 .row_container1 {
-  background-color: aqua;
-  width: 96%;
+  background-color: #ffffff;
+  width: 95%;
   position: relative;
-  left: 7%;
+  left: 5%;
   top: 0%;
   text-align: center;
 }
@@ -350,5 +355,4 @@ li {
   color: #fff;
   background-color: #2959df;
 }
-
 </style>

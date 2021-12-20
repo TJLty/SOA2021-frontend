@@ -88,9 +88,9 @@ export default {
     };
   },
   methods: {
-    getInfo() {
+     getInfo() {
       this.satoken = localStorage.getItem("satoken");
-      fetch("http://220.179.227.205:6015/patients", {
+       fetch("http://220.179.227.205:6015/patients", {
         headers: {
           satoken: this.satoken,
         },

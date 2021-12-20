@@ -1,53 +1,55 @@
 
 <template>
   <div>
-    <el-container style="background-color: #3C3F41">
+    <el-container style="background-color: #3c3f41">
       <el-aside style="width: 230px">
-        <Aside/>
+        <Aside />
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
-          <Header/>
+          <Header />
         </el-header>
         <el-main>
-            <div class="select_container">
-              <el-row :gutter="25">
-                <el-col
-                    :span="5"
-                    v-for="(item, index) in r_fdnamelist"
-                    :key="index"
-                    class="ecol"
+          <div class="select_container">
+            <el-row :gutter="25">
+              <el-col
+                :span="5"
+                v-for="(item, index) in r_fdnamelist"
+                :key="index"
+                class="ecol"
+              >
+                <el-checkbox
+                  @change="selectfd(item)"
+                  class="elcheckbox"
+                  border
+                  >{{ item.name }}</el-checkbox
                 >
-                  <el-checkbox @change="selectfd(item)" class="elcheckbox" border>{{
-                      item.name
-                    }}</el-checkbox>
-                </el-col>
-              </el-row>
-            </div>
+              </el-col>
+            </el-row>
+          </div>
 
-            <div class="card_container">
-              <el-row gutter="25">
-                <el-col
-                    :span="5"
-                    v-for="item in r_dnamelist"
-                    :key="item.dname"
-                    class="ecol"
+          <div class="card_container">
+            <el-row gutter="25">
+              <el-col
+                :span="5"
+                v-for="item in r_dnamelist"
+                :key="item.dname"
+                class="ecol"
+              >
+                <el-card
+                  :body-style="{ padding: '2px' }"
+                  shadow="hover"
+                  class="ecard"
+                  @click="todoctor(item.hospitalId, item.dname)"
                 >
-                  <el-card
-                      :body-style="{ padding: '2px' }"
-                      shadow="hover"
-                      class="ecard"
-                      @click="todoctor(item.id,item.dname)"
-                  >
-                    <div class="card_text">
-                      <font size="4" color="black"> {{ item.dname }}</font>
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-            </div>
-          </el-main>
-
+                  <div class="card_text">
+                    <font size="4" color="black"> {{ item.dname }}</font>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </div>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -56,28 +58,27 @@
 <script>
 import Header from "@/components/Header";
 import Aside from "@/components/Aside";
-import {Search} from "@element-plus/icons";
+import { Search } from "@element-plus/icons";
 export default {
-  components:{
+  components: {
     Header,
     Aside,
-    Search
+    Search,
   },
   created() {
     //localStorage.clear("SelectDepartmentId")
-   localStorage.removeItem(this.SelectDepartmentId);
-   localStorage.removeItem(this.SelectDepartmentName);
-    this.hospitalId=localStorage.getItem('hospitalId');
-    this.urlid=localStorage.getItem('hospitalId');
-    console.log(this.urlid)
-    this.initdata();
+    localStorage.removeItem(this.SelectDepartmentId);
+    localStorage.removeItem(this.SelectDepartmentName);
+    this.hospitalId = localStorage.getItem("hospitalId");
+    this.urlid = localStorage.getItem("hospitalId");
+    console.log(this.urlid);
+    this.getInfo();
   },
   methods: {
     selectfd(pra) {
       if (event.target.checked) {
         this.s_fdnamelist.push(pra);
-      } 
-      else {
+      } else {
         var j;
         for (var i = 0; i < this.s_fdnamelist.length; i++) {
           if (this.s_fdnamelist[i].name == pra.name) j = i;
@@ -87,39 +88,125 @@ export default {
       this.r_dnamelist.splice(0);
 
       if (this.s_fdnamelist.length > 0) {
-        for ( i = 0; i < this.dnamelist.length; i++)
-          for ( j = 0; j < this.s_fdnamelist.length; j++)
+        for (i = 0; i < this.dnamelist.length; i++)
+          for (j = 0; j < this.s_fdnamelist.length; j++)
             if (this.dnamelist[i].fname == this.s_fdnamelist[j].name) {
               this.r_dnamelist.push(this.dnamelist[i]);
               continue;
             }
-        // console.log('1');
-        // console.log(this.s_fdnamelist);
-        // console.log(this.dnamelist);
-        // console.log(this.fdnamelist);
-        // console.log(this.r_dnamelist);
-        // console.log(this.r_fdnamelist);
       } else {
         this.r_dnamelist.splice(0);
-        this.r_dnamelist = this.getobj.map((item) => {
-          return Object.assign(
-            {},
-            { dname: item.departmentName, fname: item.fatherDepartmentId }
-          );
-        });
+        
+        for (let i = 0; i < this.getobj.data.length; i++) {
+          var dname = this.getobj.data[i].departmentName;
+          var fname = this.getobj.data[i].fatherDepartmentName;
+          this.r_dnamelist.push({
+            dname,
+            fname,
+          });
+        }
+
       }
     },
-    todoctor(id,dname) {
-       
-      localStorage.setItem('SelectDepartmentId',id);
-      localStorage.setItem('SelectDepartmentName',dname);
-      console.log(id);
+    todoctor(hospitalId, dname) {
+      localStorage.removeItem("SelectHospitalId");
+      localStorage.removeItem("SelectDepartmentName");
+      localStorage.setItem("SelectHospitalId", hospitalId);
+      localStorage.setItem("SelectDepartmentName", dname);
+      console.log(hospitalId);
       console.log(dname);
       this.$router.push("/doctor");
     },
+    async getInfo() {
+      var dname = "a";
+      var fname = "b";
+      var name = "c";
+      var hospitalId='d';
+      console.log(window.sessionStorage.getItem("hospitalId"));
+      var res;
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      await fetch(
+        "http://220.179.227.205:6016/hospitals/" +
+          localStorage.getItem("hospitalId") +
+          "/departments",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+
+      if (res.code != 200) {
+        console.log("fail to get dept");
+      } else {
+        console.log(res.data);
+        console.log(res.data.length);
+
+        this.getobj = res;
+        this.dnamelist.splice(0);
+        this.fdnamelist.splice(0);
+
+        for (let i = 0; i < res.data.length; i++) {
+          dname = res.data[i].departmentName;
+          fname = res.data[i].fatherDepartmentName;
+          name = res.data[i].fatherDepartmentName;
+          hospitalId =res.data[i].hospitalId;
+          this.dnamelist.push({
+            dname,
+            fname,
+            hospitalId
+          });
+
+          this.r_dnamelist.push({
+            dname,
+            fname,
+            hospitalId
+          });
+          this.tempObj.push({
+            name,
+          });
+        }
+
+        for (var i = 0; i < this.tempObj.length; i++) {
+          for (var j = i + 1; j < this.tempObj.length; j++) {
+            if (this.tempObj[i].name == this.tempObj[j].name) {
+              this.tempObj.splice(j, 1);
+              j--;
+            }
+          }
+        }
+
+        for (let i = 0; i < this.tempObj.length; i++) {
+         
+          name =this. tempObj[i].name;
+          this.fdnamelist.push({
+            name
+          });
+
+          this.r_fdnamelist.push({
+            name
+          });
+          
+        }
+
+
+        
+
+
+      }
+    },
+
     async initdata() {
-      
-     await fetch(this.url + this.urlid + "/all")
+      await fetch(this.url + this.urlid + "/all")
         // 第一个 then 接受到的是请求头的相关信息
         .then((res) => {
           return res.json();
@@ -132,13 +219,21 @@ export default {
           this.dnamelist = this.getobj.map((item) => {
             return Object.assign(
               {},
-              { dname: item.departmentName, fname: item.fatherDepartmentName ,id:item.departmentId}
+              {
+                dname: item.departmentName,
+                fname: item.fatherDepartmentName,
+                id: item.departmentId,
+              }
             );
           });
           this.r_dnamelist = this.getobj.map((item) => {
             return Object.assign(
               {},
-              { dname: item.departmentName, fname: item.fatherDepartmentName ,id:item.departmentId}
+              {
+                dname: item.departmentName,
+                fname: item.fatherDepartmentName,
+                id: item.departmentId,
+              }
             );
           });
 
@@ -162,8 +257,6 @@ export default {
 
           // console.log(this.dnamelist);
           // console.log(this.fdnamelist);
-
-          
         })
         // 请求错误时执行
         .catch((err) => {
@@ -173,8 +266,7 @@ export default {
   },
   data() {
     return {
-      url: "http://220.179.227.205:6017/Department/",
-      urlid:"",
+      urlid: "",
       newList1: [],
       newList2: [],
 
@@ -224,13 +316,12 @@ export default {
   background: #d7f0fa;
   height: 80px;
   //width: 100%;
-  text-align:center;
+  text-align: center;
 }
 .card_text {
   margin-top: 10%;
   margin-left: 10%;
   margin-right: 10%;
- 
 }
 .select_container {
   width: 80%;
@@ -252,7 +343,7 @@ export default {
   top: 0%;
   // bottom: 0;
   // z-index: 999;
-  text-align: center ;
+  text-align: center;
 }
 .ecol {
   padding: 0.6%;
@@ -268,5 +359,8 @@ export default {
 .el-col {
   border-radius: 4px;
 }
-#container {width:300px; height: 180px; }  
+#container {
+  width: 300px;
+  height: 180px;
+}
 </style>
