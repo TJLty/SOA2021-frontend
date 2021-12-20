@@ -138,7 +138,7 @@
               </el-input>
             </el-form-item>
 
-            <el-form-item prop="password">
+            <el-form-item prop="confirmpassword">
               <el-input
                 type="password"
                 v-model="resForm.confirmpassword"
