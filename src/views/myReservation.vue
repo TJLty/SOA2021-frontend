@@ -33,8 +33,9 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="totalNumber"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange($event,pageSize)"
+            @current-change="handleCurrentChange(currentPage)"
+            
           >
           </el-pagination>
         </div>
@@ -62,11 +63,10 @@ export default {
       totalPage: "",
       totalNumber: "",
 
-      pageSize: 5,
+      pageSize: 2,
       currentPage: 0,
       history: true,
       future: true,
-
       gettable: {},
     };
   },
@@ -142,15 +142,153 @@ export default {
         });
       }
 
-      (this.CurrentPage = res.data.currentPage),
+      (this.currentPage = res.data.currentPage),
         (this.totalPage = res.data.totalPage),
         (this.totalNumber = res.data.totalNumber);
     },
-    handleCurrentChange() {
+    async handleCurrentChange(num) {
+      this.currentPage = num-1;
+      this.tableData = [];
+      console.log("传进去的c " + this.currentPage);
+      console.log("本地的p " + this.pageSize);
+      var name = "麻婆豆腐";
+      var dept = "";
+      var time = "文案";
+      var date = "空余";
+      var doctor = "";
+      var number = 11;
+      var res;
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("satoken", localStorage.getItem("satoken"));
+
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      // var url = "http://220.179.227.205:6018/appointment/Patient/";
+      // console.log(localStorage.getItem("username"));
+      // url = url + localStorage.getItem("username") + "/all";
+      //http://220.179.227.205:6018/appointments/details?pageSize=5&currentPage=0&history=true&future=true
+      // console.log(url);
+
+      var url =
+        "http://220.179.227.205:6018/appointments/details?pageSize=" +
+        this.pageSize +
+        "&currentPage=" +
+        this.currentPage +
+        "&history=" +
+        this.history +
+        "&future=" +
+        this.future;
+
+      await fetch(url, requestOptions)
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+
+      res = JSON.parse(res);
+      this.gettable = res;
+      console.log(res);
+      for (let i = 0; i < res.data.list.length; i++) {
+        name = res.data.list[i].hospital_name;
+        dept = res.data.list[i].department_name;
+        doctor = res.data.list[i].doctor_name;
+        time = res.data.list[i].slot;
+        if (time == "MORNING") time = "上午";
+        else time = "下午";
+        date = res.data.list[i].date;
+        number = res.data.list[i].code;
+
+        this.tableData.push({
+          name,
+          dept,
+          doctor,
+          time,
+          date,
+          number,
+        });
+      }
+
+      (this.currentPage = res.data.currentPage+1),
+        (this.totalPage = res.data.totalPage),
+        (this.totalNumber = res.data.totalNumber);
+
+              console.log("显示的页码c " + this.currentPage);
 
     },
-    handleSizeChange() {
-      
+    async handleSizeChange(num) {
+      console.log("传进去的p "+num);
+      this.pageSize = num;
+      this.tableData = [];
+      console.log("本地的c " + this.currentPage);
+      console.log("本地的p " + this.pageSize);
+      var name = "麻婆豆腐";
+      var dept = "";
+      var time = "文案";
+      var date = "空余";
+      var doctor = "";
+      var number = 11;
+      var res;
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("satoken", localStorage.getItem("satoken"));
+
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      // var url = "http://220.179.227.205:6018/appointment/Patient/";
+      // console.log(localStorage.getItem("username"));
+      // url = url + localStorage.getItem("username") + "/all";
+      //http://220.179.227.205:6018/appointments/details?pageSize=5&currentPage=0&history=true&future=true
+      // console.log(url);
+
+      var url =
+        "http://220.179.227.205:6018/appointments/details?pageSize=" +
+        this.pageSize +
+        "&currentPage=" +
+        this.currentPage +
+        "&history=" +
+        this.history +
+        "&future=" +
+        this.future;
+
+      await fetch(url, requestOptions)
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+
+      res = JSON.parse(res);
+      this.gettable = res;
+      console.log(res);
+      for (let i = 0; i < res.data.list.length; i++) {
+        name = res.data.list[i].hospital_name;
+        dept = res.data.list[i].department_name;
+        doctor = res.data.list[i].doctor_name;
+        time = res.data.list[i].slot;
+        if (time == "MORNING") time = "上午";
+        else time = "下午";
+        date = res.data.list[i].date;
+        number = res.data.list[i].code;
+
+        this.tableData.push({
+          name,
+          dept,
+          doctor,
+          time,
+          date,
+          number,
+        });
+      }
+
+      (this.currentPage = res.data.currentPage+1),
+        (this.totalPage = res.data.totalPage),
+        (this.totalNumber = res.data.totalNumber);
     },
     logout() {
       window.sessionStorage.clear();
