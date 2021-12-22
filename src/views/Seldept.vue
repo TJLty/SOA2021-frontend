@@ -10,8 +10,19 @@
           <Header />
         </el-header>
         <el-main>
+          <div class="info">
+            <el-row>
+              <el-col>
+                <div class="info-row">
+                  <div class="user-info-label">医院简介</div>
+                  <div class="user-info">{{ hintro }}</div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+
           <div class="select_container">
-            <el-row :gutter="25">
+            <el-row :gutter="0">
               <el-col
                 :span="5"
                 v-for="(item, index) in r_fdnamelist"
@@ -96,7 +107,7 @@ export default {
             }
       } else {
         this.r_dnamelist.splice(0);
-        
+
         for (let i = 0; i < this.getobj.data.length; i++) {
           var dname = this.getobj.data[i].departmentName;
           var fname = this.getobj.data[i].fatherDepartmentName;
@@ -105,7 +116,6 @@ export default {
             fname,
           });
         }
-
       }
     },
     todoctor(hospitalId, dname) {
@@ -121,7 +131,7 @@ export default {
       var dname = "a";
       var fname = "b";
       var name = "c";
-      var hospitalId='d';
+      var hospitalId = "d";
       console.log(window.sessionStorage.getItem("hospitalId"));
       var res;
       var myHeaders = new Headers();
@@ -159,17 +169,17 @@ export default {
           dname = res.data[i].departmentName;
           fname = res.data[i].fatherDepartmentName;
           name = res.data[i].fatherDepartmentName;
-          hospitalId =res.data[i].hospitalId;
+          hospitalId = res.data[i].hospitalId;
           this.dnamelist.push({
             dname,
             fname,
-            hospitalId
+            hospitalId,
           });
 
           this.r_dnamelist.push({
             dname,
             fname,
-            hospitalId
+            hospitalId,
           });
           this.tempObj.push({
             name,
@@ -186,22 +196,15 @@ export default {
         }
 
         for (let i = 0; i < this.tempObj.length; i++) {
-         
-          name =this. tempObj[i].name;
+          name = this.tempObj[i].name;
           this.fdnamelist.push({
-            name
+            name,
           });
 
           this.r_fdnamelist.push({
-            name
+            name,
           });
-          
         }
-
-
-        
-
-
       }
     },
 
@@ -282,6 +285,8 @@ export default {
       s_fdnamelist: [],
 
       tempObj: [], //暂存
+
+      hintro: "1234affadljkfdajksfdnasjlkfjnaslkjfdnasjkfdalskdfnsajlasfadsdfandfjkadsfndaskfnadjdslkfkasj",
     };
   },
 };
@@ -312,7 +317,7 @@ export default {
 //   background-color: #d5ee67;
 // }
 .ecard {
-  border-radius: 7px;
+  // border-radius: 7px;
   background: #d7f0fa;
   height: 80px;
   //width: 100%;
@@ -326,15 +331,17 @@ export default {
 .select_container {
   width: 80%;
   position: relative;
-  left: 16%;
+  left: 11.5%;
   top: 0%;
   // text-align: center ;
+  margin: 50px;
 }
 .elcheckbox {
   background: white;
 }
 .elcheckbox:hover {
-  background: #a2d8ee;
+  background: #d7f0fa;
+;
 }
 .card_container {
   width: 80%;
@@ -357,10 +364,40 @@ export default {
   margin-bottom: 0px;
 }
 .el-col {
-  border-radius: 4px;
+ // border-radius: 4px;
 }
 #container {
   width: 300px;
   height: 180px;
+}
+.info {
+  position: relative;
+  top: 0%;
+  left: 16%;
+  width: 60%;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 10px 10px 10px;
+  background: white;
+ // border-radius: 30px;
+
+  box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
+    5px 5px 10px #cccccc, 5px 5px 10px #ffffff;
+}
+.info-row {
+  display: flex;
+}
+.user-info-label {
+  width: 120px;
+  margin: 5px;
+  background: white;
+  color: black;
+}
+.user-info {
+  word-break: break-all;
+  word-wrap: break-word;
+  margin: 5px;
+  background: white;
+  color: black;
 }
 </style>

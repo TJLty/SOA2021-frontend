@@ -191,7 +191,7 @@ this.total_res = res2.data;
   font-weight: bold;
   padding: 10px 10px 10px 10px;
   background: white;
-  border-radius: 30px;
+  /* border-radius: 30px; */
 
   box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
     5px 5px 10px #cccccc, 5px 5px 10px #ffffff;

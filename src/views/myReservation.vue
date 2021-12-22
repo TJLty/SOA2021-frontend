@@ -31,7 +31,7 @@
             v-model:currentPage="currentPage"
             :page-sizes="[1, 2, 5, 10]"
             :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, sizes, prev, pager, next"
             :total="totalNumber"
             @size-change="handleSizeChange($event,pageSize)"
             @current-change="handleCurrentChange(currentPage)"
@@ -221,9 +221,10 @@ export default {
     },
     async handleSizeChange(num) {
       console.log("传进去的p "+num);
+      this.currentPage=0;
       this.pageSize = num;
       this.tableData = [];
-      console.log("本地的c " + this.currentPage);
+      console.log("本地的c " + this.currentPage-1);
       console.log("本地的p " + this.pageSize);
       var name = "麻婆豆腐";
       var dept = "";
