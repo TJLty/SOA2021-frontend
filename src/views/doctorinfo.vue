@@ -9,14 +9,11 @@
           <D_header />
         </el-header>
         <el-main style="width: auto">
-          <div class="pic" style="margin-left: 20px; margin-top: 20px">
-            <span>
-              <span
-                class="el-avatar el-avatar--circle"
-                style="height: 200px; width: 200px"
-                >头像</span
-              >
-            </span>
+          <div class=piccontainer>
+            <img
+              :src='img'
+              class="pic"
+            />
           </div>
           <div class="info">
             <div class="info-row">
@@ -74,6 +71,7 @@ export default {
       intro: "",
       department_name: "",
       hospital_name: "",
+      img:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
     };
   },
   methods: {
@@ -119,6 +117,13 @@ export default {
 <style scoped>
 .pic {
   float: left;
+  height: 20%;
+  width: 20%;
+  margin-top: 50px;
+  margin-left: 2.2cm;
+}
+.piccontainer{
+  top:50px;
 }
 .info {
   float: left;

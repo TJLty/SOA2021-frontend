@@ -38,7 +38,7 @@
                   >
                     <img
                       :src="hospital.pictue"
-                      class="eimg"
+                     
                       @click="reservation(hospital.id, hospital.name)"
                       width="300"
                       height="300"
@@ -210,6 +210,7 @@ export default {
       var etype = "success";
       var outerVisible = false;
       var innerVisible = false;
+      
       var Visible = true;
 
       console.log(window.sessionStorage.getItem("token"));
@@ -240,8 +241,9 @@ export default {
         for (let i = 0; i < res.data.length; i++) {
           id = res.data[i].hospitalId;
           name = res.data[i].hospitalName;
-          //pictue=res.data.data[i].dish_picture;
+          pictue=res.data[i].himg;
           position = res.data[i].location;
+          
           console.log(name);
           console.log(position);
           this.listObj.push({

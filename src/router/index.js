@@ -12,13 +12,19 @@ import history from "../views/history"
 import handing from '../views/Handing'
 import hlogin from '../views/hospital_login'
 import AMS from '../views/AdminModifyStudent'
+import myMaterial from '../views/myMaterial'
+
 const routes = [
   {
     path: '/',
     name: 'login',
     component: login
   },
-  
+  {
+    path: '/myMaterial',
+    name: 'myMaterial',
+    component: myMaterial
+  },
   {
     path: '/hlogin',
     name: 'hlogin',

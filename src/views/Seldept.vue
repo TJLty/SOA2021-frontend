@@ -15,7 +15,7 @@
               <el-col>
                 <div class="info-row">
                   <div class="user-info-label">医院简介</div>
-                  <div class="user-info">{{ hintro }}</div>
+                  <div class="user-info">{{ hintro[0] }}</div>
                 </div>
               </el-col>
             </el-row>
@@ -77,13 +77,13 @@ export default {
     Search,
   },
   created() {
-    //localStorage.clear("SelectDepartmentId")
     localStorage.removeItem(this.SelectDepartmentId);
     localStorage.removeItem(this.SelectDepartmentName);
     this.hospitalId = localStorage.getItem("hospitalId");
-    this.urlid = localStorage.getItem("hospitalId");
-    console.log(this.urlid);
     this.getInfo();
+    this.gethosinfo();
+
+
   },
   methods: {
     selectfd(pra) {
@@ -208,63 +208,41 @@ export default {
       }
     },
 
-    async initdata() {
-      await fetch(this.url + this.urlid + "/all")
-        // 第一个 then 接受到的是请求头的相关信息
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          this.getobj = res;
-          this.dnamelist.splice(0);
-          this.fdnamelist.splice(0);
+    async gethosinfo() {
+      var info;
+      var res;
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-          this.dnamelist = this.getobj.map((item) => {
-            return Object.assign(
-              {},
-              {
-                dname: item.departmentName,
-                fname: item.fatherDepartmentName,
-                id: item.departmentId,
-              }
-            );
-          });
-          this.r_dnamelist = this.getobj.map((item) => {
-            return Object.assign(
-              {},
-              {
-                dname: item.departmentName,
-                fname: item.fatherDepartmentName,
-                id: item.departmentId,
-              }
-            );
-          });
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
 
-          this.tempObj = this.getobj.map((item) => {
-            return Object.assign({}, { name: item.fatherDepartmentName });
-          });
-          for (var i = 0; i < this.tempObj.length; i++) {
-            for (var j = i + 1; j < this.tempObj.length; j++) {
-              if (this.tempObj[i].name === this.tempObj[j].name) {
-                this.tempObj.splice(j, 1);
-                j--;
-              }
-            }
-          }
-          this.fdnamelist = this.tempObj.map((item) => {
-            return Object.assign({}, { name: item.name });
-          });
-          this.r_fdnamelist = this.tempObj.map((item) => {
-            return Object.assign({}, { name: item.name });
-          });
+      await fetch(
+        // "http://220.179.227.205:6016/hospital/normal/all",
+        "http://220.179.227.205:6016/hospitals?filter=",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+      if (res.code != 200) {
+        console.log("fail to get hospital");
+      } else {
+        console.log(res.data);
+        console.log(res.data.length);
+        for (let i = 0; i < res.data.length; i++) {
+          if(this.hospitalId==res.data[i].hospitalId)
+          this.hintro.push(
+             res.data[i].hintro
+          );
+        }
+      }
 
-          // console.log(this.dnamelist);
-          // console.log(this.fdnamelist);
-        })
-        // 请求错误时执行
-        .catch((err) => {
-          console.log(err);
-        });
     },
   },
   data() {
@@ -286,7 +264,7 @@ export default {
 
       tempObj: [], //暂存
 
-      hintro: "1234affadljkfdajksfdnasjlkfjnaslkjfdnasjkfdalskdfnsajlasfadsdfandfjkadsfndaskfnadjdslkfkasj",
+      hintro: [],
     };
   },
 };
@@ -341,7 +319,6 @@ export default {
 }
 .elcheckbox:hover {
   background: #d7f0fa;
-;
 }
 .card_container {
   width: 80%;
@@ -364,7 +341,7 @@ export default {
   margin-bottom: 0px;
 }
 .el-col {
- // border-radius: 4px;
+  // border-radius: 4px;
 }
 #container {
   width: 300px;
@@ -379,7 +356,7 @@ export default {
   font-weight: bold;
   padding: 10px 10px 10px 10px;
   background: white;
- // border-radius: 30px;
+  // border-radius: 30px;
 
   box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
     5px 5px 10px #cccccc, 5px 5px 10px #ffffff;

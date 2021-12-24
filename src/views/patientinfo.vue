@@ -9,15 +9,27 @@
           <Header />
         </el-header>
         <el-main style="width: auto">
-          <div class="pic" style="margin-left: 20px; margin-top: 20px">
+          <div class=piccontainer>
+            <img
+              :src='img'
+              class="pic"
+            />
+          </div>
+
+          <!-- <div class="pic" style="margin-left: 20px; margin-top: 20px">
             <span>
               <span
                 class="el-avatar el-avatar--circle"
                 style="height: 200px; width: 200px"
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
                 >头像</span
               >
+              <img
+                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                class="pic"
+              />
             </span>
-          </div>
+          </div> -->
           <div class="info">
             <div class="info-row">
               <div class="user-info-label">用户名</div>
@@ -85,6 +97,8 @@ export default {
       total_res: "",
       unfinished_res: "",
       sex: "",
+
+      img: "",
     };
   },
   methods: {
@@ -115,14 +129,13 @@ export default {
       if (res1.code != 200) {
         console.log("fail to get pinfo");
       } else {
-
-      //   (this.user_name = res1.data.username),
-      //   (this.tel_num = res1.data.phone),
-      //   (this.address = res1.data.address),
-      //   console.log(res1.data.sex);
-      // if (res1.data.sex == false) this.sex = "女";
-      // else if (res1.data.sex == true) this.sex = "男";
-      // else this.sex = "不明";
+        //   (this.user_name = res1.data.username),
+        //   (this.tel_num = res1.data.phone),
+        //   (this.address = res1.data.address),
+        //   console.log(res1.data.sex);
+        // if (res1.data.sex == false) this.sex = "女";
+        // else if (res1.data.sex == true) this.sex = "男";
+        // else this.sex = "不明";
       }
 
       await fetch(
@@ -166,7 +179,10 @@ export default {
       else if (res1.data.sex == true) this.sex = "男";
       else this.sex = "不明";
 
-this.total_res = res2.data;
+      this.total_res = res2.data;
+
+      this.img = res1.data.img;
+      console.log(this.img);
 
       this.unfinished_res = res3.data;
     },
@@ -180,6 +196,13 @@ this.total_res = res2.data;
 <style scoped>
 .pic {
   float: left;
+  height: 20%;
+  width: 20%;
+  margin-top: 50px;
+  margin-left: 2.2cm;
+}
+.piccontainer{
+  top:50px;
 }
 .info {
   float: left;
@@ -191,7 +214,7 @@ this.total_res = res2.data;
   font-weight: bold;
   padding: 10px 10px 10px 10px;
   background: white;
-  /* border-radius: 30px; */
+  border-radius: 30px;
 
   box-shadow: 15px 15px 10px #cccccc, 15px 15px 10px #ffffff,
     5px 5px 10px #cccccc, 5px 5px 10px #ffffff;
@@ -212,5 +235,4 @@ this.total_res = res2.data;
   background: white;
   color: black;
 }
-
 </style>
