@@ -258,16 +258,19 @@ export default {
       this.tableData = [];
       console.log("传进去的c " + this.currentPage);
       console.log("本地的p " + this.pageSize);
-      var name = "麻婆豆腐";
-      var dept = "";
-      var time = "文案";
-      var date = "空余";
-      var doctor = "";
-      var number = 11;
+      var name = "张三";
+      var dept = "消化科";
+      var time = "2021-12-24";
+      var date = "上午";
+      var doctor = "李四";
+      var diagnosis = "大病";
+      var advice = "多运动";
       var id = "";
       var code = "";
-      var res;
       var finish = "";
+
+      var number = 11;
+      var res;
 
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -342,16 +345,20 @@ export default {
       this.tableData = [];
       console.log("本地的c " + this.currentPage - 1);
       console.log("本地的p " + this.pageSize);
-      var name = "麻婆豆腐";
-      var dept = "";
-      var time = "文案";
-      var date = "空余";
-      var doctor = "";
-      var number = 11;
+      var name = "张三";
+      var dept = "消化科";
+      var time = "2021-12-24";
+      var date = "上午";
+      var doctor = "李四";
+      var diagnosis = "大病";
+      var advice = "多运动";
       var id = "";
       var code = "";
       var finish = "";
+
+      var number = 11;
       var res;
+      
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("satoken", localStorage.getItem("p_satoken"));
