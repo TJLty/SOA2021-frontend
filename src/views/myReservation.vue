@@ -11,9 +11,9 @@
           <Header />
         </el-header>
         <el-main style="width: auto">
-          <el-dialog  v-model="centerDialogVisible" width="30%" center>
+          <el-dialog v-model="centerDialogVisible" width="30%" center>
             <div class="spantext">
-            <span class="titlespan">{{ dia }}</span>
+              <span class="titlespan">{{ dia }}</span>
             </div>
             <br />
             <span>{{ ad }}</span>
@@ -27,6 +27,27 @@
                 >
               </span>
             </template> -->
+          </el-dialog>
+
+          <el-dialog
+            v-model="finishVis"
+            title="Warning"
+            width="30%"
+            center
+          >
+            <span
+              >已经处理的预约不能取消</span
+            >
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="finishVis = false"
+                  >Cancel</el-button
+                >
+                <el-button type="primary" @click="finishVis = false"
+                  >Confirm</el-button
+                >
+              </span>
+            </template>
           </el-dialog>
 
           <div class="row_container1">
@@ -89,6 +110,7 @@ export default {
   },
   data() {
     return {
+      finishVis:false,
       centerDialogVisible: false,
       ad: "",
       dia: "",
@@ -121,8 +143,35 @@ export default {
       else this.dia = row.diagnosis;
     },
     cancel(index, row) {
-      window.confirm("cancel");
-      console.log(index);
+      if(row.finish==0){
+      var id = row.id;
+      var code = row.code;
+      console.log(row);
+      console.log(id);
+      console.log(code);
+      var myHeaders = new Headers();
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+
+      var requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      fetch(
+        "http://220.179.227.205:6018/appointments/" + id + "/details/" + code,
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+
+      }
+      else
+     {
+       this.finishVis=true;
+     }
     },
     async getInfo() {
       this.tableData = [];
@@ -135,6 +184,9 @@ export default {
       var doctor = "李四";
       var diagnosis = "大病";
       var advice = "多运动";
+      var id = "";
+      var code = "";
+      var finish = "";
 
       var number = 11;
       var res;
@@ -174,7 +226,9 @@ export default {
         time = res.data.list[i].slot;
         diagnosis = res.data.list[i].diagnosis;
         advice = res.data.list[i].advice;
-
+        id = res.data.list[i].id;
+        code = res.data.list[i].code;
+        finish = res.data.list[i].finish;
         if (time == "MORNING") time = "上午";
         else time = "下午";
         date = res.data.list[i].date;
@@ -189,6 +243,9 @@ export default {
           number,
           diagnosis,
           advice,
+          id,
+          code,
+          finish,
         });
       }
 
@@ -207,7 +264,11 @@ export default {
       var date = "空余";
       var doctor = "";
       var number = 11;
+      var id = "";
+      var code = "";
       var res;
+      var finish = "";
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("satoken", localStorage.getItem("p_satoken"));
@@ -244,6 +305,10 @@ export default {
         time = res.data.list[i].slot;
         diagnosis = res.data.list[i].diagnosis;
         advice = res.data.list[i].advice;
+        id = res.data.list[i].id;
+        code = res.data.list[i].code;
+        finish = res.data.list[i].finish;
+
         if (time == "MORNING") time = "上午";
         else time = "下午";
         date = res.data.list[i].date;
@@ -258,6 +323,9 @@ export default {
           number,
           diagnosis,
           advice,
+          id,
+          code,
+          finish,
         });
       }
 
@@ -280,6 +348,9 @@ export default {
       var date = "空余";
       var doctor = "";
       var number = 11;
+      var id = "";
+      var code = "";
+      var finish = "";
       var res;
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -323,6 +394,10 @@ export default {
         time = res.data.list[i].slot;
         diagnosis = res.data.list[i].diagnosis;
         advice = res.data.list[i].advice;
+        id = res.data.list[i].id;
+        code = res.data.list[i].code;
+
+        finish = res.data.list[i].finish;
         if (time == "MORNING") time = "上午";
         else time = "下午";
         date = res.data.list[i].date;
@@ -337,6 +412,9 @@ export default {
           number,
           diagnosis,
           advice,
+          id,
+          code,
+          finish,
         });
       }
 
@@ -366,13 +444,12 @@ export default {
   flex-direction: row;
   justify-content: center;
 }
-.titlespan{
-font-weight:bold;
-font-size: 20px;
-position: relative;
-
+.titlespan {
+  font-weight: bold;
+  font-size: 20px;
+  position: relative;
 }
-.spantext{
+.spantext {
   text-align: center;
 }
 </style>
