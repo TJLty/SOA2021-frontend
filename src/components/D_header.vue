@@ -39,7 +39,7 @@ export default defineComponent({
     },
     tohome(){
     
-      this.$router.push("/doctor");
+      this.$router.push("/handing");
     
     },
     

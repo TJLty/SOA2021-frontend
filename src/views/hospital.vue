@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-container style="background-color: #3c3f41">
-      <el-aside style="width: 230px">
+      <el-aside style="width: auto">
         <Aside />
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <Header />
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
           <div class="row_container1">
             <el-input
               v-model="input"
@@ -217,7 +217,7 @@ export default {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
       var requestOptions = {
         method: "GET",
         headers: myHeaders,

@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import login from '../views/login.vue'
 import hospital from '../views/hospital'
-import home from '../views/home'
+
 import myReservation from '../views/myReservation'
 import dept from '../views/Seldept'
 import doc from '../views/Doctor'
@@ -10,7 +10,7 @@ import patientinfo from '../views/patientinfo'
 import doctorinfo from '../views/doctorinfo'
 import history from "../views/history"
 import handing from '../views/Handing'
-
+import hlogin from '../views/hospital_login'
 import AMS from '../views/AdminModifyStudent'
 const routes = [
   {
@@ -18,10 +18,11 @@ const routes = [
     name: 'login',
     component: login
   },
+  
   {
-    path: '/home',
-    name: 'home',
-    component: home
+    path: '/hlogin',
+    name: 'hlogin',
+    component: hlogin
   },
   {
     path: '/doctor',

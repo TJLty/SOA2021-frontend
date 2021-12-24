@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-container style="background-color: #3c3f41">
-      <el-aside style="width: 230px">
+      <el-aside style="width: auto">
         <Aside />
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <Header />
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
           <el-input
             v-model="input"
             placeholder="查找医生"
@@ -334,16 +334,16 @@ export default {
 
       var deptId = localStorage.getItem("SelectDepartmentId"); //这里的参数要变了
       //改成这样：
-      var hid=localStorage.getItem("SelectHospitalId");
-      var deptname=localStorage.getItem("SelectDepartmentName");
+      var hid = localStorage.getItem("SelectHospitalId");
+      var deptname = localStorage.getItem("SelectDepartmentName");
 
       console.log(window.sessionStorage.getItem("token"));
       var res;
       var myHeaders = new Headers();
       //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Content-Type", "application/json");
 
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -352,7 +352,10 @@ myHeaders.append("Content-Type", "application/json");
 
       await fetch(
         // "http://220.179.227.205:6017/Department/" + deptId + "/doctor",
-        "http://220.179.227.205:6016/hospitals/" + hid + "/doctors?department="+deptname,
+        "http://220.179.227.205:6016/hospitals/" +
+          hid +
+          "/doctors?department=" +
+          deptname,
         requestOptions
       )
         .then((response) => response.text())
@@ -362,26 +365,26 @@ myHeaders.append("Content-Type", "application/json");
       if (res.code != 200) {
         console.log("fail to get dept");
         console.log(res.data);
-      } 
-      else{
-      for (let i = 0; i < res.length; i++) {
-        id = res[i].username;
-        name = res[i].name;
-        //pictue=res.data.data[i].dish_picture;
-        intro = res[i].intro;
-        //console.log(name)
-        //console.log(intro)
-        this.doctorList.push({
-          id,
-          name,
-          pictue,
-          intro,
-          etype,
-          Visible,
-        });
-      }
+      } else {
+        for (let i = 0; i < res.length; i++) {
+          id = res[i].username;
+          name = res[i].name;
+          //pictue=res.data.data[i].dish_picture;
+          intro = res[i].intro;
+          //console.log(name)
+          //console.log(intro)
+          this.doctorList.push({
+            id,
+            name,
+            pictue,
+            intro,
+            etype,
+            Visible,
+          });
+        }
 
-        console.log(this.doctorList)}
+        console.log(this.doctorList);
+      }
     },
 
     search(input) {

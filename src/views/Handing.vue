@@ -3,14 +3,14 @@
 <template>
   <div>
     <el-container style="background-color: #3C3F41">
-      <el-aside style="width: 230px">
+      <el-aside style="width: auto">
         <D_Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <D_Header/>
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
           <div class="hand_container">
             <el-dialog
                 v-model="confirmVisible"
@@ -124,8 +124,8 @@ export default {
       var res,rps;
       var myHeaders = new Headers();
       // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-       var satoken=localStorage.getItem("satoken")
-       myHeaders.append("satoken", satoken);
+       var d_satoken=localStorage.getItem("d_satoken")
+       myHeaders.append("satoken", d_satoken);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -158,8 +158,8 @@ export default {
       url+=localStorage.getItem("apt_num")+"?finish=true"
       var myHeaders = new Headers();
       // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      var satoken=localStorage.getItem("satoken")
-      myHeaders.append("satoken", satoken);
+      var d_satoken=localStorage.getItem("d_satoken")
+      myHeaders.append("satoken", d_satoken);
       var requestOptions = {
         method: 'PATCH',
         headers: myHeaders,

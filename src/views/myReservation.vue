@@ -3,16 +3,38 @@
 <template>
   <div>
     <el-container style="background-color: #3c3f41">
-      <el-aside style="width: 230px">
+      <el-aside style="width: auto">
         <Aside />
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <Header />
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
+          <el-dialog  v-model="centerDialogVisible" width="30%" center>
+            <div class="spantext">
+            <span class="titlespan">{{ dia }}</span>
+            </div>
+            <br />
+            <span>{{ ad }}</span>
+            <!-- <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="getAdvice = false"
+                  >Cancel</el-button
+                >
+                <el-button type="primary" @click="centerDialogVisible = false"
+                  >Confirm</el-button
+                >
+              </span>
+            </template> -->
+          </el-dialog>
+
           <div class="row_container1">
-            <el-table :data="tableData" style="width: 100%">
+            <el-table
+              :data="tableData"
+              style="width: 100%"
+              highlight-current-row
+            >
               <el-table-column prop="name" label="医院" />
               <el-table-column prop="dept" label="科室" />
               <el-table-column prop="doctor" label="医生" />
@@ -20,11 +42,23 @@
               <el-table-column prop="time" label="时段" />
               <el-table-column prop="number" label="预约号" />
               <el-table-column label="操作" align="center" min-width="100">
-                <el-button @click="getAdvice">查看医嘱</el-button>
+                <template #default="scope">
+                  <el-button
+                    size="mini"
+                    @click="getAdvice(scope.$index, scope.row)"
+                    >查看医嘱</el-button
+                  >
+                  <el-button
+                    size="mini"
+                    @click="cancel(scope.$index, scope.row)"
+                    >取消预约</el-button
+                  >
+                </template>
               </el-table-column>
             </el-table>
           </div>
         </el-main>
+
         <div class="demo-pagination-block">
           <span class="demonstration"></span>
           <el-pagination
@@ -33,9 +67,8 @@
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next"
             :total="totalNumber"
-            @size-change="handleSizeChange($event,pageSize)"
+            @size-change="handleSizeChange($event, pageSize)"
             @current-change="handleCurrentChange(currentPage)"
-            
           >
           </el-pagination>
         </div>
@@ -56,6 +89,9 @@ export default {
   },
   data() {
     return {
+      centerDialogVisible: false,
+      ad: "",
+      dia: "",
       isCollapse: true,
       dialogVisible: false,
       tableData: [],
@@ -63,7 +99,7 @@ export default {
       totalPage: "",
       totalNumber: "",
 
-      pageSize: 2,
+      pageSize: 5,
       currentPage: 0,
       history: true,
       future: true,
@@ -75,35 +111,42 @@ export default {
   },
 
   methods: {
-    getAdvice() {
-      window.confirm("nice");
+    getAdvice(index, row) {
+      this.centerDialogVisible = true;
+      console.log(row.advice);
+      if (row.advice == null) this.ad = "尚未给出医嘱";
+      else this.ad = row.advice;
+
+      if (row.diagnosis == null) this.dia = "尚未确诊";
+      else this.dia = row.diagnosis;
+    },
+    cancel(index, row) {
+      window.confirm("cancel");
+      console.log(index);
     },
     async getInfo() {
       this.tableData = [];
       console.log("c " + this.currentPage);
       console.log("p " + this.pageSize);
-      var name = "麻婆豆腐";
-      var dept = "";
-      var time = "文案";
-      var date = "空余";
-      var doctor = "";
+      var name = "张三";
+      var dept = "消化科";
+      var time = "2021-12-24";
+      var date = "上午";
+      var doctor = "李四";
+      var diagnosis = "大病";
+      var advice = "多运动";
+
       var number = 11;
       var res;
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
       };
-
-      // var url = "http://220.179.227.205:6018/appointment/Patient/";
-      // console.log(localStorage.getItem("username"));
-      // url = url + localStorage.getItem("username") + "/all";
-      //http://220.179.227.205:6018/appointments/details?pageSize=5&currentPage=0&history=true&future=true
-      // console.log(url);
 
       var url =
         "http://220.179.227.205:6018/appointments/details?pageSize=" +
@@ -122,11 +165,16 @@ export default {
 
       res = JSON.parse(res);
       this.gettable = res;
+      console.log(url);
+      console.log(res);
       for (let i = 0; i < res.data.list.length; i++) {
         name = res.data.list[i].hospital_name;
         dept = res.data.list[i].department_name;
         doctor = res.data.list[i].doctor_name;
         time = res.data.list[i].slot;
+        diagnosis = res.data.list[i].diagnosis;
+        advice = res.data.list[i].advice;
+
         if (time == "MORNING") time = "上午";
         else time = "下午";
         date = res.data.list[i].date;
@@ -139,6 +187,8 @@ export default {
           time,
           date,
           number,
+          diagnosis,
+          advice,
         });
       }
 
@@ -147,7 +197,7 @@ export default {
         (this.totalNumber = res.data.totalNumber);
     },
     async handleCurrentChange(num) {
-      this.currentPage = num-1;
+      this.currentPage = num - 1;
       this.tableData = [];
       console.log("传进去的c " + this.currentPage);
       console.log("本地的p " + this.pageSize);
@@ -160,19 +210,13 @@ export default {
       var res;
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
         redirect: "follow",
       };
-
-      // var url = "http://220.179.227.205:6018/appointment/Patient/";
-      // console.log(localStorage.getItem("username"));
-      // url = url + localStorage.getItem("username") + "/all";
-      //http://220.179.227.205:6018/appointments/details?pageSize=5&currentPage=0&history=true&future=true
-      // console.log(url);
 
       var url =
         "http://220.179.227.205:6018/appointments/details?pageSize=" +
@@ -191,12 +235,15 @@ export default {
 
       res = JSON.parse(res);
       this.gettable = res;
+      console.log(url);
       console.log(res);
       for (let i = 0; i < res.data.list.length; i++) {
         name = res.data.list[i].hospital_name;
         dept = res.data.list[i].department_name;
         doctor = res.data.list[i].doctor_name;
         time = res.data.list[i].slot;
+        diagnosis = res.data.list[i].diagnosis;
+        advice = res.data.list[i].advice;
         if (time == "MORNING") time = "上午";
         else time = "下午";
         date = res.data.list[i].date;
@@ -209,22 +256,23 @@ export default {
           time,
           date,
           number,
+          diagnosis,
+          advice,
         });
       }
 
-      (this.currentPage = res.data.currentPage+1),
+      (this.currentPage = res.data.currentPage + 1),
         (this.totalPage = res.data.totalPage),
         (this.totalNumber = res.data.totalNumber);
 
-              console.log("显示的页码c " + this.currentPage);
-
+      console.log("显示的页码c " + this.currentPage);
     },
     async handleSizeChange(num) {
-      console.log("传进去的p "+num);
-      this.currentPage=0;
+      console.log("传进去的p " + num);
+      this.currentPage = 0;
       this.pageSize = num;
       this.tableData = [];
-      console.log("本地的c " + this.currentPage-1);
+      console.log("本地的c " + this.currentPage - 1);
       console.log("本地的p " + this.pageSize);
       var name = "麻婆豆腐";
       var dept = "";
@@ -235,7 +283,7 @@ export default {
       var res;
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
       var requestOptions = {
         method: "GET",
@@ -266,12 +314,15 @@ export default {
 
       res = JSON.parse(res);
       this.gettable = res;
+      console.log(url);
       console.log(res);
       for (let i = 0; i < res.data.list.length; i++) {
         name = res.data.list[i].hospital_name;
         dept = res.data.list[i].department_name;
         doctor = res.data.list[i].doctor_name;
         time = res.data.list[i].slot;
+        diagnosis = res.data.list[i].diagnosis;
+        advice = res.data.list[i].advice;
         if (time == "MORNING") time = "上午";
         else time = "下午";
         date = res.data.list[i].date;
@@ -284,10 +335,12 @@ export default {
           time,
           date,
           number,
+          diagnosis,
+          advice,
         });
       }
 
-      (this.currentPage = res.data.currentPage+1),
+      (this.currentPage = res.data.currentPage + 1),
         (this.totalPage = res.data.totalPage),
         (this.totalNumber = res.data.totalNumber);
     },
@@ -312,5 +365,14 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+.titlespan{
+font-weight:bold;
+font-size: 20px;
+position: relative;
+
+}
+.spantext{
+  text-align: center;
 }
 </style>

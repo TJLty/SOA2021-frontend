@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-container style="background-color: #3c3f41">
-      <el-aside style="width: 230px">
+      <el-aside style="width: auto">
         <Aside />
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <Header />
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
           <div class="pic" style="margin-left: 20px; margin-top: 20px">
             <span>
               <span
@@ -20,7 +20,7 @@
           </div>
           <div class="info">
             <div class="info-row">
-              <div class="user-info-label">姓名</div>
+              <div class="user-info-label">用户名</div>
               <div class="user-info">{{ user_name }}</div>
             </div>
             <!-- <div class="info-row">
@@ -77,7 +77,7 @@ export default {
   },
   data() {
     return {
-      satoken: "",
+      p_satoken: "",
 
       user_name: "",
       tel_num: "",
@@ -94,7 +94,7 @@ export default {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -212,59 +212,5 @@ this.total_res = res2.data;
   background: white;
   color: black;
 }
-/*label {*/
-/*  margin: 25px 0 20px ;*/
-/*  display: block;*/
-/*  color:#ffffff;*/
-/*}*/
-/*.user-info-label{*/
-/*  width:150px;*/
-/*  height: 74px;*/
-/*  margin: 30px 20px 20px 20px;*/
-/*  display: block;*/
-/*  background:#55bb8a;*/
-/*  text-align: center;*/
-/*  line-height: 74px;*/
-/*  border-radius: 30px;*/
-/*  border: white;*/
-/*  font-size: 24px;*/
-/*  color:#ffffff;*/
-/*  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;*/
-/*}*/
-/*form {*/
-/*  display: inline-block;*/
-/*  text-align: left;*/
-/*  background: white;*/
-/*  max-width: 50%;*/
-/*  margin-top: 5%;*/
-/*  padding: 60px 60px;*/
-/*  border-radius: 10px;*/
-/*}*/
-/*.throwerInfo {*/
-/*  text-align: center;*/
-/*  z-index: 2;*/
-/*}*/
-/*.user-info {*/
-/*  width:auto;*/
-/*  height: 74px;*/
-/*  margin: 30px 20px 20px 20px;*/
-/*  display: block;*/
-/*  background:#55bb8a;*/
-/*  text-align: center;*/
-/*  line-height: 74px;*/
-/*  border-radius: 30px;*/
-/*  border: white;*/
-/*  font-size: 24px;*/
-/*  color:#ffffff;*/
-/*  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;*/
-/*}*/
-/*.cover {*/
-/*  position: fixed;*/
-/*  width: 100%;*/
-/*  height: 100%;*/
-/*  top: 0;*/
-/*  left: 0;*/
-/*  background: rgba(0, 0, 0, 0.5);*/
-/*  z-index: 1;*/
-/*}*/
+
 </style>

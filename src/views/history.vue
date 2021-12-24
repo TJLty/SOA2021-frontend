@@ -9,7 +9,7 @@
         <el-header style="height: 10vh">
           <D_Header/>
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
           <el-table :data="tableData" border stripe style="width: auto;height: auto" max-height="800">
             <el-table-column fixed prop="patient_name" label="姓名"  />
             <el-table-column prop="patient_username" label="账号"  />
@@ -72,8 +72,8 @@ Search
     async getList() {
 
       var myHeaders = new Headers();
-      var satoken=localStorage.getItem("satoken"),res
-      myHeaders.append("satoken", satoken);
+      var d_satoken=localStorage.getItem("d_satoken"),res
+      myHeaders.append("satoken", d_satoken);
 
       var requestOptions = {
         method: 'GET',
@@ -103,8 +103,8 @@ else{
         url+=this.tableData[index].code+"?finish=false"
       var myHeaders = new Headers();
       // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      var satoken=localStorage.getItem("satoken")
-      myHeaders.append("satoken", satoken);
+      var d_satoken=localStorage.getItem("d_satoken")
+      myHeaders.append("satoken", d_satoken);
       var requestOptions = {
         method: 'PATCH',
         headers: myHeaders,

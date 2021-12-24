@@ -22,23 +22,10 @@
         >
           医院预约挂号平台
         </div>
-        <div style="flex: 1"></div>
-        <div style="width: 80px">
-          <el-button type="primary" @click="changelog" v-if="log">
-            去注册
-          </el-button>
-          <el-button type="primary" @click="changelog" v-if="!log">
-            去登陆
-          </el-button>
-        </div>
       </div>
     </el-header>
     <div class="login_container" style="width: 95vw; height: 87vh">
       <div>
-        <!-- <div class="login_header">
-        <h1 style="width: 200px; padding-left: 10px;font-weight: bold;font-size: larger;color:#409EFF">医生办公室预约系统</h1>
-      </div> -->
-
         <el-card v-if="log" class="login_box" shadow="hover">
           <h2 class="l1">登录</h2>
           <h2 class="l2">欢迎登录本系统</h2>
@@ -53,7 +40,7 @@
             <el-form-item prop="username">
               <el-input
                 v-model="loginForm.username"
-                placeholder="请输入您的用户ID"
+                placeholder="请输入医院名称"
               >
                 <template #prefix>
                   <el-icon class="el-input__icon"><User /></el-icon>
@@ -64,7 +51,7 @@
               <el-input
                 type="password"
                 v-model="loginForm.password"
-                placeholder="请输入您的用户密码"
+                placeholder="请输入密码"
               >
                 <template #prefix>
                   <el-icon class="el-input__icon"><Lock /></el-icon>
@@ -78,27 +65,18 @@
                 justify-content: center;
               "
             >
-              <el-col :span="12">
-                <el-button style="width: 90%" type="primary" @click="login"
+              <el-col :span="24">
+                <el-button style="width: 100%" type="primary" @click="login"
                   >登录</el-button
-                >
-              </el-col>
-              <el-col :span="12">
-                <el-switch
-                  v-model="loginForm.checked"
-                  active-text="我是医生"
-                  inactive-text="我是患者"
-                  
-                  >我是医生</el-switch
                 >
               </el-col>
             </el-row>
           </el-form>
         </el-card>
 
-        <el-card v-if="!log" class="login_box" shadow="hover">
+        <!-- <el-card v-if="!log" class="login_box" shadow="hover">
           <h2 class="l1">注册</h2>
-          <!-- 注册表单 -->
+         
           <el-form
             ref="loginFormRef111"
             :model="resForm"
@@ -175,7 +153,7 @@
               </el-col>
             </el-row>
           </el-form>
-        </el-card>
+        </el-card> -->
       </div>
     </div>
   </div>
@@ -195,7 +173,7 @@ export default {
   data() {
     return {
       log: true,
-      satoken: "",
+      h_satoken: "",
       //数据绑定对象
       loginForm: {
         checked: true,
@@ -206,7 +184,7 @@ export default {
       loginFormRules: {
         //用户名
         username: [
-          { required: true, message: "请输入用户ID", trigger: "blur" },
+          { required: true, message: "请输入医院名称", trigger: "blur" },
           {
             min: 2,
             message: "长度需要大于2个字符",
@@ -215,57 +193,7 @@ export default {
         ],
 
         password: [
-          { required: true, message: "请输入用户密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 18,
-            message: "长度在 6 到 18 个字符",
-            trigger: "blur",
-          },
-        ],
-      },
-
-      resForm: {
-        checked: false,
-        userID: "",
-        username: "",
-        password: "",
-        confirmpassword:"",
-      },
-      //注册表单验证对象
-      resFormRules: {
-        //身份证号
-        userID: [
-          { required: true, message: "请输入身份证号", trigger: "blur" },
-          {
-            min: 18,
-            max: 18,
-            message: "长度需要等于18个字符",
-            trigger: "blur",
-          },
-        ],
-
-        //用户名
-        username: [
-          { required: true, message: "请输入用户姓名", trigger: "blur" },
-          {
-            min: 2,
-            message: "长度需要大于等于2个字符",
-            trigger: "blur",
-          },
-        ],
-
-        password: [
-          { required: true, message: "请输入用户密码", trigger: "blur" },
-          {
-            min: 6,
-            max: 18,
-            message: "长度在 6 到 18 个字符",
-            trigger: "blur",
-          },
-        ],
-        confirmpassword: [
-          { required: true, message: "请确认用户密码", trigger: "blur" },
+          { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
             max: 18,
@@ -277,13 +205,11 @@ export default {
     };
   },
   methods: {
-    
     changelog() {
       this.log = !this.log;
     },
     async login() {
       var myHeaders = new Headers();
-      //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
 
       var raw = JSON.stringify(this.loginForm);
@@ -295,53 +221,27 @@ export default {
         redirect: "follow",
       };
       var res;
-      if (!this.loginForm.checked) {
-        await fetch(
-          "http://220.179.227.205:6015/patients/login",
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => (res = result))
-          .catch((error) => console.log("error", error));
-        res = JSON.parse(res);
-        //console.log(this.loginForm)
 
-        if (res.code != 200) {
-          return this.$message.error("登陆失败");
+      await fetch("http://220.179.227.205:6015/patients/login", requestOptions)
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+      //console.log(this.loginForm)
 
-          localStorage.removeItem("p_satoken");
-        } else {
-          this.$message.success("登陆成功");
-          console.log(this.loginForm);
-          window.localStorage.setItem("username", this.loginForm.username);
-          this.satoken = res.data.tokenValue;
-          localStorage.removeItem("p_satoken");
-          localStorage.setItem("p_satoken", this.satoken);
-          console.log(res.data.tokenValue);
-          this.$router.push("/hospital");
-        }
+      if (res.code != 200) {
+        return this.$message.error("登陆失败");
+
+        localStorage.removeItem("h_satoken");
       } else {
-        await fetch("http://220.179.227.205:6019/doctor/login", requestOptions)
-          .then((response) => response.text())
-          .then((result) => (res = result))
-          .catch((error) => console.log("error", error));
-        res = JSON.parse(res);
-        console.log(res);
-
-        if (res.code !== 200) {
-          return this.$message.error("登陆失败");
-
-          localStorage.removeItem("d_satoken");
-        } else {
-          this.$message.success("登陆成功");
-          console.log(this.loginForm);
-          window.localStorage.setItem("username", this.loginForm.username);
-          this.satoken = res.data.tokenValue;
-          localStorage.removeItem("d_satoken");
-          localStorage.setItem("d_satoken", this.satoken);
-          console.log(res.data.tokenValue);
-          this.$router.push("/handing");
-        }
+        this.$message.success("登陆成功");
+        console.log(this.loginForm);
+        window.localStorage.setItem("username", this.loginForm.username);
+        this.h_satoken = res.data.tokenValue;
+        localStorage.removeItem("h_satoken");
+        localStorage.setItem("h_satoken", this.h_satoken);
+        console.log(res.data.tokenValue);
+        this.$router.push("/hospital");
       }
     },
     async register() {
