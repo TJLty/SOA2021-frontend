@@ -34,10 +34,7 @@
                   :hide-required-asterisk="true"
                 >
                   <el-form-item label="学号：" prop="id">
-                    <el-input
-                      v-model="ruleForm.id"
-                      :readonly="true"
-                    ></el-input>
+                    <el-input v-model="ruleForm.id" :readonly="true"></el-input>
                   </el-form-item>
                   <el-form-item label="姓名：" prop="name">
                     <el-input
@@ -56,11 +53,23 @@
                       v-model="ruleForm.schoolName"
                       :readonly="false"
                     ></el-input> -->
-                    <el-select v-model="ruleForm.schoolName" placeholder="请选择学院">
+                    <el-select
+                      v-model="ruleForm.schoolName"
+                      placeholder="请选择学院"
+                    >
                       <el-option label="软件学院" value="软件学院"></el-option>
-                      <el-option label="土木工程学院" value="土木工程学院"></el-option>
-                      <el-option label="经济与管理学院" value="经济与管理学院"></el-option>
-                      <el-option label="数学科学学院" value="数学科学学院"></el-option>
+                      <el-option
+                        label="土木工程学院"
+                        value="土木工程学院"
+                      ></el-option>
+                      <el-option
+                        label="经济与管理学院"
+                        value="经济与管理学院"
+                      ></el-option>
+                      <el-option
+                        label="数学科学学院"
+                        value="数学科学学院"
+                      ></el-option>
                       <el-option label="汽车学院" value="汽车学院"></el-option>
                     </el-select>
                   </el-form-item>
@@ -152,20 +161,22 @@ p {
 </style>
 
 <script>
-import { GETStudentsID, PUTStudent } from "../../API/http";
+//import { GETStudentsID, PUTStudent } from "../../API/http";
 
 export default {
   mounted() {
     console.log("获取学生数据", this.$route.query.id);
-    GETStudentsID(this.$route.query.id)
-      .then((data) => {
-        this.ruleForm = data;
-        this.updateData();
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$message("信息获取错误");
-      });
+    // GETStudentsID(this.$route.query.id)
+    //   .then((data) => {
+    //     this.ruleForm = data;
+    //     this.updateData();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.$message("信息获取错误");
+    //   });
+    this.GETStudentsID();
+    this.updateData();
   },
 
   data() {
@@ -175,7 +186,7 @@ export default {
         email: "string",
         name: "string",
         classnum: "string",
-        schoolName: "string"
+        schoolName: "string",
       },
 
       rules: {
@@ -231,11 +242,24 @@ export default {
   },
 
   methods: {
+    GETStudentsID() {
+      this.ruleForm = {
+        id: "a",
+        email: "b",
+        name: "c",
+        classnum: "d",
+        schoolName: "e",
+      };
+    },
+    PUTStudent(){
+      console.log("yes");
+    },
+
     columnStyle({ row, column, rowIndex, columnIndex }) {
       row;
       column;
       //console.log(row, column, rowIndex, columnIndex, "row");
-      if (columnIndex == 0 && (rowIndex < 3)) {
+      if (columnIndex == 0 && rowIndex < 3) {
         return "background:#FBFBEF; font-weight: 700;";
       } else if (columnIndex == 0) {
         return "background:#EFFBEF; font-weight: 700;";
@@ -258,14 +282,15 @@ export default {
       this.tableData[4].content = this.ruleForm.classnum;
     },
     setToDB() {
-      PUTStudent(this.ruleForm)
-      .then(() => {
-        this.$message("学生信息修改成功");
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$message("学生信息修改失败");
-      });
+      // PUTStudent(this.ruleForm)
+      //   .then(() => {
+      //     this.$message("学生信息修改成功");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     this.$message("学生信息修改失败");
+      //   });
+      this.PUTStudent();
     },
     edit() {
       this.isTable = false;

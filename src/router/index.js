@@ -10,6 +10,8 @@ import patientinfo from '../views/patientinfo'
 import doctorinfo from '../views/doctorinfo'
 import history from "../views/history"
 import handing from '../views/Handing'
+
+import AMS from '../views/AdminModifyStudent'
 const routes = [
   {
     path: '/',
@@ -25,6 +27,11 @@ const routes = [
     path: '/doctor',
     name: 'doctor',
     component: doc
+  },
+  {
+    path: '/AMS',
+    name: 'AMS',
+    component: AMS
   },
   {
     path: '/handing',
