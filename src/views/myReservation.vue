@@ -29,22 +29,25 @@
             </template> -->
           </el-dialog>
 
-          <el-dialog
-            v-model="finishVis"
-            title="Warning"
-            width="30%"
-            center
-          >
-            <span
-              >已经处理的预约不能取消</span
-            >
+          <el-dialog v-model="finishVis" title="提示" width="30%" center>
+            <span>已经处理的预约不能取消</span>
             <template #footer>
               <span class="dialog-footer">
-                <el-button @click="finishVis = false"
-                  >Cancel</el-button
+                <el-button @click="finishVis = false">取消</el-button>
+                <el-button type="primary" @click="finishVis = false,this.$router.go(0);"
+                  >确认</el-button
                 >
-                <el-button type="primary" @click="finishVis = false"
-                  >Confirm</el-button
+              </span>
+            </template>
+          </el-dialog>
+
+          <el-dialog v-model="deleteVis" title="提示" width="30%" center>
+            <span>已成功取消该预约</span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="deleteVis = false">取消</el-button>
+                <el-button type="primary" @click="deleteVis = false,this.$router.go(0);"
+                  >确认</el-button
                 >
               </span>
             </template>
@@ -110,7 +113,8 @@ export default {
   },
   data() {
     return {
-      finishVis:false,
+      finishVis: false,
+      deleteVis: false,
       centerDialogVisible: false,
       ad: "",
       dia: "",
@@ -143,35 +147,35 @@ export default {
       else this.dia = row.diagnosis;
     },
     cancel(index, row) {
-      if(row.finish==0){
-      var id = row.id;
-      var code = row.code;
-      console.log(row);
-      console.log(id);
-      console.log(code);
-      var myHeaders = new Headers();
-      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+      if (row.finish == false) {
+        var id = row.id;
+        var code = row.code;
+        console.log(row);
+        console.log(id);
+        console.log(code);
+        var myHeaders = new Headers();
+        myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+        myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
-      var requestOptions = {
-        method: "DELETE",
-        headers: myHeaders,
-        redirect: "follow",
-      };
+        var requestOptions = {
+          method: "DELETE",
+          headers: myHeaders,
+          redirect: "follow",
+        };
 
-      fetch(
-        "http://220.179.227.205:6018/appointments/" + id + "/details/" + code,
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
+        fetch(
+          "http://220.179.227.205:6018/appointments/" + id + "/details/" + code,
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
 
+        this.deleteVis = true;
+        
+      } else {
+        this.finishVis = true;
       }
-      else
-     {
-       this.finishVis=true;
-     }
     },
     async getInfo() {
       this.tableData = [];
@@ -358,7 +362,7 @@ export default {
 
       var number = 11;
       var res;
-      
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("satoken", localStorage.getItem("p_satoken"));

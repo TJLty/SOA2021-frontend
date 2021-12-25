@@ -38,14 +38,39 @@
             class="login_form"
           >
             <el-form-item prop="username">
-              <el-input
+              <!-- <el-input
                 v-model="loginForm.username"
                 placeholder="请输入医院名称"
               >
                 <template #prefix>
                   <el-icon class="el-input__icon"><User /></el-icon>
                 </template>
-              </el-input>
+
+              
+              </el-input> -->
+              <el-select
+                style="width: 100%"
+                v-model="hospital_name"
+                placeholder="请输入医院名称"
+              >
+                <el-option label="上海长海医院" value="1"></el-option>
+                <el-option
+                  label="上海交通大学医学院附属仁济医院"
+                  value="2"
+                ></el-option>
+                <el-option
+                  label="上海交通大学医学院附属瑞金医院"
+                  value="3"
+                ></el-option>
+                <el-option
+                  label="上海交通大学医学院附属仁济医院东院"
+                  value="5"
+                ></el-option>
+                <el-option
+                  label="上海交通大学医学院附属瑞金医院北院"
+                  value="6"
+                ></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item prop="password">
               <el-input
@@ -172,6 +197,7 @@ export default {
   },
   data() {
     return {
+      hospital_name: "",
       log: true,
       h_satoken: "",
       //数据绑定对象
@@ -208,11 +234,52 @@ export default {
     changelog() {
       this.log = !this.log;
     },
+    // async login() {
+    //   var myHeaders = new Headers();
+    //   myHeaders.append("Content-Type", "application/json");
+
+    //   var raw = JSON.stringify(this.loginForm);
+
+    //   var requestOptions = {
+    //     method: "POST",
+    //     headers: myHeaders,
+    //     body: raw,
+    //     redirect: "follow",
+    //   };
+    //   var res;
+
+    //   await fetch("http://220.179.227.205:6015/patients/login", requestOptions)
+    //     .then((response) => response.text())
+    //     .then((result) => (res = result))
+    //     .catch((error) => console.log("error", error));
+    //   res = JSON.parse(res);
+    //   //console.log(this.loginForm)
+
+    //   if (res.code != 200) {
+    //     return this.$message.error("登陆失败");
+
+    //     localStorage.removeItem("h_satoken");
+    //   } else {
+    //     this.$message.success("登陆成功");
+    //     console.log(this.loginForm);
+    //     window.localStorage.setItem("username", this.loginForm.username);
+    //     this.h_satoken = res.data.tokenValue;
+    //     localStorage.removeItem("h_satoken");
+    //     localStorage.setItem("h_satoken", this.h_satoken);
+    //     console.log(res.data.tokenValue);
+    //     this.$router.push("/hospital");
+    //   }
+    // },
+
     async login() {
       var myHeaders = new Headers();
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
 
-      var raw = JSON.stringify(this.loginForm);
+      var raw = JSON.stringify({
+        hospitalId: this.hospital_name,
+        password: this.loginForm.password,
+      });
 
       var requestOptions = {
         method: "POST",
@@ -220,33 +287,15 @@ export default {
         body: raw,
         redirect: "follow",
       };
-      var res;
 
-      await fetch("http://220.179.227.205:6015/patients/login", requestOptions)
+      fetch("http://220.179.227.205:6016/hospitals/login", requestOptions)
         .then((response) => response.text())
-        .then((result) => (res = result))
+        .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
-      res = JSON.parse(res);
-      //console.log(this.loginForm)
-
-      if (res.code != 200) {
-        return this.$message.error("登陆失败");
-
-        localStorage.removeItem("h_satoken");
-      } else {
-        this.$message.success("登陆成功");
-        console.log(this.loginForm);
-        window.localStorage.setItem("username", this.loginForm.username);
-        this.h_satoken = res.data.tokenValue;
-        localStorage.removeItem("h_satoken");
-        localStorage.setItem("h_satoken", this.h_satoken);
-        console.log(res.data.tokenValue);
-        this.$router.push("/hospital");
-      }
     },
-    async register() {
-      window.confirm("注册成功");
-    },
+    // async register() {
+    //   window.confirm("注册成功");
+    // },
   },
 };
 </script>
