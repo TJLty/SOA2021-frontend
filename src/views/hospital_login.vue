@@ -305,7 +305,7 @@ export default {
         localStorage.removeItem("h_satoken");
         localStorage.setItem("h_satoken", this.satoken);
         console.log(res.data.tokenValue);
-        this.$router.push("/doctor-manage");
+        this.$router.push("/doctor");
       }
     },
     // async register() {
