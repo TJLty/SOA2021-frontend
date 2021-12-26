@@ -95,7 +95,7 @@
                       <el-form-item label="用户名  ">
                         <el-input
                           v-model="user_name"
-                          :readonly="false"
+                          :readonly="true"
                         ></el-input>
                       </el-form-item>
                       <el-form-item label="手机号  ">
@@ -120,7 +120,7 @@
                       </el-form-item>
 
                       <el-form-item label="性别    ">
-                        <el-input v-model="sex" :readonly="false"></el-input>
+                        <el-input v-model="sex" :readonly="true"></el-input>
                       </el-form-item>
                     </el-form>
                   </div>
@@ -245,13 +245,6 @@ export default {
       if (res1.code != 200) {
         console.log("fail to get pinfo");
       } else {
-        //   (this.user_name = res1.data.username),
-        //   (this.tel_num = res1.data.phone),
-        //   (this.address = res1.data.address),
-        //   console.log(res1.data.sex);
-        // if (res1.data.sex == false) this.sex = "女";
-        // else if (res1.data.sex == true) this.sex = "男";
-        // else this.sex = "不明";
       }
 
       await fetch(
@@ -322,8 +315,8 @@ export default {
   float: left;
   height: 50%;
   width: 100%;
-  margin-top: 50px;
-  margin-left: 2.2cm;
+  margin-top: 30px;
+  /* margin-left: 2.2cm; */
 }
 .piccontainer {
   /* top: 50px; */

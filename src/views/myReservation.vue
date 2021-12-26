@@ -34,7 +34,7 @@
             <template #footer>
               <span class="dialog-footer">
                 <el-button @click="finishVis = false">取消</el-button>
-                <el-button type="primary" @click="finishVis = false,this.$router.go(0);"
+                <el-button type="primary" @click="finishVis = false"
                   >确认</el-button
                 >
               </span>
@@ -46,7 +46,7 @@
             <template #footer>
               <span class="dialog-footer">
                 <el-button @click="deleteVis = false">取消</el-button>
-                <el-button type="primary" @click="deleteVis = false,this.$router.go(0);"
+                <el-button type="primary" @click="deleteVis = false"
                   >确认</el-button
                 >
               </span>
@@ -105,6 +105,7 @@
 import Header from "@/components/Header";
 import Aside from "@/components/Aside";
 import { Search } from "@element-plus/icons";
+import TableLayout from 'element-plus/es/components/table/src/table-layout';
 export default {
   components: {
     Header,
@@ -170,7 +171,7 @@ export default {
           .then((response) => response.text())
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
-
+        this.tableData.splice(index,1);
         this.deleteVis = true;
         
       } else {
