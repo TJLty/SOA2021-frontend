@@ -38,6 +38,37 @@
               <div class="user-info">{{ intro }}</div>
             </div>
           </div> -->
+          <el-dialog v-model="finishVis" title="提示" width="30%">
+            <span>修改成功</span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="(finishVis = false), this.$router.go(0)"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  @click="(finishVis = false), this.$router.go(0)"
+                  >确认</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
+
+          <el-dialog v-model="errVis" title="提示" width="30%" center>
+            <span>修改失败</span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="(errVis = false), this.$router.go(0)"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  @click="(errVis = false), this.$router.go(0)"
+                  >确认</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
 
           <div>
             <el-row>
@@ -143,22 +174,140 @@
                         >
                         </el-input>
                       </el-form-item>
-                      <el-form-item prop="department_name" label="科室 ">
-                        <el-input
-                          v-model="mForm.department_name"
-                          :readonly="true"
-                          placeholder="请输入您的科室"
-                        >
-                        </el-input>
-                      </el-form-item>
                       <el-form-item prop="hospital_name" label="医院 ">
-                        <el-input
+                        <!-- <el-input
                           v-model="mForm.hospital_name"
                           :readonly="true"
                           placeholder="请输入医院"
                         >
-                        </el-input>
+                        </el-input> -->
+                        <el-select
+                          style="width: 100%"
+                          v-model="mForm.hospital_id"
+                          placeholder="请输入医院名称"
+                          @change="getdept"
+                        >
+                          <el-option label="上海长海医院" value="1"></el-option>
+                          <el-option
+                            label="上海交通大学医学院附属仁济医院"
+                            value="2"
+                          ></el-option>
+                          <el-option
+                            label="上海交通大学医学院附属瑞金医院"
+                            value="3"
+                          ></el-option>
+                          <el-option
+                            label="上海交通大学医学院附属仁济医院东院"
+                            value="5"
+                          ></el-option>
+                          <el-option
+                            label="上海交通大学医学院附属瑞金医院北院"
+                            value="6"
+                          ></el-option>
+                        </el-select>
                       </el-form-item>
+                      <el-form-item prop="department_name" label="科室 ">
+                        <!-- <el-input
+                          v-model="mForm.department_name"
+                          :readonly="true"
+                          placeholder="请输入您的科室"
+                        >
+                        </el-input> -->
+                        <!-- <el-select
+                          style="width: 100%"
+                          v-model="mForm.department_name"
+                          placeholder="请输入科室名称"
+                        >
+                          <el-option label="产科" value="产科"></el-option>
+                          <el-option label="传染科" value="传染科"></el-option>
+                          <el-option
+                            label="关节骨病外科"
+                            value="关节骨病外科"
+                          ></el-option>
+                          <el-option
+                            label="内分泌科"
+                            value="内分泌科"
+                          ></el-option>
+                          <el-option
+                            label="创伤骨科"
+                            value="创伤骨科"
+                          ></el-option>
+                          <el-option label="口腔科" value="口腔科"></el-option>
+                          <el-option label="呼吸科" value="呼吸科"></el-option>
+                          <el-option
+                            label="器官移植科"
+                            value="器官移植科"
+                          ></el-option>
+                          <el-option label="妇科" value="妇科"></el-option>
+                          <el-option label="小儿科" value="小儿科"></el-option>
+                          <el-option label="心内科" value="心内科"></el-option>
+                          <el-option
+                            label="心血管外科"
+                            value="心血管外科"
+                          ></el-option>
+                          <el-option
+                            label="整形外科"
+                            value="整形外科"
+                          ></el-option>
+                          <el-option
+                            label="普通外科"
+                            value="普通外科"
+                          ></el-option>
+                          <el-option
+                            label="泌尿外科"
+                            value="泌尿外科"
+                          ></el-option>
+                          <el-option label="消化科" value="消化科"></el-option>
+                          <el-option label="烧伤科" value="烧伤科"></el-option>
+                          <el-option
+                            label="生殖中心"
+                            value="生殖中心"
+                          ></el-option>
+                          <el-option label="皮肤科" value="皮肤科"></el-option>
+                          <el-option label="眼科" value="眼科"></el-option>
+                          <el-option
+                            label="眼科屈光外科中心"
+                            value="眼科屈光外科中心"
+                          ></el-option>
+                          <el-option
+                            label="神经内科门诊"
+                            value="神经内科门诊"
+                          ></el-option
+                          ><el-option
+                            label="耳鼻喉科"
+                            value="耳鼻喉科"
+                          ></el-option>
+                          <el-option label="肿瘤科" value="肿瘤科"></el-option>
+                          <el-option label="胸外科" value="胸外科"></el-option>
+                          <el-option
+                            label="脊柱外科"
+                            value="脊柱外科"
+                          ></el-option>
+                          <el-option label="脑外科" value="脑外科"></el-option>
+                          <el-option
+                            label="脑血管病"
+                            value="脑血管病"
+                          ></el-option>
+                          <el-option
+                            label="血管外科"
+                            value="血管外科"
+                          ></el-option>
+                        </el-select> -->
+                        <el-select
+                          style="width: 100%"
+                          v-model="mForm.department_name"
+                          placeholder="请输入科室名称"
+                        >
+                          <el-option
+                            v-for="item in deptlist"
+                            :key="item"
+                            :label="item"
+                            :value="item"
+                          >
+                          </el-option>
+                        </el-select>
+                      </el-form-item>
+
                       <el-form-item prop="intro" label="介绍 ">
                         <el-input
                           v-model="mForm.intro"
@@ -212,8 +361,11 @@ export default {
     D_header,
     H_Aside,
   },
+  
   data() {
     return {
+      finishVis: false,
+      errVis: false,
       tableData: [
         {
           title: "用户名",
@@ -237,10 +389,10 @@ export default {
         name: "",
         password: "",
         department_name: "",
-        hospital_name: "",
+        hospital_id: "",
         intro: "",
       },
-
+      deptlist: [],
       mFormRules: {
         //用户名
         name: [
@@ -278,6 +430,7 @@ export default {
       intro: "",
       department_name: "",
       hospital_name: "",
+      hospital_id: "",
       img: "",
       password: "",
     };
@@ -313,19 +466,18 @@ export default {
     //   this.$router.go(0);
     // },
     async submit() {
-      console.log(1);
+      var f = 1;
+      var res;
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("satoken", localStorage.getItem(this.d_satoken));
-
-
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
 
       var raw = JSON.stringify({
-        name: "asd",
-        intro: "cupidatat pariatur ex",
-        password: "123456",
-        img: "http://dummyimage.com/400x400",
+        name: this.mForm.name,
+        intro: this.mForm.intro,
+        password: this.mForm.password,
+        img: "http://https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png.com/400x400",
       });
 
       var requestOptions = {
@@ -335,10 +487,52 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("two/doctor/", requestOptions)
+      await fetch("http://220.179.227.205:6019/doctor/", requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((result) => (res = result))
         .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+      if (res.code == 200) {
+        f++;
+      } else {
+        f--;
+      }
+
+      myHeaders = new Headers();
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        department_name: this.mForm.department_name,
+        hospital_id: this.mForm.hospital_id,
+      });
+
+      var requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      await fetch(
+        "http://220.179.227.205:6019/doctor/?code=1234567890",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+      if (res.code == 200) {
+        f++;
+      } else {
+        f--;
+      }
+      if (f == 3) {
+        this.finishVis = true;
+      } else {
+        this.errVis = true;
+      }
     },
     updateTable() {
       this.tableData[0].content = this.user_name;
@@ -350,11 +544,46 @@ export default {
       this.mForm.name = this.name;
       this.mForm.password = "123456";
       this.mForm.department_name = this.department_name;
-      this.mForm.hospital_name = this.hospital_name;
+      this.mForm.hospital_id = this.hospital_name;
       this.mForm.intro = this.intro;
     },
-    edit() {
+    async getdept() {
+      this.deptlist=[];
+      var dname = "a";
+      var hospitalId = "d";
+      var res;
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+      await fetch(
+        "http://220.179.227.205:6016/hospitals/" +
+          this.mForm.hospital_id +
+          "/departments",
+        requestOptions
+      )
+        .then((response) => response.text())
+        .then((result) => (res = result))
+        .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+
+      if (res.code != 200) {
+        console.log("fail to get dept");
+      } else {
+        for (let i = 0; i < res.data.length; i++) {
+          this.deptlist[i] = res.data[i].departmentName;
+        }
+      }
+      console.log(this.deptlist);
+    },
+     edit() {
       this.isTable = !this.isTable;
+      this.getdept();
     },
     returnback() {
       this.isTable = !this.isTable;
@@ -377,6 +606,7 @@ export default {
             (this.intro = res.intro),
             (this.department_name = res.department_name),
             (this.hospital_name = res.hospital_name);
+          this.hospital_id = res.hospital_id;
           this.img = res.img;
         })
         .catch((err) => {
