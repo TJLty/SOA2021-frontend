@@ -14,7 +14,35 @@ import hlogin from '../views/hospital_login'
 import AMS from '../views/AdminModifyStudent'
 import myMaterial from '../views/myMaterial'
 
+
+
 const routes = [
+ 
+  {
+    path: '/invitation',
+    name: 'invitation',
+    component: () => import( '../views/invitation.vue')
+  },
+  {
+    path: '/doctor-manage',
+    name: 'doctorManage',
+    component: () => import( '../views/doctorManage.vue')
+  }, {
+    path: '/dept-manage',
+    name: 'dept-manage',
+    component: () => import( '../views/deptManage.vue')
+  },
+  {
+    path: '/hospital-material-upload',
+    name: 'material-upload',
+    component: () => import( '../views/materialUpload.vue')
+  },
+ 
+   {
+    path: '/myMaterial',
+    name: 'myMaterial',
+    component: () => import( '../views/myMaterial.vue')
+  },
   {
     path: '/',
     name: 'login',

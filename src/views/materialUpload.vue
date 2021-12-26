@@ -3,14 +3,14 @@
 <template>
   <div>
     <el-container style="background-color: #3C3F41">
-      <el-aside style="width: 230px">
+      <el-aside style="width: auto">
         <Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <Header/>
         </el-header>
-        <el-main>
+        <el-main style="width: auto">
 
             <el-form ref="form" :model="addform" label-width="120px">
               <el-form-item label="病人id：">

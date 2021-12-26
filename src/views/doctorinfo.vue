@@ -79,7 +79,7 @@
                   </div>
 
                   <div v-if="!isTable">
-                    <el-form label-width="100px" :hide-required-asterisk="true">
+                    <!-- <el-form label-width="100px" :hide-required-asterisk="true">
                       <el-form-item label="用户名  ">
                         <el-input
                           v-model="user_name"
@@ -102,8 +102,8 @@
                         ></el-input>
                       </el-form-item>
 
-                      <el-form-item label="医院 ">
-                        <el-input
+                      <el-form-item label="医院 "
+                        ><el-input
                           v-model="hospital_name"
                           :readonly="true"
                         ></el-input>
@@ -112,11 +112,67 @@
                       <el-form-item label="介绍 ">
                         <el-input v-model="intro" :readonly="false"></el-input>
                       </el-form-item>
+                    </el-form> -->
+                    <el-form
+                      :model="mForm"
+                      :rules="mFormRules"
+                      label-width="100px"
+                    >
+                      <el-form-item prop="username" label="用户名 ">
+                        <el-input
+                          v-model="mForm.username"
+                          :readonly="true"
+                          placeholder="请输入您的用户名"
+                        >
+                        </el-input>
+                      </el-form-item>
+                     
+                     <el-form-item prop="name" label="姓名 ">
+                        <el-input
+                          v-model="mForm.name"
+                          :readonly="false"
+                          placeholder="请输入您的姓名"
+                        >
+                        </el-input>
+                      </el-form-item>
+                      <el-form-item prop="password" label="密码 ">
+                        <el-input
+                          v-model="mForm.password"
+                          :readonly="false"
+                          placeholder="请输入您的新密码"
+                        >
+                        </el-input>
+                      </el-form-item>
+                      <el-form-item prop="department_name" label="科室 ">
+                        <el-input
+                          v-model="mForm.department_name"
+                          :readonly="true"
+                          placeholder="请输入您的科室"
+                        >
+                        </el-input>
+                      </el-form-item>
+                      <el-form-item prop="hospital_name" label="医院 ">
+                        <el-input
+                          v-model="mForm.hospital_name"
+                          :readonly="true"
+                          placeholder="请输入医院"
+                        >
+                        </el-input>
+                      </el-form-item>
+                      <el-form-item prop="intro" label="介绍 ">
+                        <el-input
+                          v-model="mForm.intro"
+                          :readonly="false"
+                          placeholder="请输入简介"
+                        >
+                        </el-input>
+                     </el-form-item>
+                      
                     </el-form>
                   </div>
 
                   <div v-if="isTable" class="modify">
-                    <el-button type="primary" @click="edit"
+                    <el-button disabled="mForm.password.required" type="primary" @click="edit"
                       >编辑个人信息</el-button
                     >
                   </div>
@@ -174,6 +230,45 @@ export default {
           content: "",
         },
       ],
+      mForm: {
+        username: "",
+        name: "",
+        password: "",
+        department_name: "",
+        hospital_name: "",
+        intro: "",
+      },
+
+      mFormRules: {
+        //用户名
+        name: [
+          { required: true, message: "请输入用户姓名", trigger: "blur" },
+          {
+            min: 2,
+            message: "长度需要大于等于2个字符",
+            trigger: "blur",
+          },
+        ],
+
+        password: [
+          { required: true, message: "请输入用户密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 18,
+            message: "长度在 6 到 18 个字符",
+            trigger: "blur",
+          },
+        ],
+        intro: [
+          { required: true, message: "请输入简介", trigger: "blur" },
+          {
+            min: 1,
+            max: 100,
+            message: "长度在 1 到 100 个字符",
+            trigger: "blur",
+          },
+        ],
+      },
       isTable: true,
       d_satoken: "",
       user_name: "",
@@ -196,7 +291,7 @@ export default {
         name: this.name,
         intro: this.intro,
         password: this.password,
-        img:this.img,
+        img: this.img,
       });
       console.log(raw);
       var requestOptions = {
@@ -211,17 +306,25 @@ export default {
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
 
-        alert("ok");
-        this.getInfo();
-        this.isTable=!this.isTable;
-        
+      alert("ok");
+      this.isTable = !this.isTable;
+      this.$router.go(0);
     },
     updateTable() {
       this.tableData[0].content = this.user_name;
       this.tableData[1].content = this.name;
-
       this.tableData[2].content = this.department_name;
       this.tableData[3].content = this.hospital_name;
+
+
+      this.mForm.username=this.user_name;
+      this.mForm.name=this.name;
+      this.mForm.password="123456";
+      this.mForm.department_name=this.department_name;
+      this.mForm.hospital_name=this.hospital_name;
+      this.mForm.intro=this.intro;
+
+     
     },
     edit() {
       this.isTable = !this.isTable;
@@ -233,13 +336,10 @@ export default {
       this.d_satoken = localStorage.getItem("d_satoken");
       await fetch("http://220.179.227.205:6019/doctor", {
         headers: {
-          // 'd_satoken':localStorage.getItem('token')
           satoken: this.d_satoken,
-          // 'Authorization':this.d_satoken
           credentials: "include",
         },
       })
-        // 第一个 then 接受到的是请求头的相关信息
         .then((res) => {
           return res.json();
         })
@@ -252,7 +352,6 @@ export default {
             (this.hospital_name = res.hospital_name);
           this.img = res.img;
         })
-        // 请求错误时执行
         .catch((err) => {
           console.log(err);
         });

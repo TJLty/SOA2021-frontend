@@ -12,6 +12,7 @@
             <el-dropdown-item @click="tohome">主页</el-dropdown-item>
             <el-dropdown-item @click="todinfo">个人信息</el-dropdown-item>
             <el-dropdown-item @click="gotoHistory">历史记录</el-dropdown-item>
+            <el-dropdown-item @click="gotoInvitation">我的邀请</el-dropdown-item>
             <el-dropdown-item @click="logout">账号登出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -32,6 +33,10 @@ export default defineComponent({
     Avatar
   },
   methods:{
+    gotoInvitation()
+    {
+      this.$router.push("/invitation");
+    },
     todinfo(){
     
       this.$router.push("/dinfo");

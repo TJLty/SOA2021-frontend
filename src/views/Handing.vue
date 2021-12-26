@@ -2,24 +2,15 @@
 
 <template>
   <div>
-<<<<<<< Updated upstream
-    <el-container style="background-color: #3C3F41">
-      <el-aside style="width: auto">
-=======
     <el-container  style="background-color: #3C3F41">
-      <el-aside style="width: 230px">
->>>>>>> Stashed changes
+      <el-aside style="width: auto">
         <D_Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <D_Header/>
         </el-header>
-<<<<<<< Updated upstream
         <el-main style="width: auto">
-=======
-        <el-main >
->>>>>>> Stashed changes
           <div class="hand_container">
             <el-dialog
                 v-model="confirmVisible"
@@ -136,20 +127,11 @@
 </template>
 
 <script>
-<<<<<<< Updated upstream
-import Header from "@/components/Header";
-import Aside from "@/components/Aside";
-import D_Header from "@/components/D_header";
-import D_Aside from "@/components/D_Aside";
-import H_Aside from "@/components/H_Aside";
-import {Search} from "@element-plus/icons";
-=======
 import { Recorder } from '../utils/record.js'
 var recorder = null
-import Header from "@/components/D_header";
+import D_Header from "@/components/D_header";
 import D_Aside from "@/components/D_Aside";
 import {Search ,Microphone, Delete} from "@element-plus/icons";
->>>>>>> Stashed changes
 export default {
   components:{
     D_Header,
