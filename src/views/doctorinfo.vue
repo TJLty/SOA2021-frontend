@@ -69,12 +69,7 @@
               </span>
             </template>
           </el-dialog>
-          <el-dialog
-            v-model="confirmVisible"
-            title="加入科室"
-            width="30%"
-           
-          >
+          <el-dialog v-model="confirmVisible" title="加入科室" width="30%">
             <el-form
               ref="addForm"
               :model="addForm"
@@ -187,7 +182,6 @@
                         >
                         </el-input>
                       </el-form-item>
-                      
 
                       <el-form-item prop="intro" label="介绍 ">
                         <el-input
@@ -196,6 +190,29 @@
                           placeholder="请输入简介"
                         >
                         </el-input>
+                      </el-form-item>
+                      <el-form-item label="头像 ">
+                        <el-upload
+                          class="upload-demo"
+                          action="#"
+                          :on-change="this.checkType"
+                          :auto-upload="false"
+                          multiple
+                          typeof="file"
+                          :limit="1"
+                        >
+                          <el-icon class="el-icon--upload"
+                            ><upload-filled
+                          /></el-icon>
+                          <div class="el-upload__text">
+                            请拖拽文件或者 <em>点击上传</em>
+                          </div>
+                          <template #tip>
+                            <div class="el-upload__tip">
+                              jpg/png 文件大小不要超过 500kb
+                            </div>
+                          </template>
+                        </el-upload>
                       </el-form-item>
                     </el-form>
                   </div>
@@ -323,9 +340,13 @@ export default {
       hospital_id: "",
       img: "",
       password: "",
+      uploadFile: "",
     };
   },
   methods: {
+    checkType(file, fileList) {
+      this.uploadFile = file;
+    },
     querySearch(queryString, cb) {
       var depts = this.depts;
       var results = queryString
@@ -437,9 +458,29 @@ export default {
     handleSelect(item) {
       console.log(item);
     },
-    
+
     async submit() {
-      var f = 1;
+      var myHeaders1 = new Headers();
+      var satoken = localStorage.getItem("h_satoken");
+      myHeaders1.append("satoken", satoken);
+      //myHeaders.append("Content-Type", "multipart/form-data");
+      var formdata = new FormData();
+      formdata.append("file", this.uploadFile.raw, this.uploadFile.name);
+
+      var requestOptions1 = {
+        method: "POST",
+        headers: myHeaders1,
+        body: formdata,
+        redirect: "follow",
+      };
+      var res1;
+      await fetch("three/files/actions/upload", requestOptions1)
+        .then((response) => response.text())
+        .then((result) => (res1 = result))
+        .catch((error) => console.log("error", error));
+      res1 = JSON.parse(res1);
+      this.img = res1.data;
+
       var res;
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -450,7 +491,7 @@ export default {
         name: this.mForm.name,
         intro: this.mForm.intro,
         password: this.mForm.password,
-        img: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+        img: this.img,
       });
 
       var requestOptions = {
@@ -560,7 +601,6 @@ export default {
   created() {
     this.getInfo();
     this.loadHospital();
-   
   },
 };
 </script>
@@ -568,7 +608,7 @@ export default {
 <style scoped>
 .modify {
   margin-top: 20px;
-  margin-left: 25%;
+  margin-left: 20%;
 }
 .pic {
   float: left;
