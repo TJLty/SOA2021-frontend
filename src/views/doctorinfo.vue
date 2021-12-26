@@ -126,8 +126,8 @@
                         >
                         </el-input>
                       </el-form-item>
-                     
-                     <el-form-item prop="name" label="姓名 ">
+
+                      <el-form-item prop="name" label="姓名 ">
                         <el-input
                           v-model="mForm.name"
                           :readonly="false"
@@ -166,13 +166,15 @@
                           placeholder="请输入简介"
                         >
                         </el-input>
-                     </el-form-item>
-                      
+                      </el-form-item>
                     </el-form>
                   </div>
 
                   <div v-if="isTable" class="modify">
-                    <el-button disabled="mForm.password.required" type="primary" @click="edit"
+                    <el-button
+                      disabled="mForm.password.required"
+                      type="primary"
+                      @click="edit"
                       >编辑个人信息</el-button
                     >
                   </div>
@@ -281,19 +283,51 @@ export default {
     };
   },
   methods: {
+    // async submit() {
+    //   var myHeaders = new Headers();
+    //   myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+    //   myHeaders.append("Content-Type", "application/json");
+    //   myHeaders.append("satoken", localStorage.getItem(this.d_satoken));
+
+    //   var raw = JSON.stringify({
+    //     name: this.name,
+    //     intro: this.intro,
+    //     password: this.password,
+    //     img: this.img,
+    //   });
+    //   console.log(raw);
+    //   var requestOptions = {
+    //     method: "PUT",
+    //     headers: myHeaders,
+    //     body: raw,
+    //     redirect: "follow",
+    //   };
+
+    //   await fetch("http://220.179.227.205:6019/doctor/", requestOptions)
+    //     .then((response) => response.text())
+    //     .then((result) => console.log(result))
+    //     .catch((error) => console.log("error", error));
+
+    //   alert("ok");
+    //   this.isTable = !this.isTable;
+    //   this.$router.go(0);
+    // },
     async submit() {
+      console.log(1);
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("satoken", localStorage.getItem(this.d_satoken));
 
+
+
       var raw = JSON.stringify({
-        name: this.name,
-        intro: this.intro,
-        password: this.password,
-        img: this.img,
+        name: "asd",
+        intro: "cupidatat pariatur ex",
+        password: "123456",
+        img: "http://dummyimage.com/400x400",
       });
-      console.log(raw);
+
       var requestOptions = {
         method: "PUT",
         headers: myHeaders,
@@ -301,14 +335,10 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("http://220.179.227.205:6019/doctor/", requestOptions)
+      await fetch("two/doctor/", requestOptions)
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
-
-      alert("ok");
-      this.isTable = !this.isTable;
-      this.$router.go(0);
     },
     updateTable() {
       this.tableData[0].content = this.user_name;
@@ -316,15 +346,12 @@ export default {
       this.tableData[2].content = this.department_name;
       this.tableData[3].content = this.hospital_name;
 
-
-      this.mForm.username=this.user_name;
-      this.mForm.name=this.name;
-      this.mForm.password="123456";
-      this.mForm.department_name=this.department_name;
-      this.mForm.hospital_name=this.hospital_name;
-      this.mForm.intro=this.intro;
-
-     
+      this.mForm.username = this.user_name;
+      this.mForm.name = this.name;
+      this.mForm.password = "123456";
+      this.mForm.department_name = this.department_name;
+      this.mForm.hospital_name = this.hospital_name;
+      this.mForm.intro = this.intro;
     },
     edit() {
       this.isTable = !this.isTable;

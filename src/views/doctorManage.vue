@@ -145,8 +145,7 @@ export default {
     };
   },
   created() {
-    localStorage.setItem("hospitalId","1")
-    localStorage.setItem("h_satoken","e0de8c0d-ce35-4162-9af3-5629abcc48e7")
+    
     this.getInfo();
 
   },
@@ -164,7 +163,7 @@ export default {
       };
       var res,dept=[]
 
-      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospitalId")+"/departments", requestOptions)
+      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -184,7 +183,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospitalId")+"/doctors?department="+this.DeptName, requestOptions1)
+      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/doctors?department="+this.DeptName, requestOptions1)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -210,7 +209,7 @@ export default {
         redirect: 'follow'
       };
 
-      fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospitalId")+"/doctors", requestOptions)
+      fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/doctors", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));

@@ -228,7 +228,7 @@ export default {
       console.log(111)
       var myHeaders = new Headers();
       // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      var satoken=localStorage.getItem("satoken")
+      var satoken=localStorage.getItem("d_satoken")
       myHeaders.append("satoken", satoken);
 
       var requestOptions = {

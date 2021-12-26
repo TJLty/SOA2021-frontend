@@ -78,7 +78,7 @@ export default {
     };
   },
   created() {
-    localStorage.setItem("h_satoken","6ec5c9b6-d493-4821-980c-e01eba6e3309")
+    
   },
 
   methods: {

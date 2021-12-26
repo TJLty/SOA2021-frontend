@@ -83,7 +83,7 @@ export default {
     async getList() {
 
       var myHeaders = new Headers();
-      myHeaders.append("satoken" , localStorage.getItem("satoken"));
+      myHeaders.append("satoken" , localStorage.getItem("d_satoken"));
       var time=new Date(),month,year,res,table=[]
       month=time.getMonth()
       month++
@@ -133,7 +133,7 @@ export default {
     },
     accept(index){
       var myHeaders = new Headers();
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
       myHeaders.append("Content-Type", "application/json");
 
       var raw = {
@@ -154,7 +154,7 @@ export default {
     },
     refuse(index){
       var myHeaders = new Headers();
-      myHeaders.append("satoken", localStorage.getItem("satoken"));
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
 
       var requestOptions = {
         method: 'DELETE',

@@ -168,8 +168,7 @@ export default {
     };
   },
   created() {
-    localStorage.setItem("hospitalId","1")
-    localStorage.setItem("h_satoken","db9a2355-1c92-4573-896d-f022a61329cb")
+  
     this.getInfo();
 
   },
@@ -186,7 +185,7 @@ export default {
         redirect: 'follow'
       };
       var res,dept=[]
-     await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospitalId")+"/departments", requestOptions)
+     await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -244,7 +243,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospitalId")+"/departments?department_name="+domain.departmentName, requestOptions)
+      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments?department_name="+domain.departmentName, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
@@ -264,7 +263,7 @@ export default {
 
       var raw = JSON.stringify({
         "fatherDepartmentName": this.fatherDeptName,
-        "hospitalId": localStorage.getItem("hospitalId"),
+        "hospitalId": localStorage.getItem("hospital_login_id"),
         "departmentName": this.addform.DeptName
       });
 
@@ -289,7 +288,7 @@ export default {
 
       var raw = JSON.stringify({
         "fatherDepartmentName": this.addform1.fatherDeptName,
-        "hospitalId": localStorage.getItem("hospitalId"),
+        "hospitalId": localStorage.getItem("hospital_login_id"),
         "departmentName": this.addform1.DeptName
       });
 
@@ -300,7 +299,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospitalId")+"/departments", requestOptions)
+      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
