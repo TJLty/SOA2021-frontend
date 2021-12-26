@@ -96,8 +96,20 @@ else{
 }
     },
     async revoke(index){
-      var apt_id=localStorage.getItem("apt_id")
-      if(this.tableData[index].id==apt_id){
+
+
+      var time=new Date(),year,month,day,hour,date,slot
+      year=time.getFullYear()
+      month=time.getMonth()+1
+      day=time.getDate()
+      hour=time.getHours()
+      date=year+"-"+month+"-"+day
+      if(hour>12)
+        slot="AFTERNOON"
+      else
+        slot="MORNING"
+      console.log([this.tableData[index],date,slot])
+      if(this.tableData[index].date==date&&this.tableData[index].slot==slot){
       var res,rps;
         var url="api/appointments/"+this.tableData[index].id+"/details/"
         url+=this.tableData[index].code+"?finish=false"

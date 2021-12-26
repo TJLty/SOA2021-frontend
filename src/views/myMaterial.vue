@@ -3,14 +3,22 @@
 <template>
   <div>
     <el-container style="background-color: #3C3F41">
+<<<<<<< Updated upstream
       <el-aside style="width: auto">
+=======
+      <el-aside style="width: 230px">
+>>>>>>> Stashed changes
         <Aside/>
       </el-aside>
       <el-container style="background-color: white">
         <el-header style="height: 10vh">
           <Header/>
         </el-header>
+<<<<<<< Updated upstream
         <el-main style="width: auto" >
+=======
+        <el-main>
+>>>>>>> Stashed changes
           <el-dialog
               v-model="addMaterialVisible"
               title="上传资料"
@@ -24,9 +32,18 @@
               <el-form-item label="资料：">
                 <el-upload
                     class="upload-demo"
+<<<<<<< Updated upstream
                     drag
                     action="https://jsonplaceholder.typicode.com/posts/"
                     multiple
+=======
+                    action="#"
+                    :on-change="this.checkType"
+                    :auto-upload="false"
+                    multiple
+                    typeof="file"
+                    :limit="1"
+>>>>>>> Stashed changes
                 >
                   <el-icon class="el-icon--upload"><upload-filled /></el-icon>
                   <div class="el-upload__text">
@@ -43,7 +60,11 @@
             <template #footer>
       <span class="dialog-footer">
         <el-button @click="addMaterialVisible = false">取消</el-button>
+<<<<<<< Updated upstream
         <el-button type="primary" @click="addMaterialVisible = false"
+=======
+        <el-button type="primary" @click="uploadMaterial"
+>>>>>>> Stashed changes
         >确认</el-button
         >
       </span>
@@ -68,17 +89,25 @@
                       <el-link :underline="false">{{domain.name}}</el-link>
                       <br/><el-link :underline="false"> {{"创建时间:"+domain.createTime}}</el-link>
                     </div>
+<<<<<<< Updated upstream
                     <el-button type="danger" circle @click="deleteFight(domain)" style="position:relative ;left: 95%">
+=======
+                    <el-button type="danger" circle @click="deleteFile(domain,index)" style="position:relative ;left: 95%">
+>>>>>>> Stashed changes
                       <el-icon><delete /></el-icon>
                     </el-button>                  </el-card>
                 </div>
               </div>
             </div></el-card>
+<<<<<<< Updated upstream
             <div v-if="!look">
               <iframe :src="material" style="width:80vw;height: 75vh">
               </iframe>
               <el-button @click="backToList">返回</el-button>
             </div>
+=======
+
+>>>>>>> Stashed changes
           </div>
         </el-main>
       </el-container>
@@ -102,6 +131,10 @@ UploadFilled,
   },
   data() {
     return {
+<<<<<<< Updated upstream
+=======
+      uploadFile:"",
+>>>>>>> Stashed changes
       look:1,
       addMaterialVisible:0,
       addform: {
@@ -123,6 +156,10 @@ UploadFilled,
     };
   },
   created() {
+<<<<<<< Updated upstream
+=======
+    localStorage.setItem("p_satoken","6ec5c9b6-d493-4821-980c-e01eba6e3309")
+>>>>>>> Stashed changes
     this.getInfo();
 
   },
@@ -132,7 +169,11 @@ UploadFilled,
     {
       var myHeaders = new Headers();
       // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+<<<<<<< Updated upstream
       var satoken=localStorage.getItem("satoken")
+=======
+      var satoken=localStorage.getItem("p_satoken")
+>>>>>>> Stashed changes
       myHeaders.append("satoken", satoken);
       var username=localStorage.getItem("username")
       var requestOptions = {
@@ -141,7 +182,11 @@ UploadFilled,
         redirect: 'follow'
       };
       var res
+<<<<<<< Updated upstream
       await fetch("three/files?username="+username+"&name=&start_time=&end_time=&pageSize=1&currentPage=0", requestOptions)
+=======
+      await fetch("three/files?username="+username+"&name=&start_time=&end_time=&pageSize=20&currentPage=0", requestOptions)
+>>>>>>> Stashed changes
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -153,6 +198,63 @@ UploadFilled,
       console.log(domain.url)
       window.open(domain.url)
     },
+<<<<<<< Updated upstream
+=======
+    checkType(file, fileList){
+      this.uploadFile=file
+    },
+    async uploadMaterial(){
+      this.addMaterialVisible = false
+      console.log(this.uploadFile.raw)
+      var myHeaders = new Headers();
+      var satoken=localStorage.getItem("p_satoken")
+      myHeaders.append("satoken", satoken);
+      //myHeaders.append("Content-Type", "multipart/form-data");
+      var formdata = new FormData();
+      formdata.append("file",this.uploadFile.raw, this.uploadFile.name);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+      var res
+     await fetch("three/files/actions/upload", requestOptions)
+          .then(response => response.text())
+          .then(result => res=result)
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res)
+      if(res.msg=="ok"){
+        var myHeaders1 = new Headers();
+        myHeaders1.append("satoken", satoken);
+        myHeaders1.append("Content-Type", "application/json");
+        var time=new Date()
+        var raw = JSON.stringify({
+          "id": 63,
+          "username": localStorage.getItem("username"),
+          "name": this.addform.name,
+          "url": res.data,
+          "createTime": time.getTime()
+        });
+        var res1
+        var requestOptions1 = {
+          method: 'POST',
+          headers: myHeaders1,
+          body: raw,
+          redirect: 'follow'
+        };
+
+        await fetch("three/files", requestOptions1)
+            .then(response => response.text())
+            .then(result => res1=result)
+            .catch(error => console.log('error', error));
+        res1=JSON.parse(res1)
+      this.MaterialForm.push(res1.data)
+      }
+
+    },
+>>>>>>> Stashed changes
     backToList(){
       this.look=1
     },
@@ -160,8 +262,28 @@ UploadFilled,
     {
       window.sessionStorage.clear();
       this.$router.push("/");
+<<<<<<< Updated upstream
     }
 
+=======
+    },
+    deleteFile(domain,index){
+      this.MaterialForm.splice(index, 1)
+      var myHeaders = new Headers();
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+
+      var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch("three/files/"+domain.id, requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
+    }
+>>>>>>> Stashed changes
 
 
 
