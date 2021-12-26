@@ -13,6 +13,7 @@ import handing from '../views/Handing'
 import hlogin from '../views/hospital_login'
 import AMS from '../views/AdminModifyStudent'
 import myMaterial from '../views/myMaterial'
+import workManagement from "@/views/workManagement";
 
 
 
@@ -102,6 +103,11 @@ const routes = [
     path: '/dinfo',
     name: 'doctorinfo',
     component: doctorinfo
+  },
+  {
+    path: '/workManagement',
+    name: 'workManagement',
+    component: workManagement
   },
 ]
 
