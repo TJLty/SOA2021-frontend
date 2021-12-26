@@ -28,7 +28,7 @@
                   class="demo-ruleForm"
               >
                 <el-form-item label="医院" prop="hospitalName">
-                  <el-select v-model="addForm.hospitalName" placeholder="请选择医院">
+                  <el-select v-model="addForm.hospitalName" @change="loadDept" placeholder="请选择医院">
                     <el-option
                         v-for="item in options"
                         :key="item.hospitalId"
@@ -169,8 +169,7 @@ export default {
     this.getMyInfo();
     this.getInfo();
     this.loadHospital();
-    this.loadDept();
-    this.depts=this.loadAll();
+    
   },
 
   methods: {
@@ -339,7 +338,7 @@ export default {
         redirect: 'follow'
       };
       var depts=[],res
-      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
+      await fetch("http://220.179.227.205:6016/hospitals/"+this.addForm.hospitalName+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -354,13 +353,7 @@ export default {
       console.log(depts)
       this.depts=depts
     },
-   loadAll() {
-      return [
-        { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-        { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
-        { "value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113" },
-        { "value": "泷千家(天山西路店)", "address": "天山西路438号" }]
-    },
+ 
     async choseDept(){
 
       console.log(this.addForm)

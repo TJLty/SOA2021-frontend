@@ -93,8 +93,8 @@
                     <div style="padding-top: 4px;padding-bottom: 2px;padding-left: 50px;padding-right: 50px">
                       <el-card shadow="hover"  style="cursor:pointer" :body-style="{ backgroundColor:'#f4f4f5' } ">
                         <div @click="showMaterial(domain,index)">
-                          <el-link :underline="false">{{domain.name}}</el-link><br/>
-                          <el-link :underline="false">{{domain.username}}</el-link>
+                          <img :src="domain.img" style="width:80px;height:80px"/><br/>
+                          <el-link :underline="false">{{domain.name}}</el-link><br/> 
                         </div>
                         <el-button type="danger" circle @click="deleteDoctor(domain,index)" style="position:relative ;left: 95%">
                           <el-icon><delete /></el-icon>
@@ -113,8 +113,7 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
-import Aside from "@/components/H_Aside";
+import Header from "@/components/H_header";import Aside from "@/components/H_Aside";
 import {Search, Plus} from "@element-plus/icons";
 import { UploadFilled,Delete } from '@element-plus/icons'
 export default {

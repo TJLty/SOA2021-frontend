@@ -54,8 +54,7 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
-import Aside from "@/components/H_Aside";
+import Header from "@/components/H_header";import Aside from "@/components/H_Aside";
 import {Search, Plus} from "@element-plus/icons";
 import { UploadFilled } from '@element-plus/icons'
 export default {

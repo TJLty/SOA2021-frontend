@@ -1,4 +1,14 @@
 <template>
+   <div>
+    <el-container  style="background-color: #3C3F41">
+      <el-aside style="width: auto">
+        <D_Aside/>
+      </el-aside>
+      <el-container style="background-color: white">
+        <el-header style="height: 10vh">
+          <D_Header/>
+        </el-header>
+        <el-main style="width: auto">
             <FullCalendar id="calendar"
                           ref="fullCalendar"
                           :options="calendarOptions"
@@ -64,6 +74,10 @@
               </span>
               </template>
             </el-dialog>
+            </el-main>
+      </el-container>
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -73,7 +87,8 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import zhCnLocale from '@fullcalendar/core/locales/zh-cn'
-
+import D_Header from "@/components/D_header";
+import D_Aside from "@/components/D_Aside";
 import { defineComponent, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 
@@ -81,6 +96,8 @@ export default {
   name: "workManagement",
   components:{
     FullCalendar,
+    D_Header,
+    D_Aside,
   },
   setup(){
     return{
