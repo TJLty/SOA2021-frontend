@@ -315,9 +315,10 @@ export default {
     async getInfo() {
       var id = "546456";
       var name = "某医生";
-      var pictue =
-        "https://gimg2.baidu.com/image_search/" +
-        "src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F73%2F47%2F59602033edae0_610.jpg&refer=http%3A%2F%2Fpic.51yuansu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640063894&t=785307e927c01bb8beadb6a2818e29c6";
+      var pictue ='https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png';
+      // var pictue =
+      //   "https://gimg2.baidu.com/image_search/" +
+      //   "src=http%3A%2F%2Fpic.51yuansu.com%2Fpic3%2Fcover%2F01%2F73%2F47%2F59602033edae0_610.jpg&refer=http%3A%2F%2Fpic.51yuansu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1640063894&t=785307e927c01bb8beadb6a2818e29c6";
       //var pictue= 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhnrb.voc.com.cn%2Fhnrb_epaper%2Fimages%2F2014-12%2F15%2FF2%2Fres07_attpic_brief.jpg&refer=http%3A%2F%2Fhnrb.voc.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1639837269&t=2b2e1e684b4360e06688158e30d5f5b8';
       var intro = "医生介绍";
       var etype = "success";

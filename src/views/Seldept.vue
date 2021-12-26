@@ -15,6 +15,7 @@
               <el-col>
                 <div class="info-row">
                   <div class="user-info-label">医院简介</div>
+                  <br>
                   <div class="user-info">{{ hintro[0] }}</div>
                 </div>
               </el-col>
@@ -286,12 +287,13 @@ export default {
 .select_container {
   width: 80%;
   position: relative;
-  left: 11.5%;
+  left: 12%;
   top: 0%;
   // text-align: center ;
   margin: 50px;
 }
 .elcheckbox {
+  width: 60%;
   border-radius: 10px;
   background: white;
 }
@@ -351,6 +353,7 @@ export default {
 .user-info {
   word-break: break-all;
   word-wrap: break-word;
+  margin-top: 10px;
   margin: 5px;
   background: white;
   color: black;

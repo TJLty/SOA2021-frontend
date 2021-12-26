@@ -477,7 +477,7 @@ export default {
         name: this.mForm.name,
         intro: this.mForm.intro,
         password: this.mForm.password,
-        img: "http://https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png.com/400x400",
+        img: "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
       });
 
       var requestOptions = {
@@ -574,6 +574,9 @@ export default {
 
       if (res.code != 200) {
         console.log("fail to get dept");
+        // for (let i = 0; i < res.data.length; i++) {
+        //   this.deptlist[i] = res.data[i].departmentName;
+        // }
       } else {
         for (let i = 0; i < res.data.length; i++) {
           this.deptlist[i] = res.data[i].departmentName;
@@ -582,6 +585,8 @@ export default {
       console.log(this.deptlist);
     },
      edit() {
+       console.log(this.hospital_id);
+      this.mForm.hospital_id='1';
       this.isTable = !this.isTable;
       this.getdept();
     },

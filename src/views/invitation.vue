@@ -36,6 +36,7 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="botbtn">
           <el-button
               type="primary"
               class="eicon"
@@ -48,7 +49,8 @@
               @click="nextPage"
           >
             下一页
-          </el-button>
+          </el-button></div>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -172,3 +174,13 @@ export default {
 
 }
 </script>
+<style scoped>
+.botbtn{
+position: absolute;
+  bottom: 5%;
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+  left: 50%;
+}
+</style>

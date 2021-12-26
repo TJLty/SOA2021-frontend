@@ -31,9 +31,9 @@
                   <el-select v-model="addForm.hospitalName" placeholder="请选择医院">
                     <el-option
                         v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        :key="item.hospitalId"
+                        :label="item.hospitalName"
+                        :value="item.hospitalId"
                     >
                     </el-option>
                   </el-select>
@@ -57,7 +57,7 @@
               </el-form>
               <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="confirmVisible = false"
+        <el-button type="primary" @click="choseDept"
         >确定</el-button
         >
       </span>
@@ -100,7 +100,7 @@
                   <el-icon><microphone /></el-icon>
                 </el-button>
               </el-card>
-            <div class="material" style="width:25vw;height: 80vh">
+            <div class="material" style="width:25vw;height: auto">
               <el-card :body-style="{ backgroundColor:'#f4f4f5' } " style="border-radius:15px;border: 2px solid #CCC"><span>病人资料：</span>
               <br/>
               <br/>
@@ -151,26 +151,10 @@ export default {
       focus:true,
       depts: [],
       MaterialForm:[
-        {
-          name:"12340",
-          createTime:"2021-12-01",
-          url:""
-        },
-        {
-          name:"12341",
-          createTime:"2021-12-01",
-          url:""
-        }
+       
       ],
       options: [
-        {
-          value: '0',
-          label: 'a院',
-        },
-        {
-          value: '1',
-          label: 'b院',
-        }
+        
       ],
       addForm:{},
       confirmVisible:false,
@@ -182,11 +166,36 @@ export default {
     };
   },
   created() {
+    this.getMyInfo();
     this.getInfo();
-    this.depts = this.loadAll();
+    this.loadHospital();
+    this.loadDept();
+    this.depts=this.loadAll();
   },
 
   methods: {
+     async getMyInfo(){
+      var myHeaders = new Headers();
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+      var res
+      await fetch("http://220.179.227.205:6019/doctor/", requestOptions)
+          .then(response => response.text())
+          .then(result => res=result)
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res)
+      console.log(5555)
+      console.log(res)
+      console.log(res.department_name=="")
+      if(res.department_name==""){
+        this.confirmVisible=true
+      }
+    },
     async getInfo()
     {
       var res,rps;
@@ -303,13 +312,84 @@ export default {
       console.log(domain.url)
       window.open(domain.url)
     },
-    loadAll() {
-      return [
+    async loadHospital(){
+      var myHeaders = new Headers();
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
 
-        { "value": "(小杨生煎)西郊百联餐厅", "address": "长宁区仙霞西路88号百联2楼" },
-        { "value": "阳阳麻辣烫", "address": "天山西路389号" },
-        { "value": "南拳妈妈龙虾盖浇饭", "address": "普陀区金沙江路1699号鑫乐惠美食广场A13" }
-      ];
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+      var res
+     await fetch("http://220.179.227.205:6016/hospitals?filter=", requestOptions)
+          .then(response => response.text())
+          .then(result => res=result)
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res)
+      this.options=res.data
+    },
+    async loadDept() {
+      var myHeaders = new Headers();
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+      var depts=[],res
+      await fetch("http://220.179.227.205:6016/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
+          .then(response => response.text())
+          .then(result => res=result)
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res)
+
+      console.log(res)
+      for(var i=0;i<res.data.length;i++){
+        depts.push({
+          value:res.data[i].departmentName
+        })
+      }
+      console.log(depts)
+      this.depts=depts
+    },
+   loadAll() {
+      return [
+        { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
+        { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
+        { "value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113" },
+        { "value": "泷千家(天山西路店)", "address": "天山西路438号" }]
+    },
+    async choseDept(){
+
+      console.log(this.addForm)
+      var myHeaders = new Headers();
+      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
+      myHeaders.append("Content-Type", "application/json");
+
+      var raw = JSON.stringify({
+        "department_name": this.addForm.deptName,
+        "hospital_id": this.addForm.hospitalName
+      });
+
+      var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+      var res
+      await fetch("http://220.179.227.205:6019/doctor/?code="+this.addForm.verify, requestOptions)
+          .then(response => response.text())
+          .then(result => res=result)
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res)
+      if(res.msg=="修改成功"){
+        this.confirmVisible = false
+      }else {
+        this.$message.error("医院或科室或验证码有误请重新输入");
+      }
     },
     handleSelect(item) {
       console.log(item);
@@ -475,7 +555,7 @@ export default {
 
 <style scoped>
 .hand_container {
-  width: max-content;
+  width: 100%;
   height: 100%;
   position: relative;
   left: 0%;
