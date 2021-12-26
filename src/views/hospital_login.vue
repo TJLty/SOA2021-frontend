@@ -272,6 +272,7 @@ export default {
     // },
 
     async login() {
+      var res;
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
@@ -288,10 +289,24 @@ export default {
         redirect: "follow",
       };
 
-      fetch("http://220.179.227.205:6016/hospitals/login", requestOptions)
+     await fetch("http://220.179.227.205:6016/hospitals/login", requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((result) => (res = result))
         .catch((error) => console.log("error", error));
+      res = JSON.parse(res);
+      if (res.code != 200) {
+        return this.$message.error("登陆失败");
+
+        localStorage.removeItem("h_satoken");
+      } else {
+        this.$message.success("登陆成功");
+        window.localStorage.setItem("hospital_login_id", this.hospital_name);
+        this.satoken = res.data.tokenValue;
+        localStorage.removeItem("h_satoken");
+        localStorage.setItem("h_satoken", this.satoken);
+        console.log(res.data.tokenValue);
+        this.$router.push("/");
+      }
     },
     // async register() {
     //   window.confirm("注册成功");

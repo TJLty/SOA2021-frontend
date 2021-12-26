@@ -310,7 +310,7 @@ export default {
 .ecard {
   width: 300px;
   height: 485px;
-  border-radius: 0px;
+  border-radius: 15px;
   text-align: center;
 }
 .einput {

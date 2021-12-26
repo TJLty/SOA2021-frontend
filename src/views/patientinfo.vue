@@ -9,14 +9,11 @@
           <Header />
         </el-header>
         <el-main style="width: auto">
-          <div class=piccontainer>
-            <img
-              :src='img'
-              class="pic"
-            />
+          <!-- <div class="piccontainer">
+            <img :src="img" class="pic" />
           </div>
 
-          <!-- <div class="pic" style="margin-left: 20px; margin-top: 20px">
+          <div class="pic" style="margin-left: 20px; margin-top: 20px">
             <span>
               <span
                 class="el-avatar el-avatar--circle"
@@ -29,20 +26,13 @@
                 class="pic"
               />
             </span>
-          </div> -->
+          </div>
           <div class="info">
             <div class="info-row">
               <div class="user-info-label">用户名</div>
               <div class="user-info">{{ user_name }}</div>
             </div>
-            <!-- <div class="info-row">
-    <div class="user-info-label">学号/工号</div>
-    <div class="user-info">{{userid}}</div>
-  </div> -->
-            <!-- <div class="info-row">
-    <div class="user-info-label">积分</div>
-    <div class="user-info">{{credit}}</div>
-  </div> -->
+      
             <div class="info-row">
               <div class="user-info-label">手机号</div>
               <div class="user-info">{{ tel_num }}</div>
@@ -66,6 +56,89 @@
               <div class="user-info-label">性别</div>
               <div class="user-info">{{ sex }}</div>
             </div>
+          </div> -->
+          <div>
+            <el-row>
+              <el-col :span="12">
+                <div>
+                  <h3>用户头像</h3>
+                </div>
+                <div class="image">
+                  <img :src="img" class="pic" />
+                </div>
+                <!-- <div class="modify">
+            <el-button type="primary">更改照片</el-button>
+          </div> -->
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <h3>用户信息</h3>
+                </div>
+                <div id="content">
+                  <div v-if="isTable">
+                    <el-table
+                      :show-header="false"
+                      :data="tableData"
+                      :cell-style="columnStyle"
+                      border
+                      style="width: 80%; margin-top: 20px"
+                    >
+                      <el-table-column width="180" prop="title" label="标题">
+                      </el-table-column>
+                      <el-table-column prop="content" label="内容">
+                      </el-table-column>
+                    </el-table>
+                  </div>
+
+                  <div v-if="!isTable">
+                    <el-form label-width="100px" :hide-required-asterisk="true">
+                      <el-form-item label="用户名  ">
+                        <el-input
+                          v-model="user_name"
+                          :readonly="false"
+                        ></el-input>
+                      </el-form-item>
+                      <el-form-item label="手机号  ">
+                        <el-input v-model="tel_num" :readonly="false"></el-input>
+                      </el-form-item>
+                      <el-form-item label="地址   ">
+                        <el-input v-model="address" :readonly="false"></el-input>
+                      </el-form-item>
+
+                      <el-form-item label="总预约数 ">
+                        <el-input
+                          v-model="total_res"
+                          :readonly="true"
+                        ></el-input>
+                      </el-form-item>
+
+                      <el-form-item label="未执行预约">
+                        <el-input
+                          v-model="unfinished_res"
+                          :readonly="true"
+                        ></el-input>
+                      </el-form-item>
+
+                      <el-form-item label="性别    ">
+                        <el-input v-model="sex" :readonly="false"></el-input>
+                      </el-form-item>
+                    </el-form>
+                  </div>
+
+                  <div v-if="isTable" class="modify">
+                    <el-button type="primary" @click="edit"
+                      >编辑个人信息</el-button
+                    >
+                  </div>
+                  <div v-if="!isTable" class="modify">
+                    <el-button type="primary" @click="submit"
+                      >提交</el-button
+                    >
+                    <el-button @click="returnback">取消</el-button>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
           </div>
         </el-main>
       </el-container>
@@ -89,6 +162,35 @@ export default {
   },
   data() {
     return {
+     
+     tableData: [
+        {
+          title: "用户名",
+          content: "",
+        },
+        {
+          title: "手机号",
+          content: "",
+        },
+        {
+          title: "地址",
+          content: "",
+        },
+        {
+          title: "总预约数",
+          content: "",
+        },
+        {
+          title: "未执行预约",
+          content: "",
+        },
+         {
+          title: "性别",
+          content: "",
+        },
+      ],
+      isTable: true,
+
       p_satoken: "",
 
       user_name: "",
@@ -102,6 +204,20 @@ export default {
     };
   },
   methods: {
+    updateData() {
+      this.tableData[0].content = this.user_name;
+      this.tableData[1].content = this.tel_num;
+      this.tableData[2].content = this.address;
+      this.tableData[3].content = this.total_res;
+      this.tableData[4].content = this.unfinished_res;
+      this.tableData[5].content = this.sex;
+    },
+    edit(){
+      this.isTable=!this.isTable;
+    },
+    returnback(){
+      this.isTable=!this.isTable;
+    },
     async getInfo() {
       var res1;
       var res2;
@@ -185,6 +301,7 @@ export default {
       console.log(this.img);
 
       this.unfinished_res = res3.data;
+      this.updateData();
     },
   },
   created() {
@@ -196,13 +313,20 @@ export default {
 <style scoped>
 .pic {
   float: left;
-  height: 20%;
-  width: 20%;
+  height: 50%;
+  width: 50%;
   margin-top: 50px;
   margin-left: 2.2cm;
 }
-.piccontainer{
-  top:50px;
+#content{
+  float: left;
+  height: 50%;
+  width: 100%;
+  margin-top: 50px;
+  margin-left: 2.2cm;
+}
+.piccontainer {
+  /* top: 50px; */
 }
 .info {
   float: left;
@@ -234,5 +358,9 @@ export default {
   margin: 5px;
   background: white;
   color: black;
+}
+.modify {
+  margin-top: 20px;
+  margin-left: 25%;
 }
 </style>

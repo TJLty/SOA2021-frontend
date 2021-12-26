@@ -9,6 +9,7 @@
           <D_header />
         </el-header>
         <el-main style="width: auto">
+
           <div class=piccontainer>
             <img
               :src='img'
@@ -38,6 +39,7 @@
               <div class="user-info">{{ intro }}</div>
             </div>
           </div>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -71,13 +73,13 @@ export default {
       intro: "",
       department_name: "",
       hospital_name: "",
-      img:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      img:"",
     };
   },
   methods: {
-    getInfo() {
+    async getInfo() {
       this.d_satoken=localStorage.getItem('d_satoken');
-      fetch("http://220.179.227.205:6019/doctor", {
+      await fetch("http://220.179.227.205:6019/doctor", {
         headers: {
           // 'd_satoken':localStorage.getItem('token')
           "satoken": this.d_satoken,
@@ -99,6 +101,7 @@ export default {
             this.intro= res.intro,
             this.department_name=res.department_name,
             this.hospital_name=res.hospital_name;
+            this.img=res.img;
           
         })
         // 请求错误时执行

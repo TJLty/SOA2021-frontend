@@ -88,7 +88,6 @@
                   v-model="loginForm.checked"
                   active-text="我是医生"
                   inactive-text="我是患者"
-                  
                   >我是医生</el-switch
                 >
               </el-col>
@@ -107,10 +106,7 @@
             class="register_form"
           >
             <el-form-item prop="username">
-              <el-input
-                v-model="resForm.username"
-                placeholder="请输入您的姓名"
-              >
+              <el-input v-model="resForm.username" placeholder="请输入您的姓名">
                 <template #prefix>
                   <el-icon class="el-input__icon"><User /></el-icon>
                 </template>
@@ -169,7 +165,6 @@
                   v-model="resForm.checked"
                   active-text="注册医生"
                   inactive-text="注册患者"
-                  
                   >我是医生</el-switch
                 >
               </el-col>
@@ -230,7 +225,7 @@ export default {
         userID: "",
         username: "",
         password: "",
-        confirmpassword:"",
+        confirmpassword: "",
       },
       //注册表单验证对象
       resFormRules: {
@@ -277,7 +272,6 @@ export default {
     };
   },
   methods: {
-    
     changelog() {
       this.log = !this.log;
     },

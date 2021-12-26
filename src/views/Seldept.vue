@@ -271,31 +271,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// .department_container {
-//   background-color: #ebeef1;
-//   height: 100%;
-//   width: 100%;
-//   position: absolute;
-//   left: 0%;
-//   top: 0%;
-// }
-// .lbody {
-//   margin-top: 0px;
-//   background-color: #f4f4f5;
-//   height: 100%;
-//   width: 100%;
-//   border-radius: 7px;
-//   position: relative;
-//   left: 0%;
-//   top: 0%;
-//   bottom: 0;
-// }
-// .clear {
-//   clear: both;
-//   background-color: #d5ee67;
-// }
 .ecard {
-  // border-radius: 7px;
+  border-radius: 10px;
   background: #d7f0fa;
   height: 80px;
   //width: 100%;
@@ -315,6 +292,7 @@ export default {
   margin: 50px;
 }
 .elcheckbox {
+  border-radius: 10px;
   background: white;
 }
 .elcheckbox:hover {
