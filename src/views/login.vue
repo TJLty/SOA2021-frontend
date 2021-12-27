@@ -79,7 +79,7 @@
               "
             >
               <el-col :span="12">
-                <el-button style="width: 90%" type="primary" @click="login"
+                <el-button style="width: 90%" type="primary" @click="tmp"
                   >登录</el-button
                 >
               </el-col>
@@ -88,7 +88,6 @@
                   v-model="loginForm.checked"
                   active-text="我是医生"
                   inactive-text="我是患者"
-                  
                   >我是医生</el-switch
                 >
               </el-col>
@@ -107,10 +106,7 @@
             class="register_form"
           >
             <el-form-item prop="username">
-              <el-input
-                v-model="resForm.username"
-                placeholder="请输入您的姓名"
-              >
+              <el-input v-model="resForm.username" placeholder="请输入您的姓名">
                 <template #prefix>
                   <el-icon class="el-input__icon"><User /></el-icon>
                 </template>
@@ -169,7 +165,6 @@
                   v-model="resForm.checked"
                   active-text="注册医生"
                   inactive-text="注册患者"
-                  
                   >我是医生</el-switch
                 >
               </el-col>
@@ -230,7 +225,7 @@ export default {
         userID: "",
         username: "",
         password: "",
-        confirmpassword:"",
+        confirmpassword: "",
       },
       //注册表单验证对象
       resFormRules: {
@@ -277,9 +272,36 @@ export default {
     };
   },
   methods: {
-    
     changelog() {
       this.log = !this.log;
+    },
+    async tmp() {
+      var myHeaders = new Headers();
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      // myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Access-Control-Allow-Origin", "*");
+      myHeaders.append("Access-Control-Allow-Headers", "X-Requested-With");
+      myHeaders.append("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+      myHeaders.append("Access-Control-Allow-Credentials", "true");
+
+      var raw = JSON.stringify({
+        username: "342501200012121234",
+        password: "123456",
+      });
+
+      var requestOptions = {
+        method: "POST",
+        mode:"cors",
+        credentials:'include',
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      fetch("http://220.179.227.205:6014/api/v1/doctors/login", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
     },
     async login() {
       var myHeaders = new Headers();
@@ -321,7 +343,10 @@ export default {
           this.$router.push("/hospital");
         }
       } else {
-        await fetch("http://220.179.227.205:6019/doctor/login", requestOptions)
+        await fetch(
+          "http://220.179.227.205:6014/api/v1/doctors/login",
+          requestOptions
+        )
           .then((response) => response.text())
           .then((result) => (res = result))
           .catch((error) => console.log("error", error));

@@ -57,7 +57,7 @@
               <div class="user-info">{{ sex }}</div>
             </div>
           </div> -->
-          <div>
+          <!-- <div>
             <el-row>
               <el-col :span="12">
                 <div>
@@ -66,9 +66,7 @@
                 <div class="image">
                   <img :src="img" class="pic" />
                 </div>
-                <!-- <div class="modify">
-            <el-button type="primary">更改照片</el-button>
-          </div> -->
+                
               </el-col>
               <el-col :span="8">
                 <div>
@@ -139,6 +137,113 @@
                 </div>
               </el-col>
             </el-row>
+          </div> -->
+          <div>
+            <el-row>
+              <el-col :span="12">
+                <div>
+                  <h3>用户头像</h3>
+                </div>
+                <div class="image">
+                  <img :src="img" class="pic" />
+                </div>
+                
+              </el-col>
+              <el-col :span="8">
+                <div>
+                  <h3>用户信息</h3>
+                </div>
+                <div id="content">
+                  <div v-if="isTable">
+                    <el-table
+                      :show-header="false"
+                      :data="tableData"
+                      :cell-style="columnStyle"
+                      border
+                      style="width: 100%; margin-top: 20px"
+                    >
+                      <el-table-column width="180" prop="title" label="标题">
+                      </el-table-column>
+                      <el-table-column prop="content" label="内容">
+                      </el-table-column>
+                    </el-table>
+                  </div>
+
+                  <div v-if="!isTable">
+                    <el-form
+                      :model="mForm"
+                      :rules="mFormRules"
+                      label-width="100px"
+                    >
+                      <el-form-item prop="phone" label="手机号 ">
+                        <el-input
+                          v-model="mForm.phone"
+                          :readonly="false"
+                          placeholder="请输入您的手机号"
+                        >
+                        </el-input>
+                      </el-form-item>
+
+                      <el-form-item prop="address" label="地址 ">
+                        <el-input
+                          v-model="mForm.address"
+                          :readonly="false"
+                          placeholder="请输入您的姓名"
+                        >
+                        </el-input>
+                      </el-form-item>
+                      <el-form-item prop="sex" label="性别 ">
+                        <el-input
+                          v-model="mForm.sex"
+                          :readonly="false"
+                          placeholder="请输入您的新密码"
+                        >
+                        </el-input>
+                      </el-form-item>
+
+                     
+                      <el-form-item label="头像 ">
+                        <el-upload
+                          class="upload-demo"
+                          action="#"
+                          :on-change="this.checkType"
+                          :auto-upload="false"
+                          multiple
+                          typeof="file"
+                          :limit="1"
+                        >
+                          <el-icon class="el-icon--upload"
+                            ><upload-filled
+                          /></el-icon>
+                          <div class="el-upload__text">
+                            请拖拽文件或者 <em>点击上传</em>
+                          </div>
+                          <template #tip>
+                            <div class="el-upload__tip">
+                              jpg/png 文件大小不要超过 500kb
+                            </div>
+                          </template>
+                        </el-upload>
+                      </el-form-item>
+                    </el-form>
+                  </div>
+
+                  <div v-if="isTable" class="modify">
+                    <el-button
+                      disabled="mForm.password.required"
+                      type="primary"
+                      @click="edit"
+                      >编辑个人信息</el-button
+                    >
+                    
+                  </div>
+                  <div v-if="!isTable" class="modify">
+                    <el-button type="primary" @click="submit">提交</el-button>
+                    <el-button @click="returnback">取消</el-button>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
           </div>
         </el-main>
       </el-container>
@@ -162,8 +267,40 @@ export default {
   },
   data() {
     return {
-     
-     tableData: [
+
+      mForm: {
+
+        phone:"",
+        address:"",
+        sex:"",
+        img:"",
+        
+      },
+      mFormRules: {
+        //用户名
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "blur" },
+          {
+            min: 11,
+            max:11,
+            message: "长度需要等于11个字符",
+            trigger: "blur",
+          },
+        ],
+
+        address: [
+          { required: true, message: "请输入地址", trigger: "blur" },
+          {
+            min:1,
+           
+            // message: "长度在 6 到 18 个字符",
+            trigger: "blur",
+          },
+        ],
+        
+       
+      },
+      tableData: [
         {
           title: "用户名",
           content: "",
@@ -184,7 +321,7 @@ export default {
           title: "未执行预约",
           content: "",
         },
-         {
+        {
           title: "性别",
           content: "",
         },
@@ -204,6 +341,16 @@ export default {
     };
   },
   methods: {
+    checkType(file, fileList) {
+      this.uploadFile = file;
+    },
+    createFilter(queryString) {
+      return (dept) => {
+        return (
+          dept.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
     updateData() {
       this.tableData[0].content = this.user_name;
       this.tableData[1].content = this.tel_num;
@@ -211,12 +358,18 @@ export default {
       this.tableData[3].content = this.total_res;
       this.tableData[4].content = this.unfinished_res;
       this.tableData[5].content = this.sex;
+
+      this.mForm.phone = this.tel_num;
+      this.mForm.address = this.address;
+      this.mForm.sex = this.sex;
+      this.mForm.img = this.img;
+      
     },
-    edit(){
-      this.isTable=!this.isTable;
+    edit() {
+      this.isTable = !this.isTable;
     },
-    returnback(){
-      this.isTable=!this.isTable;
+    returnback() {
+      this.isTable = !this.isTable;
     },
     async getInfo() {
       var res1;
@@ -290,7 +443,7 @@ export default {
 
       this.total_res = res2.data;
 
-      this.img = res1.data.img;
+      this.img = res1.data.pimg;
       console.log(this.img);
 
       this.unfinished_res = res3.data;
@@ -311,7 +464,7 @@ export default {
   margin-top: 50px;
   margin-left: 2.2cm;
 }
-#content{
+#content {
   float: left;
   height: 50%;
   width: 100%;
