@@ -9,135 +9,37 @@
           <Header />
         </el-header>
         <el-main style="width: auto">
-          <!-- <div class="piccontainer">
-            <img :src="img" class="pic" />
-          </div>
+          <el-dialog v-model="finishVis" title="提示" width="30%">
+            <span>修改成功</span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="(finishVis = false), this.$router.go(0)"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  @click="(finishVis = false), this.$router.go(0)"
+                  >确认</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
 
-          <div class="pic" style="margin-left: 20px; margin-top: 20px">
-            <span>
-              <span
-                class="el-avatar el-avatar--circle"
-                style="height: 200px; width: 200px"
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                >头像</span
-              >
-              <img
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-                class="pic"
-              />
-            </span>
-          </div>
-          <div class="info">
-            <div class="info-row">
-              <div class="user-info-label">用户名</div>
-              <div class="user-info">{{ user_name }}</div>
-            </div>
-      
-            <div class="info-row">
-              <div class="user-info-label">手机号</div>
-              <div class="user-info">{{ tel_num }}</div>
-            </div>
-            <div class="info-row">
-              <div class="user-info-label">地址</div>
-              <div class="user-info">{{ address }}</div>
-            </div>
-
-            <div class="info-row">
-              <div class="user-info-label">总预约数</div>
-              <div class="user-info">{{ total_res }}</div>
-            </div>
-
-            <div class="info-row">
-              <div class="user-info-label">未执行预约数</div>
-              <div class="user-info">{{ unfinished_res }}</div>
-            </div>
-
-            <div class="info-row">
-              <div class="user-info-label">性别</div>
-              <div class="user-info">{{ sex }}</div>
-            </div>
-          </div> -->
-          <!-- <div>
-            <el-row>
-              <el-col :span="12">
-                <div>
-                  <h3>用户头像</h3>
-                </div>
-                <div class="image">
-                  <img :src="img" class="pic" />
-                </div>
-                
-              </el-col>
-              <el-col :span="8">
-                <div>
-                  <h3>用户信息</h3>
-                </div>
-                <div id="content">
-                  <div v-if="isTable">
-                    <el-table
-                      :show-header="false"
-                      :data="tableData"
-                      :cell-style="columnStyle"
-                      border
-                      style="width: 80%; margin-top: 20px"
-                    >
-                      <el-table-column width="180" prop="title" label="标题">
-                      </el-table-column>
-                      <el-table-column prop="content" label="内容">
-                      </el-table-column>
-                    </el-table>
-                  </div>
-
-                  <div v-if="!isTable">
-                    <el-form label-width="100px" :hide-required-asterisk="true">
-                      <el-form-item label="用户名  ">
-                        <el-input
-                          v-model="user_name"
-                          :readonly="true"
-                        ></el-input>
-                      </el-form-item>
-                      <el-form-item label="手机号  ">
-                        <el-input v-model="tel_num" :readonly="false"></el-input>
-                      </el-form-item>
-                      <el-form-item label="地址   ">
-                        <el-input v-model="address" :readonly="false"></el-input>
-                      </el-form-item>
-
-                      <el-form-item label="总预约数 ">
-                        <el-input
-                          v-model="total_res"
-                          :readonly="true"
-                        ></el-input>
-                      </el-form-item>
-
-                      <el-form-item label="未执行预约">
-                        <el-input
-                          v-model="unfinished_res"
-                          :readonly="true"
-                        ></el-input>
-                      </el-form-item>
-
-                      <el-form-item label="性别    ">
-                        <el-input v-model="sex" :readonly="true"></el-input>
-                      </el-form-item>
-                    </el-form>
-                  </div>
-
-                  <div v-if="isTable" class="modify">
-                    <el-button type="primary" @click="edit"
-                      >编辑个人信息</el-button
-                    >
-                  </div>
-                  <div v-if="!isTable" class="modify">
-                    <el-button type="primary" @click="submit"
-                      >提交</el-button
-                    >
-                    <el-button @click="returnback">取消</el-button>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-          </div> -->
+          <el-dialog v-model="errVis" title="提示" width="30%" center>
+            <span>修改失败</span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="(errVis = false), this.$router.go(0)"
+                  >取消</el-button
+                >
+                <el-button
+                  type="primary"
+                  @click="(errVis = false), this.$router.go(0)"
+                  >确认</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
           <div>
             <el-row>
               <el-col :span="12">
@@ -147,7 +49,6 @@
                 <div class="image">
                   <img :src="img" class="pic" />
                 </div>
-                
               </el-col>
               <el-col :span="8">
                 <div>
@@ -175,6 +76,14 @@
                       :rules="mFormRules"
                       label-width="100px"
                     >
+                      <el-form-item label="请输入用户名 ">
+                        <el-input
+                          v-model="validation"
+                          :readonly="false"
+                          placeholder="请输入您的用户名"
+                        >
+                        </el-input>
+                      </el-form-item>
                       <el-form-item prop="phone" label="手机号 ">
                         <el-input
                           v-model="mForm.phone"
@@ -188,20 +97,22 @@
                         <el-input
                           v-model="mForm.address"
                           :readonly="false"
-                          placeholder="请输入您的姓名"
+                          placeholder="请输入您的地址"
                         >
                         </el-input>
                       </el-form-item>
                       <el-form-item prop="sex" label="性别 ">
-                        <el-input
-                          v-model="mForm.sex"
-                          :readonly="false"
-                          placeholder="请输入您的新密码"
-                        >
-                        </el-input>
+                        <el-select v-model="mForm.sex" placeholder="请选择性别">
+                          <el-option
+                            v-for="item in sexoptions"
+                            :key="item.sex"
+                            :label="item.sex"
+                            :value="item.sexboolean"
+                          >
+                          </el-option>
+                        </el-select>
                       </el-form-item>
 
-                     
                       <el-form-item label="头像 ">
                         <el-upload
                           class="upload-demo"
@@ -235,7 +146,12 @@
                       @click="edit"
                       >编辑个人信息</el-button
                     >
-                    
+                    <el-button
+                      disabled="mForm.password.required"
+                      type="primary"
+                      @click="changepassword"
+                      >修改密码</el-button
+                    >
                   </div>
                   <div v-if="!isTable" class="modify">
                     <el-button type="primary" @click="submit">提交</el-button>
@@ -267,14 +183,24 @@ export default {
   },
   data() {
     return {
-
+      validation: "",
+      finishVis: false,
+      errVis: false,
+      sexoptions: [
+        {
+          sex: "男",
+          sexboolean: true,
+        },
+        {
+          sex: "女",
+          sexboolean: false,
+        },
+      ],
       mForm: {
-
-        phone:"",
-        address:"",
-        sex:"",
-        img:"",
-        
+        phone: "",
+        address: "",
+        sex: "",
+        img: "",
       },
       mFormRules: {
         //用户名
@@ -282,7 +208,7 @@ export default {
           { required: true, message: "请输入手机号", trigger: "blur" },
           {
             min: 11,
-            max:11,
+            max: 11,
             message: "长度需要等于11个字符",
             trigger: "blur",
           },
@@ -291,14 +217,12 @@ export default {
         address: [
           { required: true, message: "请输入地址", trigger: "blur" },
           {
-            min:1,
-           
+            min: 1,
+
             // message: "长度在 6 到 18 个字符",
             trigger: "blur",
           },
         ],
-        
-       
       },
       tableData: [
         {
@@ -335,13 +259,13 @@ export default {
       p_satoken: "",
 
       user_name: "",
-      name:'',
+      name: "",
       tel_num: "",
       address: "",
       total_res: "",
       unfinished_res: "",
       sex: "",
-
+      uploadFile: "",
       img: "",
     };
   },
@@ -349,12 +273,68 @@ export default {
     checkType(file, fileList) {
       this.uploadFile = file;
     },
-    createFilter(queryString) {
-      return (dept) => {
-        return (
-          dept.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-        );
-      };
+    async submit() {
+      console.log(this.validation);
+      if (this.validation == "") {
+        this.errVis = true;
+      } else {
+        var myHeaders1 = new Headers();
+        var satoken = localStorage.getItem("p_satoken");
+        myHeaders1.append("satoken", satoken);
+        //myHeaders.append("Content-Type", "multipart/form-data");
+        var formdata = new FormData();
+        formdata.append("file", this.uploadFile.raw, this.uploadFile.name);
+
+        var requestOptions1 = {
+          method: "POST",
+          headers: myHeaders1,
+          body: formdata,
+          redirect: "follow",
+        };
+        var res1;
+        await fetch("four/files/actions/upload", requestOptions1)
+          .then((response) => response.text())
+          .then((result) => (res1 = result))
+          .catch((error) => console.log("error", error));
+        res1 = JSON.parse(res1);
+        var img = res1.data;
+
+        var myHeaders = new Headers();
+        myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+
+        var raw = JSON.stringify({
+          phone: this.mForm.phone,
+          pimg: img,
+          address: this.mForm.address,
+          sex: this.mForm.sex,
+        });
+
+        var requestOptions = {
+          method: "PUT",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+        var res;
+        console.log("four/patients/" + this.validation);
+        await fetch(
+          "four/patients/" + this.validation,
+          // "four/patients/1950698",
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => (res = result))
+          .catch((error) => console.log("error", error));
+        res = JSON.parse(res);
+        if (res.code == 200) {
+          this.finishVis = true;
+          this.img = img;
+        } else {
+          this.errVis = true;
+        }
+      }
     },
     updateData() {
       this.tableData[0].content = this.user_name;
@@ -369,10 +349,32 @@ export default {
       this.mForm.address = this.address;
       this.mForm.sex = this.sex;
       this.mForm.img = this.img;
-      
     },
     edit() {
       this.isTable = !this.isTable;
+    },
+    async changepassword() {
+      
+      var myHeaders = new Headers();
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("Content-Type", "application/json");
+       myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+
+      var raw = JSON.stringify({
+        password: "do",
+      });
+
+      var requestOptions = {
+        method: "PATCH",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      await fetch("http://220.179.227.205:6014/api/v1/patients/", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
     },
     returnback() {
       this.isTable = !this.isTable;
@@ -391,8 +393,7 @@ export default {
       };
 
       await fetch(
-        "four/patients/" +
-          localStorage.getItem("username"),
+        "four/patients/" + localStorage.getItem("username"),
         requestOptions
       )
         .then((response) => response.text())
