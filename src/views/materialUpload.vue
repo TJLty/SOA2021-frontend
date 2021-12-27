@@ -82,9 +82,10 @@ export default {
 
   methods: {
     async uploadMaterial(){
+      var dir='img';
       console.log(this.uploadFile.raw)
       var myHeaders = new Headers();
-      var satoken=localStorage.getItem("h_satoken")
+      var satoken=localStorage.getItem("p_satoken")
       myHeaders.append("satoken", satoken);
       //myHeaders.append("Content-Type", "multipart/form-data");
       var formdata = new FormData();
@@ -97,7 +98,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("fours/files/actions/upload", requestOptions)
+     await fetch("four/files/actions/upload", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));

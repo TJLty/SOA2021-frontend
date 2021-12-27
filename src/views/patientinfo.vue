@@ -40,6 +40,41 @@
               </span>
             </template>
           </el-dialog>
+
+          <el-dialog v-model="changepassVis" title="修改密码" width="30%">
+            <el-form
+              ref="addForm"
+              :model="addForm"
+              status-icon
+              label-width="120px"
+              class="demo-ruleForm"
+            >
+              <el-form-item label="用户名" prop="username">
+               <el-input
+                  v-model="addForm.username"
+                  type="text"
+                  autocomplete="off"
+                ></el-input>
+              </el-form-item>
+
+              <el-form-item label="新密码" prop="password">
+                <el-input
+                  v-model="addForm.password"
+                  type="text"
+                  autocomplete="off"
+                ></el-input>
+              </el-form-item>
+
+            </el-form>
+
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button type="primary" @click="changepassword">确定</el-button>
+              </span>
+            </template>
+
+          </el-dialog>
+
           <div>
             <el-row>
               <el-col :span="12">
@@ -149,7 +184,7 @@
                     <el-button
                       disabled="mForm.password.required"
                       type="primary"
-                      @click="changepassword"
+                      @click="changepassVis=true"
                       >修改密码</el-button
                     >
                   </div>
@@ -183,6 +218,8 @@ export default {
   },
   data() {
     return {
+      addForm:{},
+      changepassVis:false,
       validation: "",
       finishVis: false,
       errVis: false,
@@ -354,14 +391,14 @@ export default {
       this.isTable = !this.isTable;
     },
     async changepassword() {
-      
+      var res1;
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
        myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
       var raw = JSON.stringify({
-        password: "do",
+        password: this.addForm.password,
       });
 
       var requestOptions = {
@@ -371,10 +408,21 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("http://220.179.227.205:6014/api/v1/patients/", requestOptions)
+      await fetch("four/patients/"+this.addForm.username, requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((result) => (res1=result))
         .catch((error) => console.log("error", error));
+       res1 = JSON.parse(res1);
+        if(res1.code==200){
+          console.log(1)
+          this.changepassVis=false
+          this.$message.success("修改成功");
+        }
+        else
+         {console.log(0);
+         this.$message.error("用户名有误请重新输入");
+         this.changepassVis=false}
+
     },
     returnback() {
       this.isTable = !this.isTable;

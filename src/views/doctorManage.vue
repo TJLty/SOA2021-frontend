@@ -56,13 +56,7 @@
           </el-dialog>
           <div >
             <el-card :body-style="{ backgroundColor:'#f4f4f5' } " v-if="look" style="border-radius:15px;border: 2px solid #CCC"><span>科室：</span>
-              <el-button
-                  type="primary"
-                  style="position: relative;left: 85%"
-                  @click="addMaterialVisible1=1"
-              >
-                <el-icon><plus /></el-icon>
-              </el-button>
+           
               <br/>
               <br/>
               <div style="background-color: lavenderblush" class="Upcoming">
@@ -79,13 +73,7 @@
               </div></el-card>
             <div v-if="!look">
               <el-card :body-style="{ backgroundColor:'#f4f4f5' } " style="border-radius:15px;border: 2px solid #CCC"><span>{{DeptName+":"}}</span>
-                <el-button
-                    type="primary"
-                    style="position: relative;left: 85%"
-                    @click="addMaterialVisible=1"
-                >
-                  <el-icon><plus /></el-icon>
-                </el-button>
+               
                 <br/>
                 <br/>
                 <div style="background-color: lavenderblush" class="Upcoming">

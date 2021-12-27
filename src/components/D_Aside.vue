@@ -24,7 +24,7 @@
         </el-menu-item>
         <el-menu-item index="workManagement">
           <el-icon><icon-menu /></el-icon>
-          <span>我的预约(目前路由指向空)</span>
+          <span>我的预约</span>
         </el-menu-item>
   </el-menu>
   </div>

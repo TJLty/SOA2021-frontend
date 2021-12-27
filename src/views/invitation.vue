@@ -133,13 +133,13 @@ export default {
       this.addTimes--
       this.getList()
     },
-    accept(index){
+    async accept(index){
       var myHeaders = new Headers();
       myHeaders.append("satoken", localStorage.getItem("d_satoken"));
       myHeaders.append("Content-Type", "application/json");
 
-      var raw = {
-        "capacity":this.tableData[index].capacity};
+      var raw = JSON.stringify({
+        "capacity":this.tableData[index].capacity});
 
       var requestOptions = {
         method: 'PUT',
@@ -148,27 +148,29 @@ export default {
         redirect: 'follow'
       };
       var res
-      fetch("four/appointments/"+this.tableData[index].id, requestOptions)
+      await fetch("four/appointments/"+this.tableData[index].id, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
       console.log(res)
     },
-    refuse(index){
+    async refuse(index){
       var myHeaders = new Headers();
       myHeaders.append("satoken", localStorage.getItem("d_satoken"));
-
+    
       var requestOptions = {
         method: 'DELETE',
         headers: myHeaders,
         redirect: 'follow'
       };
       var res
-      fetch("four/appointments/"+this.tableData[index].id, requestOptions)
+      console.log(this.tableData[index].id)
+      await fetch("four/appointments/"+this.tableData[index].id, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
       console.log(res)
+       this.tableData.splice(index,1)
     }
   },
 

@@ -105,17 +105,17 @@
             label-width="0px"
             class="register_form"
           >
-            <el-form-item prop="username">
-              <el-input v-model="resForm.username" placeholder="请输入您的姓名">
+            <el-form-item prop="name">
+              <el-input v-model="resForm.name" placeholder="请输入您的姓名">
                 <template #prefix>
                   <el-icon class="el-input__icon"><User /></el-icon>
                 </template>
               </el-input>
             </el-form-item>
 
-            <el-form-item prop="userID">
+            <el-form-item prop="username">
               <el-input
-                v-model="resForm.userID"
+                v-model="resForm.username"
                 placeholder="请输入您的身份证号作为ID"
               >
                 <template #prefix>
@@ -221,16 +221,19 @@ export default {
       },
 
       resForm: {
-        checked: false,
-        userID: "",
+        checked:false,
         username: "",
         password: "",
-        confirmpassword: "",
+        name:"",
+        pimg:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+        phone:12345678901,
+        address: "上海市嘉定区",
+        sex: false
       },
       //注册表单验证对象
       resFormRules: {
         //身份证号
-        userID: [
+        username: [
           { required: true, message: "请输入身份证号", trigger: "blur" },
           {
             min: 18,
@@ -241,7 +244,7 @@ export default {
         ],
 
         //用户名
-        username: [
+        name: [
           { required: true, message: "请输入用户姓名", trigger: "blur" },
           {
             min: 2,
@@ -342,8 +345,65 @@ export default {
       }
     },
     async register() {
+        var myHeaders = new Headers();
+
+      myHeaders.append("Authorization", "APPCODE 825b6a50bf6a41f18e7d4c4215bef224");
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        credentials:'include',
+        redirect: 'follow'
+      };
+      var res={code:0}
+      console.log(222222)
+      await fetch("ali?idcard="+this.resForm.username+"&name="+this.resForm.name, requestOptions)
+          .then(response => response.text())
+          .then(result => res = result)
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res)
+      console.log(222222)
+      console.log(res)
+      if(res.code!=0){
+        this.$message.error(res.msg);
+      }else{
+        var myHeaders1 = new Headers();
+        //myHeaders1.append("satoken" , localStorage.getItem("satoken"));
+       //myHeaders1.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+        myHeaders1.append("Content-Type", "application/json");
+
+        var raw2 = JSON.stringify(this.resForm);
+        var raw1 = JSON.stringify({
+          "username": this.resForm.username,
+          "name": this.resForm.name,
+          "password":this.resForm.password
+        });
+        var requestOptions1 = {
+          method: 'POST',
+          headers: myHeaders1,
+          body: raw1,
+          redirect: 'follow'
+        };
+          var requestOptions2 = {
+          method: 'POST',
+          headers: myHeaders1,
+          body: raw2,
+          redirect: 'follow'
+        };
+        var res1
+        if(this.resForm.checked==true){
+        await fetch("four/doctors", requestOptions1)
+            .then(response => response.text())
+            .then(result => res1=result)
+            .catch(error => console.log('error', error));}
+            else{
+        await fetch("four/patients", requestOptions2)
+            .then(response => response.text())
+            .then(result => res1=result)
+            .catch(error => console.log('error', error));}
+        res1=JSON.parse(res1)
+        console.log(res1)
       window.confirm("注册成功");
-    },
+    }}
   },
 };
 </script>

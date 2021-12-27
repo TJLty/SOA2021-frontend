@@ -479,7 +479,8 @@ export default {
         .then((result) => (res1 = result))
         .catch((error) => console.log("error", error));
       res1 = JSON.parse(res1);
-      this.img = res1.data;
+      var tmpimg= res1.data;
+      
 
       var res;
       var myHeaders = new Headers();
@@ -491,7 +492,7 @@ export default {
         name: this.mForm.name,
         intro: this.mForm.intro,
         password: this.mForm.password,
-        img: this.img,
+        img: tmpimg,
       });
 
       var requestOptions = {
@@ -501,12 +502,13 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("four/doctor/", requestOptions)
+      await fetch("four/doctors", requestOptions)
         .then((response) => response.text())
         .then((result) => (res = result))
         .catch((error) => console.log("error", error));
       res = JSON.parse(res);
       if (res.code == 200) {
+        this.img=tmpimg;
         this.finishVis = true;
       } else {
         this.errVis = true;

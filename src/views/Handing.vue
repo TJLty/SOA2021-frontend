@@ -166,8 +166,9 @@ export default {
     };
   },
   created() {
-    this.getMyInfo();
+    
     this.getInfo();
+    this.getMyInfo();
     this.loadHospital();
     
   },
@@ -183,15 +184,15 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("four/doctor/", requestOptions)
+      await fetch("four/doctors", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
-      res=JSON.parse(res)
-      console.log(5555)
-      console.log(res)
+      res=JSON.parse(res),
+      console.log(5555),
+      console.log(res),
       console.log(res.department_name=="")
-      if(res.department_name==""){
+      if(res.department_name==""||res.department_name==null){
         this.confirmVisible=true
       }
     },
@@ -373,7 +374,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("four/doctor/?code="+this.addForm.verify, requestOptions)
+      await fetch("four/doctors/?code="+this.addForm.verify, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
