@@ -293,7 +293,7 @@ export default {
       };
       var res;
 
-      await fetch("http://220.179.227.205:6018/appointment/", requestOptions)
+      await fetch("four/appointment/", requestOptions)
         .then((response) => response.text())
         .then((result) => (res = result))
         .catch((error) => console.log("error", error));
@@ -353,7 +353,7 @@ export default {
 
       await fetch(
         // "http://220.179.227.205:6017/Department/" + deptId + "/doctor",
-        "http://220.179.227.205:6016/hospitals/" +
+        "four/hospitals/" +
           hid +
           "/doctors?department=" +
           deptname,
@@ -416,7 +416,7 @@ export default {
 
       console.log(doctorId, deptId, "查时间");
       await fetch(
-        "http://220.179.227.205:6019/doctor/" +
+        "four/doctor/" +
           doctorId +
           "/department/" +
           deptId +

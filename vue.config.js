@@ -23,6 +23,13 @@ module.exports = {
                     '/three': ''                     //选择忽略拦截器里面的单词
                 }
             },
+            '/four': {              //设置拦截器  拦截器格式   斜杠+拦截器名字，名字可以自己定
+                target: 'http://220.179.227.205:6014/api/v1',     //代理的目标地址
+                changeOrigin: true,              //是否设置同源，输入是的
+                pathRewrite: {                   //路径重写
+                    '/four': ''                     //选择忽略拦截器里面的单词
+                }
+            },
             '/ali': {              //设置拦截器  拦截器格式   斜杠+拦截器名字，名字可以自己定
                 target: 'http://eid.shumaidata.com/eid/check',     //代理的目标地址
                 changeOrigin: true,              //是否设置同源，输入是的

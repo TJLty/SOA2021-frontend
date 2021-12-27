@@ -306,6 +306,10 @@ export default {
           content: "",
         },
         {
+          title: "姓名",
+          content: "",
+        },
+        {
           title: "手机号",
           content: "",
         },
@@ -331,6 +335,7 @@ export default {
       p_satoken: "",
 
       user_name: "",
+      name:'',
       tel_num: "",
       address: "",
       total_res: "",
@@ -353,11 +358,12 @@ export default {
     },
     updateData() {
       this.tableData[0].content = this.user_name;
-      this.tableData[1].content = this.tel_num;
-      this.tableData[2].content = this.address;
-      this.tableData[3].content = this.total_res;
-      this.tableData[4].content = this.unfinished_res;
-      this.tableData[5].content = this.sex;
+      this.tableData[1].content = this.name;
+      this.tableData[2].content = this.tel_num;
+      this.tableData[3].content = this.address;
+      this.tableData[4].content = this.total_res;
+      this.tableData[5].content = this.unfinished_res;
+      this.tableData[6].content = this.sex;
 
       this.mForm.phone = this.tel_num;
       this.mForm.address = this.address;
@@ -385,7 +391,7 @@ export default {
       };
 
       await fetch(
-        "http://220.179.227.205:6015/patients/" +
+        "four/patients/" +
           localStorage.getItem("username"),
         requestOptions
       )
@@ -401,7 +407,7 @@ export default {
       }
 
       await fetch(
-        "http://220.179.227.205:6018/appointments/details/actions/count?future=true&history=true",
+        "four/appointments/details/actions/count?future=true&history=true",
         requestOptions
       )
         .then((response) => response.text())
@@ -418,7 +424,7 @@ export default {
 
       var res3;
       await fetch(
-        "http://220.179.227.205:6018/appointments/details/actions/count?future=true&history=false",
+        "four/appointments/details/actions/count?future=true&history=false",
         requestOptions
       )
         .then((response) => response.text())
@@ -436,6 +442,7 @@ export default {
       (this.user_name = res1.data.username),
         (this.tel_num = res1.data.phone),
         (this.address = res1.data.address),
+        (this.name = res1.data.name),
         console.log(res1.data.sex);
       if (res1.data.sex == false) this.sex = "女";
       else if (res1.data.sex == true) this.sex = "男";

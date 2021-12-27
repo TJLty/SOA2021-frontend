@@ -97,7 +97,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("three/files/actions/upload", requestOptions)
+      await fetch("fours/files/actions/upload", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -122,7 +122,7 @@ export default {
           redirect: 'follow'
         };
 
-        await fetch("three/files", requestOptions1)
+        await fetch("four/files", requestOptions1)
             .then(response => response.text())
             .then(result => res1=result)
             .catch(error => console.log('error', error));

@@ -377,7 +377,7 @@ export default {
       };
       var res;
       await fetch(
-        "http://220.179.227.205:6016/hospitals?filter=",
+        "four/hospitals?filter=",
         requestOptions
       )
         .then((response) => response.text())
@@ -399,7 +399,7 @@ export default {
       var depts = [],
         res;
       await fetch(
-        "http://220.179.227.205:6016/hospitals/" +
+        "four/hospitals/" +
           this.addForm.hospitalName +
           "/departments",
         requestOptions
@@ -437,7 +437,7 @@ export default {
       };
       var res;
       await fetch(
-        "http://220.179.227.205:6019/doctor/?code=" + this.addForm.verify,
+        "four/doctor/?code=" + this.addForm.verify,
         requestOptions
       )
         .then((response) => response.text())
@@ -474,7 +474,7 @@ export default {
         redirect: "follow",
       };
       var res1;
-      await fetch("three/files/actions/upload", requestOptions1)
+      await fetch("four/files/actions/upload", requestOptions1)
         .then((response) => response.text())
         .then((result) => (res1 = result))
         .catch((error) => console.log("error", error));
@@ -501,7 +501,7 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("http://220.179.227.205:6019/doctor/", requestOptions)
+      await fetch("four/doctor/", requestOptions)
         .then((response) => response.text())
         .then((result) => (res = result))
         .catch((error) => console.log("error", error));
@@ -540,7 +540,7 @@ export default {
         redirect: "follow",
       };
       await fetch(
-        "http://220.179.227.205:6016/hospitals/" +
+        "four/hospitals/" +
           this.mForm.hospital_id +
           "/departments",
         requestOptions
@@ -573,7 +573,7 @@ export default {
     },
     async getInfo() {
       this.d_satoken = localStorage.getItem("d_satoken");
-      await fetch("http://220.179.227.205:6019/doctor", {
+      await fetch("four/doctors", {
         headers: {
           satoken: this.d_satoken,
           credentials: "include",

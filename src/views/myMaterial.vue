@@ -141,7 +141,7 @@ UploadFilled,
         redirect: 'follow'
       };
       var res
-      await fetch("three/files?username="+username+"&name=&start_time=&end_time=&pageSize=20&currentPage=0", requestOptions)
+      await fetch("four/files?username="+username+"&name=&start_time=&end_time=&pageSize=20&currentPage=0", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -173,7 +173,7 @@ UploadFilled,
         redirect: 'follow'
       };
       var res
-     await fetch("three/files/actions/upload", requestOptions)
+     await fetch("four/files/actions/upload", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -198,7 +198,7 @@ UploadFilled,
           redirect: 'follow'
         };
 
-        await fetch("three/files", requestOptions1)
+        await fetch("four/files", requestOptions1)
             .then(response => response.text())
             .then(result => res1=result)
             .catch(error => console.log('error', error));
@@ -226,7 +226,7 @@ UploadFilled,
         redirect: 'follow'
       };
 
-      fetch("three/files/"+domain.id, requestOptions)
+      fetch("four/files/"+domain.id, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));

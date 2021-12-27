@@ -89,7 +89,7 @@ export default {
       };
       if (this.page < this.totalPage) {
         await fetch(
-          "api/appointments/details?pageSize=20&currentPage=" +
+          "four/appointments/details?pageSize=20&currentPage=" +
             this.page +
             "&history=true&future=false",
           requestOptions
@@ -126,7 +126,7 @@ export default {
         this.tableData[index].slot == slot
       ) {
         var res, rps;
-        var url = "api/appointments/" + this.tableData[index].id + "/details/";
+        var url = "four/appointments/" + this.tableData[index].id + "/details/";
         url += this.tableData[index].code + "?finish=false";
         var myHeaders = new Headers();
         // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");

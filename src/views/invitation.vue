@@ -103,7 +103,7 @@ export default {
         month+=12
         year--
       }
-      await fetch("http://220.179.227.205:6018/appointments/?month="+month+"&year="+year+"&doctor_username=&department_name=&hospital_id=&apt_capacity=&apt_time=", requestOptions)
+      await fetch("four/appointments/?month="+month+"&year="+year+"&doctor_username=&department_name=&hospital_id=&apt_capacity=&apt_time=", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -148,7 +148,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      fetch("http://220.179.227.205:6018/appointments/"+this.tableData[index].id, requestOptions)
+      fetch("four/appointments/"+this.tableData[index].id, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -164,7 +164,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      fetch("http://220.179.227.205:6018/appointments/"+this.tableData[index].id, requestOptions)
+      fetch("four/appointments/"+this.tableData[index].id, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));

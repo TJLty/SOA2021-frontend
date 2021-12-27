@@ -79,7 +79,7 @@
               "
             >
               <el-col :span="12">
-                <el-button style="width: 90%" type="primary" @click="tmp"
+                <el-button style="width: 90%" type="primary" @click="login"
                   >登录</el-button
                 >
               </el-col>
@@ -275,34 +275,6 @@ export default {
     changelog() {
       this.log = !this.log;
     },
-    async tmp() {
-      var myHeaders = new Headers();
-      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      // myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Access-Control-Allow-Origin", "*");
-      myHeaders.append("Access-Control-Allow-Headers", "X-Requested-With");
-      myHeaders.append("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-      myHeaders.append("Access-Control-Allow-Credentials", "true");
-
-      var raw = JSON.stringify({
-        username: "342501200012121234",
-        password: "123456",
-      });
-
-      var requestOptions = {
-        method: "POST",
-        mode:"cors",
-        credentials:'include',
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-
-      fetch("http://220.179.227.205:6014/api/v1/doctors/login", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-    },
     async login() {
       var myHeaders = new Headers();
       //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -319,7 +291,7 @@ export default {
       var res;
       if (!this.loginForm.checked) {
         await fetch(
-          "http://220.179.227.205:6015/patients/login",
+          "four/patients/login",
           requestOptions
         )
           .then((response) => response.text())
@@ -344,7 +316,7 @@ export default {
         }
       } else {
         await fetch(
-          "http://220.179.227.205:6014/api/v1/doctors/login",
+          "four/doctors/login",
           requestOptions
         )
           .then((response) => response.text())

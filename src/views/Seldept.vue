@@ -146,7 +146,7 @@ export default {
       };
 
       await fetch(
-        "http://220.179.227.205:6016/hospitals/" +
+        "four/hospitals/" +
           localStorage.getItem("hospitalId") +
           "/departments",
         requestOptions
@@ -224,7 +224,7 @@ export default {
 
       await fetch(
         // "http://220.179.227.205:6016/hospital/normal/all",
-        "http://220.179.227.205:6016/hospitals?filter=",
+        "four/hospitals?filter=",
         requestOptions
       )
         .then((response) => response.text())
