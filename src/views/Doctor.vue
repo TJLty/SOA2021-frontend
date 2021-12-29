@@ -78,7 +78,7 @@
             <div class="child" id="child" v-show="maskShow">
               <FullCalendar id="calendar" ref="fullCalendar" :options="calendarOptions" />
             </div>
-            <button @click="setMaskShow">click</button>
+            <button id="nothingButton" @click="setMaskShow">click</button>
           </div>
 
           <el-dialog v-model="dialogVisible" title="预约信息" width="30%">
@@ -243,6 +243,7 @@ export default {
   },
   mounted() {
     this.getCalendarApi();
+    document.getElementById("nothingButton").style.display="none";
   },
   methods: {
     setMaskShow(){
