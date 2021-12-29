@@ -296,6 +296,7 @@ export default {
       //请求本月的预约数据
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("satoken",localStorage.getItem("p_satoken"))
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -371,7 +372,7 @@ export default {
 
       var id=this.finalAppointmentId;
 
-      await fetch("four/appointments/appointments/"+id+"/details", requestOptions)
+      await fetch("four/appointments/"+id+"/details", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));

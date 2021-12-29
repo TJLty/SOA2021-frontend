@@ -325,6 +325,8 @@ export default {
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("satoken",localStorage.getItem("d_satoken"));
+
 
       var raw = JSON.stringify({
         "date": date,
@@ -335,6 +337,7 @@ export default {
         "editable": true,
         "doctor_username": doctor_username
       });
+      console.log(raw);
 
       var requestOptions = {
         method: 'POST',
@@ -360,7 +363,7 @@ export default {
 
     async getDoctorInfo() {
       this.d_satoken = localStorage.getItem("d_satoken");
-      await fetch("four/doctor", {
+      await fetch("four/doctors", {
         headers: {
           satoken: this.d_satoken,
           credentials: "include",
