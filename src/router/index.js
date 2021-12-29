@@ -11,7 +11,6 @@ import doctorinfo from '../views/doctorinfo'
 import history from "../views/history"
 import handing from '../views/Handing'
 import hlogin from '../views/hospital_login'
-import AMS from '../views/AdminModifyStudent'
 import myMaterial from '../views/myMaterial'
 import workManagement from "@/views/workManagement";
 
@@ -64,11 +63,7 @@ const routes = [
     name: 'doctor',
     component: doc
   },
-  {
-    path: '/AMS',
-    name: 'AMS',
-    component: AMS
-  },
+  
   {
     path: '/handing',
     name: 'handing',

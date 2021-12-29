@@ -50,7 +50,7 @@
               class="demo-ruleForm"
             >
               <el-form-item label="用户名" prop="username">
-               <el-input
+                <el-input
                   v-model="addForm.username"
                   type="text"
                   autocomplete="off"
@@ -64,15 +64,15 @@
                   autocomplete="off"
                 ></el-input>
               </el-form-item>
-
             </el-form>
 
             <template #footer>
               <span class="dialog-footer">
-                <el-button type="primary" @click="changepassword">确定</el-button>
+                <el-button type="primary" @click="changepassword"
+                  >确定</el-button
+                >
               </span>
             </template>
-
           </el-dialog>
 
           <div>
@@ -184,7 +184,7 @@
                     <el-button
                       disabled="mForm.password.required"
                       type="primary"
-                      @click="changepassVis=true"
+                      @click="changepassVis = true"
                       >修改密码</el-button
                     >
                   </div>
@@ -218,8 +218,8 @@ export default {
   },
   data() {
     return {
-      addForm:{},
-      changepassVis:false,
+      addForm: {},
+      changepassVis: false,
       validation: "",
       finishVis: false,
       errVis: false,
@@ -395,7 +395,7 @@ export default {
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
-       myHeaders.append("satoken", localStorage.getItem("p_satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
       var raw = JSON.stringify({
         password: this.addForm.password,
@@ -408,21 +408,20 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("four/patients/"+this.addForm.username, requestOptions)
+      await fetch("four/patients/" + this.addForm.username, requestOptions)
         .then((response) => response.text())
-        .then((result) => (res1=result))
+        .then((result) => (res1 = result))
         .catch((error) => console.log("error", error));
-       res1 = JSON.parse(res1);
-        if(res1.code==200){
-          console.log(1)
-          this.changepassVis=false
-          this.$message.success("修改成功");
-        }
-        else
-         {console.log(0);
-         this.$message.error("用户名有误请重新输入");
-         this.changepassVis=false}
-
+      res1 = JSON.parse(res1);
+      if (res1.code == 200) {
+        console.log(1);
+        this.changepassVis = false;
+        this.$message.success("修改成功");
+      } else {
+        console.log(0);
+        this.$message.error("用户名有误请重新输入");
+        this.changepassVis = false;
+      }
     },
     returnback() {
       this.isTable = !this.isTable;
@@ -500,7 +499,11 @@ export default {
       this.total_res = res2.data;
 
       this.img = res1.data.pimg;
-      console.log(this.img);
+      console.log(res1.data.pimg);
+      // if (res1.data.pimg == "" || res1.data.pimg == null)
+      //   this.img =
+      //     "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png";
+      // else this.img = res1.data.pimg;
 
       this.unfinished_res = res3.data;
       this.updateData();

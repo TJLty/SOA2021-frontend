@@ -60,9 +60,21 @@
               <br/>
               <br/>
               <div style="background-color: lavenderblush" class="Upcoming">
+                <div class="search111"> 
+                 <el-input
+              v-model="input"
+              placeholder="请输入内容"
+              class="einput"
+              clearable
+              @change="search(input)"
+            ></el-input>
+            <el-button type="primary" @click="search(input)"  class="ebutton">
+              <el-icon><Search /></el-icon>
+            </el-button>
+            </div>
                 <div v-for="(domain, index) in deptForm" :key="domain.key" class="text item">
                   <div style="padding-top: 4px;padding-bottom: 2px;padding-left: 50px;padding-right: 50px">
-                    <el-card shadow="hover"  style="cursor:pointer" :body-style="{ backgroundColor:'#f4f4f5' } ">
+                    <el-card shadow="hover" v-show="domain.visable" style="cursor:pointer" :body-style="{ backgroundColor:'#f4f4f5' } ">
                       <div @click="showDoctor(domain,index)">
                         <el-link :underline="false">{{domain.departmentName}}</el-link>
 <!--                        <br/><el-link :underline="false"> {{"拥有医生数:"+domain.doctorList.length}}</el-link>-->
@@ -115,6 +127,7 @@ export default {
   },
   data() {
     return {
+      input:"",
       look:1,
       addMaterialVisible:0,
       addMaterialVisible1:0,
@@ -157,7 +170,10 @@ export default {
       res=JSON.parse(res)
 
       this.deptForm=res.data
-     //console.log(this.deptForm)
+      for(var i=0;i<this.deptForm.length;i++){
+        this.deptForm[i].visable=true
+      }
+     console.log(this.deptForm)
     },
     async showDoctor(domain,index){
       this.look=0
@@ -204,6 +220,19 @@ export default {
     backToList(){
       this.look=1
     },
+      search(input) {
+      for (let i = 0; i < this.deptForm.length; i++) {
+        var str = "";
+        str = this.deptForm[i].departmentName;
+        if (str.includes(input)) {
+          this.deptForm[i].visable = true;
+        } else {
+          this.deptForm[i].visable = false;
+        }
+      }
+
+      return;
+    },
     logout()
     {
       window.sessionStorage.clear();
@@ -228,6 +257,21 @@ export default {
   left: 0%;
   top: 0%;
 }
-
+.einput {
+  width: 15%;
+  position: relative;
+  margin-top:10px;
+   margin-bottom:10px;
+  left: 40%;
+  top: 0%;
+   z-index: 99;
+}
+.ebutton {
+  position: relative;
+   margin-top:10px;
+    margin-bottom:10px;
+  left: 41%;
+   z-index: 99;
+}
 
 </style>

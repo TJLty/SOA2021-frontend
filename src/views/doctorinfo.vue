@@ -592,7 +592,11 @@ export default {
             (this.department_name = res.department_name),
             (this.hospital_name = res.hospital_name);
           this.hospital_id = res.hospital_id;
-          this.img = res.img;
+          if(res.img==''||res.img==null)
+          this.img = 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png';
+          else
+          this.img=res.img;
+
         })
         .catch((err) => {
           console.log(err);

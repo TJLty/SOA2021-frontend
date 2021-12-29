@@ -112,9 +112,7 @@
                         <el-link :underline="false">{{domain.name}}</el-link>
                         <br/><el-link :underline="false"> {{"创建时间:"+domain.createTime}}</el-link>
                       </div>
-                      <el-button type="danger" circle @click="deleteFight(domain)" style="position:relative ;left: 85%">
-                        <el-icon><delete /></el-icon>
-                      </el-button>                  </el-card>
+                                      </el-card>
                   </div>
                 </div>
               </div></el-card>
