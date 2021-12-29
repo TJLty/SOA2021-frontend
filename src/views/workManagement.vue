@@ -433,7 +433,7 @@ export default {
       var raw = JSON.stringify({
         "date": this.detailInfo.date,
         "slot": slot,
-        "capacity": this.detailInfo.capacity,
+        "capacity": Number(this.detailInfo.capacity),
       });
       var id=this.detailInfo.appointmentId;
 
@@ -444,13 +444,14 @@ export default {
         redirect: 'follow'
       };
 
-      fetch("four/appointments/"+id, requestOptions)
+      await fetch("four/appointments/"+id, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
 
       this.detailInfoDialog = false;
-    }
+      //location.reload();
+    },
 
   }
 }

@@ -29,7 +29,6 @@
                 <el-col
                   v-for="(doctor, index) in doctorList"
                   :key="index"
-                  :span="5"
                   class="ecol"
                   v-show="doctor.Visible"
                 >
@@ -71,8 +70,16 @@
             width="50%"
             center
           >
-            <FullCalendar :options="calendarOptions" />
+            <FullCalendar id="calendar" ref="fullCalendar" :options="calendarOptions" />
           </el-dialog>
+
+          <div class="father">
+            <div class="mask" v-show="maskShow" @click="setMaskShow"></div>
+            <div class="child" id="child" v-show="maskShow">
+              <FullCalendar id="calendar" ref="fullCalendar" :options="calendarOptions" />
+            </div>
+            <button @click="setMaskShow">click</button>
+          </div>
 
           <el-dialog v-model="dialogVisible" title="预约信息" width="30%">
             <div>医院：{{ finalInfo[0].hospital }}</div>
@@ -137,7 +144,9 @@ export default {
   data() {
     let chineseSession;
     return {
+      maskShow:false,
       isCollapse: true,
+      selectDoctorId: 0,
       inputtime: 1,
       input: "",
       currentPage: 1,
@@ -205,12 +214,25 @@ export default {
         eventRemove:
         */
       },
+      calendarApi:null,
+      finalAppointmentId:0,
     };
   },
   created() {
     this.getInfo();
   },
+  mounted() {
+    this.getCalendarApi();
+  },
   methods: {
+    setMaskShow(){
+      this.maskShow = !this.maskShow;
+    },
+
+    getCalendarApi(){
+      this.calendarApi = this.$refs.fullCalendar.getApi();
+    },
+
     //点击日历中的事件
     handleEventClick(info) {
       console.log(info);
@@ -226,6 +248,8 @@ export default {
         localStorage.setItem("session", "Afternoon");
       }
 
+      this.finalAppointmentId=info.event.extendedProps.appointmentId;
+      console.log(this.finalAppointmentId);
       var hospital = localStorage.getItem("hospitalName");
       var department = localStorage.getItem("SelectDepartmentName");
       var doctor = localStorage.getItem("doctor");
@@ -244,68 +268,116 @@ export default {
       this.dialogVisible = true;
     },
 
-    clickDoctorCard(doctorId, doctorName) {
-      this.selectTimeDialog = true;
-      localStorage.setItem("doctor", doctorName);
-      localStorage.setItem("doctorId", doctorId);
 
-      var deptId = localStorage.getItem("SelectDepartmentId");
-      var docId = localStorage.getItem("doctorId");
-      this.getAvailAppointment(docId, deptId);
+    clickDoctorCard(doctorId, doctorName) {
+      this.calendarOptions.events=[];
+      this.monthTitle = this.calendarApi.view?.currentStart;
+      this.calendarApi.render();
+
+      this.selectTimeDialog = true;
+
+      localStorage.setItem("selectDoctorName", doctorName);
+      this.selectDoctorId=doctorId;
+      this.getDoctorAvailTime(doctorId);
+
+    },
+
+    async getDoctorAvailTime(doctorId){
+      var hospital='某医院';
+      var department='某科室';
+      var date='2021-12-18';
+      var session='MORNING'
+      var type='0'
+      var capacity='-1';
+      var appointmentId=0;
+
+      var res;
+
+      //请求本月的预约数据
+      var myHeaders = new Headers();
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      var reqMonth=this.monthTitle.getMonth()+1;
+      var reqYear=this.monthTitle.getFullYear();
+      var doctorUsername=doctorId;
+
+      await fetch("four/appointments/?month="+reqMonth
+          +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
+          .then(response => response.text())
+          .then(result => (res=result))
+          .catch(error => console.log('error', error));
+      res=JSON.parse(res);
+      console.log(res);
+      console.log(res.data.length);
+
+      for(var i=0;i<res.data.length;i++){
+        hospital=res.data[i].hospital_name;
+        department=res.data[i].department_name;
+        date=res.data[i].date;
+        session=res.data[i].slot;
+        type=res.data[i].editable;
+        capacity=res.data[i].capacity;
+        appointmentId=res.data[i].id;
+        this.putEvent(hospital,department,date,type,session,capacity,appointmentId);
+      }
+
+      console.log(this.calendarOptions.events);
+    },
+
+    putEvent(hospital,department,date,type,session,capacity,appointmentId){
+      let title;
+      let color;
+      var aEvent={
+        title,
+        date: date,
+        workType: type,
+        session: session,
+        color,
+        capacity:capacity,
+        hospital:hospital,
+        department:department,
+        appointmentId:appointmentId,
+      }
+
+      if(session==='MORNING'){
+        aEvent.title='上午:'+capacity;
+      }else{
+        aEvent.title='下午:'+capacity;
+      }
+
+      this.calendarOptions.events.push(aEvent);
     },
 
     async finalConfirm() {
-      var url = "http://220.179.227.205:6018/appointment/";
+      console.log("lastconfirm");
 
-      var date = localStorage.getItem("date");
-      var session = localStorage.getItem("session");
-      session = session.toUpperCase();
-
-      var username = localStorage.getItem("username");
-      var postId = "";
-
-      for (var i = 0; i < this.availTime.length; i++) {
-        if (
-          this.availTime[i].date === date &&
-          this.availTime[i].slot === session
-        ) {
-          postId = this.availTime[i].id;
-        }
-      }
-
-      //在这里向后端发送预约数据
-
-      var myHeaders = new Headers();
-      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-      myHeaders.append("Content-Type", "application/json");
-
-      var raw = {
-        id: postId,
-        username: username,
-      };
-      console.log(raw);
-
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: JSON.stringify(raw),
-        redirect: "follow",
-      };
+      var satoken=localStorage.getItem("p_satoken")
       var res;
 
-      await fetch("four/appointment/", requestOptions)
-        .then((response) => response.text())
-        .then((result) => (res = result))
-        .catch((error) => console.log("error", error));
-      console.log(res);
-      res = JSON.parse(res);
+      var myHeaders = new Headers();
+      myHeaders.append("satoken", satoken);
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
 
-      if (res.status !== 1) {
-        this.$message.error("预约失败");
-        console.log("fail");
-      } else {
-        this.$message.success("预约成功");
-      }
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      var id=this.finalAppointmentId;
+
+      await fetch("four/appointments/appointments/"+id+"/details", requestOptions)
+          .then(response => response.text())
+          .then(result => (res=result))
+          .catch(error => console.log('error', error));
+
+      res=JSON.parse(res);
+      console.log(res);
 
       //预约成功，回到主界面
       this.selectTimeDialog = false;
@@ -324,21 +396,20 @@ export default {
       var etype = "success";
       var Visible = true;
 
-      this.doctorList.push({
+/*      this.doctorList.push({
         id,
         name,
         pictue,
         intro,
         etype,
         Visible,
-      });
+      });*/
 
       var deptId = localStorage.getItem("SelectDepartmentId"); //这里的参数要变了
       //改成这样：
       var hid = localStorage.getItem("SelectHospitalId");
       var deptname = localStorage.getItem("SelectDepartmentName");
 
-      console.log(window.sessionStorage.getItem("token"));
       var res;
       var myHeaders = new Headers();
       //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -363,15 +434,16 @@ export default {
         .then((result) => (res = result))
         .catch((error) => console.log("error", error));
       res = JSON.parse(res);
-      if (res.code != 200) {
+      console.log(res);
+      if (res.code !== 200) {
         console.log("fail to get dept");
         console.log(res.data);
       } else {
-        for (let i = 0; i < res.length; i++) {
-          id = res[i].username;
-          name = res[i].name;
-          //pictue=res.data.data[i].dish_picture;
-          intro = res[i].intro;
+        for (let i = 0; i < res.data.length; i++) {
+          id = res.data[i].username;
+          name = res.data[i].name;
+          pictue=res.data[i].img;
+          intro = res.data[i].intro;
           //console.log(name)
           //console.log(intro)
           this.doctorList.push({
@@ -400,49 +472,6 @@ export default {
       }
     },
 
-    async getAvailAppointment(doctorId, deptId) {
-      var id = "0";
-      var date = "2020-11-16";
-      var slot = "NULL";
-      var capacity = "0";
-
-      var res;
-      var myHeaders = new Headers();
-      var requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      console.log(doctorId, deptId, "查时间");
-      await fetch(
-        "four/doctor/" +
-          doctorId +
-          "/department/" +
-          deptId +
-          "/appointment",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => (res = result))
-        .catch((error) => console.log("error", error));
-      res = JSON.parse(res);
-      console.log(res.length);
-      for (let i = 0; i < res.length; i++) {
-        id = res[i].id;
-        date = res[i].date;
-        slot = res[i].slot;
-        capacity = res[i].capacity;
-        this.availTime.push({
-          id,
-          date,
-          slot,
-          capacity,
-        });
-      }
-
-      console.log(this.availTime);
-    },
   },
 };
 </script>
@@ -461,7 +490,7 @@ export default {
 .ecard {
   width: 200px;
   height: 325px;
-  border-radius: 0px;
+  border-radius: 10px;
   text-align: center;
 }
 .einput {
@@ -496,5 +525,29 @@ export default {
   opacity: 0.75;
   line-height: 150px;
   margin: 0;
+}
+
+.father{
+  width: 100%;
+  height: 100%;
+}
+.mask{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.3;
+}
+.child{
+  position: fixed;
+  width: 800px;
+  height: 800px;
+  border: 1px solid #ccc;
+  text-align: center;
+  top: 10%;
+  left: 10%;
+  background: #fff;
 }
 </style>
