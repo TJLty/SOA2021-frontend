@@ -400,6 +400,12 @@ export default {
       res=JSON.parse(res);
       console.log(res);
 
+      if(res===true){
+        ElMessage.success("预约成功！");
+      }else{
+        ElMessage.error("预约失败！");
+      }
+
       //预约成功，回到主界面
       this.selectTimeDialog = false;
       this.dialogVisible = false;

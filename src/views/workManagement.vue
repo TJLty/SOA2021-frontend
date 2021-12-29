@@ -428,6 +428,7 @@ export default {
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("satoken",localStorage.getItem("d_satoken"));
 
       var raw = JSON.stringify({
         "date": this.detailInfo.date,
@@ -442,6 +443,8 @@ export default {
         body: raw,
         redirect: 'follow'
       };
+
+      console.log(raw);
 
       await fetch("four/appointments/"+id, requestOptions)
           .then(response => response.text())
