@@ -79,7 +79,7 @@
                     v-model="diagnosis"
                     :autosize="{ minRows: 1, maxRows: 1 }"
                     type="textarea"
-                    placeholder="请输入病因"
+                    placeholder="请输入诊断"
                     class="el-input"
                     style="width: 260px"
                 >
