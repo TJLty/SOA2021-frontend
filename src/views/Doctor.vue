@@ -169,6 +169,26 @@ export default {
         ],
         height: 600, //日历高度
         aspectRatio: 1,
+        customButtons: {
+          prev: { // this overrides the prev button
+            text: "PREV",
+            click: () => {
+              console.log("eventPrev");
+              let calendarApi = this.$refs.fullCalendar.getApi();
+              calendarApi.prev();
+              this.clickDoctorCard(this.selectDoctorId,localStorage.getItem("selectDoctorName"));
+            }
+          },
+          next: { // this overrides the next button
+            text: "NEXT",
+            click: () => {
+              console.log("eventNext");
+              let calendarApi = this.$refs.fullCalendar.getApi();
+              calendarApi.next();
+              this.clickDoctorCard(this.selectDoctorId,localStorage.getItem("selectDoctorName"));
+            }
+          }
+        },
         headerToolbar: {
           // 头部toolba
           left: "prev,next today",

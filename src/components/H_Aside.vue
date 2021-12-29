@@ -35,7 +35,7 @@
         style="width: 90%; height: 100%"
         src="https://s2.loli.net/2021/12/19/umFxbDZChlEcUXS.png"
       />
-      <el-menu-item index="arrange-appointment">
+      <el-menu-item index="arrangeAppointment">
         <el-icon><location /></el-icon>
         <span>安排预约</span>
       </el-menu-item>
@@ -51,7 +51,7 @@
         <el-icon><icon-menu /></el-icon>
         <span>科室管理</span>
       </el-menu-item>
-      <el-menu-item index="reservation-manage">
+      <el-menu-item index="reservationManage">
         <el-icon><icon-menu /></el-icon>
         <span>预约管理</span>
       </el-menu-item>

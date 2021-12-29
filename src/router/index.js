@@ -13,6 +13,8 @@ import handing from '../views/Handing'
 import hlogin from '../views/hospital_login'
 import myMaterial from '../views/myMaterial'
 import workManagement from "@/views/workManagement";
+import hospitalDoctor from "@/views/hospitalDoctor";
+import reservationManage from "@/views/reservationManage";
 
 
 
@@ -104,6 +106,16 @@ const routes = [
     name: 'workManagement',
     component: workManagement
   },
+  {
+    path: '/arrangeAppointment',
+    name: 'arrangeAppointment',
+    component: hospitalDoctor
+  },
+  {
+    path:'/reservationManage',
+    name: 'reservationManage',
+    component: reservationManage
+  }
 ]
 
 const router = createRouter({

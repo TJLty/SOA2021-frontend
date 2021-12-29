@@ -174,11 +174,6 @@ export default {
         locale: zhCnLocale,
         nextDayThreshold: '01:00:00',
         events: [
-          //{title:'上午：15',date:'2021-12-17'},
-          //{title:'下午：15',date:'2021-12-17'},
-          //日程事件的json
-          // { title: 'event 1', date: '2021-04-23 12:00:00' },
-          // { title: 'event 2', date: '2021-04-24 05:59:23' },
         ],
         // datesSet: this.handleDateSet,
         /* you can update a remote database when these fire:
@@ -420,6 +415,7 @@ export default {
       }
     },
 
+    //修改预约
     async changeEvent(){
       //修改非具体预约
       var slot="";
