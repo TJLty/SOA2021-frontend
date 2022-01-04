@@ -21,8 +21,26 @@
               :icon="Search"
               @click="search(input)"
               class="eicon"
-          >Search</el-button
+          >搜索</el-button
           >
+
+            <el-select class="sOtherHospital" v-model="selectOtherHospitalId" clearable placeholder="选择医院">
+              <el-option
+                  v-for="item in hospital_list"
+                  :key="item.hospitalId"
+                  :label="item.hospitalName"
+                  :value="item.hospitalId"
+              >
+              </el-option>
+            </el-select>
+            <el-button
+                type="primary"
+                @click="selectOtherHospitalDoctor()"
+                class="sOtherButton"
+            >
+              邀请其他院医生
+            </el-button>
+
 
           <div class="row_container1">
             <el-row :gutter="25">
@@ -175,6 +193,9 @@ export default {
   },
   data() {
     return {
+      selectOtherHospitalId:"本院",
+      hospital_list:[],
+      origin_hospital_list:[],
       input: "",
       //新建预约的表单
       form:{
@@ -255,13 +276,64 @@ export default {
     }
   },
   created() {
-    this.getInfo();
+    this.getAllHospital();
+    this.getInfo(0);
   },
   mounted() {
   },
   methods:{
 
-    async getInfo(){
+    async getAllHospital(){
+      var res;
+
+      var hospitalId=0;
+      var hospitalName="";
+
+      var myHeaders = new Headers();
+      myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("satoken",localStorage.getItem("h_satoken"));
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      await fetch("four/hospitals?filter=", requestOptions)
+          .then(response => response.text())
+          .then(result => (res=result))
+          .catch(error => console.log('error', error));
+
+      res=JSON.parse(res);
+      for(var i=0;i<res.data.length;i++){
+        hospitalId=res.data[i].hospitalId;
+        hospitalName=res.data[i].hospitalName;
+        if(hospitalId.toString()===localStorage.getItem("hospital_login_id")){
+          this.origin_hospital_list.push({
+            value:hospitalId,
+            hospitalId:hospitalId,
+            hospitalName:hospitalName+"（本院）",
+          })
+        }else{
+          this.origin_hospital_list.push({
+            value:hospitalId,
+            hospitalId:hospitalId,
+            hospitalName:hospitalName,
+          })
+        }
+      }
+      console.log("医院列表",this.origin_hospital_list);
+      this.hospital_list=this.origin_hospital_list;
+
+
+    },
+
+    selectOtherHospitalDoctor(){
+      this.getInfo(this.selectOtherHospitalId);
+    },
+
+    async getInfo(HID){
+      this.doctorList=[];
       var name="";
       var deptName="";
       var id="";
@@ -269,7 +341,12 @@ export default {
       var etype = "success";
       var Visible = true;
 
-      var hospitalId=localStorage.getItem("hospital_login_id");
+      var hospitalId;
+      if(HID===0){
+        hospitalId=localStorage.getItem("hospital_login_id");
+      }else{
+        hospitalId=HID;
+      }
       var res;
 
       var myHeaders = new Headers();
@@ -344,8 +421,8 @@ export default {
         redirect: 'follow'
       };
 
-      var reqMonth=12;
-      var reqYear=2021;
+      var reqMonth=1;
+      var reqYear=2022;
       var doctorUsername=doctorId;
 
       await fetch("four/appointments/?month="+reqMonth
@@ -520,6 +597,7 @@ export default {
       var date=this.form.date;
       var slot=this.form.session;
       var capacity=this.form.capacity;
+
       var deptName=this.clickDeptName;
       var hospital_id=localStorage.getItem("hospital_login_id")
       var doctor_username=this.clickDoctorId;
@@ -618,7 +696,7 @@ export default {
   width: 100%;
   position: relative;
   left: 0%;
-  top: 0%;
+  top: 5%;
   text-align: center;
 }
 .ecol {
@@ -634,11 +712,22 @@ export default {
   width: 15%;
   position: absolute;
   left: 40%;
-  top: 3.5%;
+  top: 12%;
 }
 .eicon {
   position: absolute;
   left: 58%;
-  top: 3.5%;
+  top: 12%;
+}
+.sOtherHospital{
+  width:23%;
+  top:3.5%;
+  left:40%;
+  position: absolute;
+}
+.sOtherButton{
+  top:3.5%;
+  position: absolute;
+  left: 65%;
 }
 </style>
