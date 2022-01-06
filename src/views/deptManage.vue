@@ -185,7 +185,7 @@ export default {
         redirect: 'follow'
       };
       var res,dept=[]
-     await fetch("four/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
+     await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -243,7 +243,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments?department_name="+domain.departmentName, requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments?department_name="+domain.departmentName, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
@@ -274,7 +274,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/hospitals/"+localStorage.getItem("hospitalId")+"/departments", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+localStorage.getItem("hospitalId")+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
@@ -299,7 +299,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+localStorage.getItem("hospital_login_id")+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));

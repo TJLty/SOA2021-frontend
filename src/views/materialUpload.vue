@@ -98,7 +98,7 @@ export default {
         redirect: 'follow'
       };
       var res
-     await fetch("four/files/actions/upload", requestOptions)
+     await fetch("http://220.179.227.205:6014/api/v1/files/actions/upload", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -123,7 +123,7 @@ export default {
           redirect: 'follow'
         };
 
-        await fetch("four/files", requestOptions1)
+        await fetch("http://220.179.227.205:6014/api/v1/files", requestOptions1)
             .then(response => response.text())
             .then(result => res1=result)
             .catch(error => console.log('error', error));

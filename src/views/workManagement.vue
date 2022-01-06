@@ -225,7 +225,7 @@ export default {
       var reqYear=this.monthTitle.getFullYear();
       var doctorUsername=localStorage.getItem("username");
 
-      await fetch("four/appointments/?month="+reqMonth
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+reqMonth
           +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
@@ -341,7 +341,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/appointments/", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));
@@ -358,7 +358,7 @@ export default {
 
     async getDoctorInfo() {
       this.d_satoken = localStorage.getItem("d_satoken");
-      await fetch("four/doctors", {
+      await fetch("http://220.179.227.205:6014/api/v1/doctors", {
         headers: {
           satoken: this.d_satoken,
           credentials: "include",
@@ -395,7 +395,7 @@ export default {
         };
 
         var res;
-        await fetch("four/appointments/"+id, requestOptions)
+        await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id, requestOptions)
             .then(response => response.text())
             .then(result => (res=result))
             .catch(error => console.log('error', error));
@@ -446,7 +446,7 @@ export default {
 
       console.log(raw);
 
-      await fetch("four/appointments/"+id, requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));

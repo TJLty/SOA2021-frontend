@@ -328,7 +328,7 @@ export default {
       var reqYear=this.monthTitle.getFullYear();
       var doctorUsername=doctorId;
 
-      await fetch("four/appointments/?month="+reqMonth
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+reqMonth
           +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
@@ -393,7 +393,7 @@ export default {
 
       var id=this.finalAppointmentId;
 
-      await fetch("four/appointments/"+id+"/details", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id+"/details", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));
@@ -452,7 +452,7 @@ export default {
 
       await fetch(
         // "http://220.179.227.205:6017/Department/" + deptId + "/doctor",
-        "four/hospitals/" +
+        "http://220.179.227.205:6014/api/v1/hospitals/" +
           hid +
           "/doctors?department=" +
           deptname,

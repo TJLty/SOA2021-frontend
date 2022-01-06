@@ -120,9 +120,10 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes,
+ 
   mode: 'hash',
-    base: process.env.BASE_URL,
+  base: process.env.BASE_URL,
+  routes,
 })
 
 export default router

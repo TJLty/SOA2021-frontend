@@ -103,7 +103,7 @@ export default {
         month+=12
         year--
       }
-      await fetch("four/appointments/?month="+month+"&year="+year+"&doctor_username=&department_name=&hospital_id=&apt_capacity=&apt_time=", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+month+"&year="+year+"&doctor_username=&department_name=&hospital_id=&apt_capacity=&apt_time=", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -148,7 +148,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("four/appointments/"+this.tableData[index].id, requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/"+this.tableData[index].id, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -165,7 +165,7 @@ export default {
       };
       var res
       console.log(this.tableData[index].id)
-      await fetch("four/appointments/"+this.tableData[index].id, requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/"+this.tableData[index].id, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));

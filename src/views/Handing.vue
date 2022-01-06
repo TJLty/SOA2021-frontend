@@ -182,7 +182,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("four/doctors", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/doctors", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -207,7 +207,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/appointments/details/now", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/details/now", requestOptions)
           .then(response => rps=response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -244,17 +244,18 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("four/files?username="+username+"&name=&start_time=&end_time=&pageSize=1&currentPage=0", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/files?username="+username+"&name=&start_time=&end_time=&pageSize=10&currentPage=0", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
       res=JSON.parse(res)
+      console.log(1234546)
       console.log(res)
       this.MaterialForm=res.data.list
     },
     async hand(){
       var res,rps;
-      var url="four/appointments/"+localStorage.getItem("apt_id")+"/details/"
+      var url="http://220.179.227.205:6014/api/v1/appointments/"+localStorage.getItem("apt_id")+"/details/"
       url+=localStorage.getItem("apt_num")+"?finish=true"
       var myHeaders = new Headers();
       // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -286,7 +287,7 @@ export default {
         body: raw,
         redirect: 'follow'
       };
-      var url1="four/appointments/"+localStorage.getItem("apt_id")+"/details/"
+      var url1="http://220.179.227.205:6014/api/v1/appointments/"+localStorage.getItem("apt_id")+"/details/"
       url1+=localStorage.getItem("apt_num")
       fetch(url1, requestOptions1)
           .then(response => response.text())
@@ -320,7 +321,7 @@ export default {
         redirect: 'follow'
       };
       var res
-     await fetch("four/hospitals?filter=", requestOptions)
+     await fetch("http://220.179.227.205:6014/api/v1/hospitals?filter=", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -337,7 +338,7 @@ export default {
         redirect: 'follow'
       };
       var depts=[],res
-      await fetch("four/hospitals/"+this.addForm.hospitalName+"/departments", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+this.addForm.hospitalName+"/departments", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));
@@ -372,7 +373,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("four/doctors/?code="+this.addForm.verify, requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/doctors/?code="+this.addForm.verify, requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error => console.log('error', error));

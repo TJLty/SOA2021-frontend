@@ -165,7 +165,7 @@ export default {
         };
 
         fetch(
-          "four/appointments/" + id + "/details/" + code,
+          "http://220.179.227.205:6014/api/v1/appointments/" + id + "/details/" + code,
           requestOptions
         )
           .then((response) => response.text())
@@ -206,7 +206,7 @@ export default {
       };
 
       var url =
-        "four/appointments/details?pageSize=" +
+        "http://220.179.227.205:6014/api/v1/appointments/details?pageSize=" +
         this.pageSize +
         "&currentPage=" +
         this.currentPage +
@@ -288,7 +288,7 @@ export default {
       };
 
       var url =
-        "four/appointments/details?pageSize=" +
+        "http://220.179.227.205:6014/api/v1/appointments/details?pageSize=" +
         this.pageSize +
         "&currentPage=" +
         this.currentPage +
@@ -381,7 +381,7 @@ export default {
       // console.log(url);
 
       var url =
-        "four/appointments/details?pageSize=" +
+        "http://220.179.227.205:6014/api/v1/appointments/details?pageSize=" +
         this.pageSize +
         "&currentPage=" +
         this.currentPage +

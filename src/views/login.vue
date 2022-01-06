@@ -300,6 +300,7 @@ export default {
           .then((response) => response.text())
           .then((result) => (res = result))
           .catch((error) => console.log("error", error));
+          console.log(JSON.parse(res));
         res = JSON.parse(res);
         //console.log(this.loginForm)
 
@@ -319,7 +320,7 @@ export default {
         }
       } else {
         await fetch(
-          "four/doctors/login",
+          "http://220.179.227.205:6014/api/v1/doctors/login",
           requestOptions
         )
           .then((response) => response.text())
@@ -391,12 +392,12 @@ export default {
         };
         var res1
         if(this.resForm.checked==true){
-        await fetch("four/doctors", requestOptions1)
+        await fetch("http://220.179.227.205:6014/api/v1/doctors", requestOptions1)
             .then(response => response.text())
             .then(result => res1=result)
             .catch(error => console.log('error', error));}
             else{
-        await fetch("four/patients", requestOptions2)
+        await fetch("http://220.179.227.205:6014/api/v1/patients", requestOptions2)
             .then(response => response.text())
             .then(result => res1=result)
             .catch(error => console.log('error', error));}
