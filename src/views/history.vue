@@ -113,14 +113,21 @@ export default {
         hour,
         date,
         slot;
+        
       year = time.getFullYear();
       month = time.getMonth() + 1;
+      if(month<10)
+        month="0"+month
       day = time.getDate();
+      if(day<10)
+          day="0"+day
       hour = time.getHours();
+      console.log(hour)
       date = year + "-" + month + "-" + day;
-      if (hour > 12) slot = "AFTERNOON";
+      if (hour >= 12) slot = "AFTERNOON";
       else slot = "MORNING";
-      console.log([this.tableData[index], date, slot]);
+      console.log(this.tableData[index]);
+      console.log( [date, slot])
       if (
         this.tableData[index].date == date &&
         this.tableData[index].slot == slot
@@ -163,13 +170,7 @@ export default {
 </script>
 
 <style scoped>
-#botbtn2 {
- 
-  
-}
-#botbtn1{
-  
-}
+
 .botbtn{
 position: absolute;
   bottom: 5%;
