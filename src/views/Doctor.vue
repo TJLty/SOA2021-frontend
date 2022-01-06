@@ -273,7 +273,7 @@ export default {
       console.log(this.finalAppointmentId);
       var hospital = localStorage.getItem("hospitalName");
       var department = localStorage.getItem("SelectDepartmentName");
-      var doctor = localStorage.getItem("doctor");
+      var doctor = localStorage.getItem("selectDoctorName");
       var date = localStorage.getItem("date");
       var session = localStorage.getItem("session");
       this.finalInfo = [];
