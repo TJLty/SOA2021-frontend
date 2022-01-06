@@ -359,7 +359,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/hospitals/"+hospitalId+"/doctors?department=", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+hospitalId+"/doctors?department=", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));
@@ -425,7 +425,7 @@ export default {
       var reqYear=2022;
       var doctorUsername=doctorId;
 
-      await fetch("four/appointments/?month="+reqMonth
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+reqMonth
           +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
@@ -475,7 +475,7 @@ export default {
       var reqYear=this.monthTitle.getFullYear();
       var doctorUsername=this.clickDoctorId;
 
-      await fetch("four/appointments/?month="+reqMonth
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+reqMonth
           +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
@@ -531,7 +531,7 @@ export default {
         };
 
         var res;
-        await fetch("four/appointments/"+id, requestOptions)
+        await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id, requestOptions)
             .then(response => response.text())
             .then(result => (res=result))
             .catch(error => console.log('error', error));
@@ -578,7 +578,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/appointments/"+id, requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
@@ -629,7 +629,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("four/appointments/", requestOptions)
+      await fetch("http://220.179.227.205:6014/api/v1/appointments/", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));
