@@ -246,7 +246,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("api/api/predict", requestOptions)
+      await fetch("AI/api/predict", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error =>this.$message.error("分类失败"));
