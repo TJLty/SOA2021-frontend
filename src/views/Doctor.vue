@@ -338,14 +338,21 @@ export default {
       console.log(res.data.length);
 
       for(var i=0;i<res.data.length;i++){
-        hospital=res.data[i].hospital_name;
-        department=res.data[i].department_name;
-        date=res.data[i].date;
-        session=res.data[i].slot;
-        type=res.data[i].editable;
-        capacity=res.data[i].capacity;
-        appointmentId=res.data[i].id;
-        this.putEvent(hospital,department,date,type,session,capacity,appointmentId);
+        var d=res.data[i].date;
+        var tmpDate=new Date(d);
+        var today=new Date();
+        today=today.setDate(today.getDate()-1)
+        console.log(tmpDate,today);
+        if(tmpDate>today){
+          hospital=res.data[i].hospital_name;
+          department=res.data[i].department_name;
+          date=res.data[i].date;
+          session=res.data[i].slot;
+          type=res.data[i].editable;
+          capacity=res.data[i].capacity;
+          appointmentId=res.data[i].id;
+          this.putEvent(hospital,department,date,type,session,capacity,appointmentId);
+        }
       }
 
       console.log(this.calendarOptions.events);

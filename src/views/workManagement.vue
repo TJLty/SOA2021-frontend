@@ -215,6 +215,7 @@ export default {
       //请求本月的预约数据
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+      myHeaders.append("satoken",localStorage.getItem("d_satoken"));
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
