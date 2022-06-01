@@ -28,21 +28,17 @@
             去注册
           </el-button>
           <el-button type="primary" @click="changelog" v-if="!log">
-            去登陆
+            去登录
           </el-button>
         </div>
       </div>
     </el-header>
     <div class="login_container" style="width: 95vw; height: 87vh">
       <div>
-        <!-- <div class="login_header">
-        <h1 style="width: 200px; padding-left: 10px;font-weight: bold;font-size: larger;color:#409EFF">医生办公室预约系统</h1>
-      </div> -->
-
         <el-card v-if="log" class="login_box" shadow="hover">
           <h2 class="l1">登录</h2>
           <h2 class="l2">欢迎登录本系统</h2>
-          <!-- 登陆表单 -->
+          <!-- 登录表单 -->
           <el-form
             ref="loginFormRef111"
             :model="loginForm"
@@ -94,7 +90,6 @@
             </el-row>
           </el-form>
         </el-card>
-
         <el-card v-if="!log" class="login_box" shadow="hover">
           <h2 class="l1">注册</h2>
           <!-- 注册表单 -->
@@ -280,11 +275,8 @@ export default {
     },
     async login() {
       var myHeaders = new Headers();
-      //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
-
       var raw = JSON.stringify(this.loginForm);
-
       var requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -302,14 +294,11 @@ export default {
           .catch((error) => console.log("error", error));
           console.log(JSON.parse(res));
         res = JSON.parse(res);
-        //console.log(this.loginForm)
-
         if (res.code != 200) {
-          return this.$message.error("登陆失败");
-
+          return this.$message.error("登录失败");
           localStorage.removeItem("p_satoken");
         } else {
-          this.$message.success("登陆成功");
+          this.$message.success("登录成功");
           console.log(this.loginForm);
           window.localStorage.setItem("username", this.loginForm.username);
           this.satoken = res.data.tokenValue;
@@ -327,14 +316,11 @@ export default {
           .then((result) => (res = result))
           .catch((error) => console.log("error", error));
         res = JSON.parse(res);
-        console.log(res);
-
         if (res.code !== 200) {
-          return this.$message.error("登陆失败");
-
+          return this.$message.error("登录失败");
           localStorage.removeItem("d_satoken");
         } else {
-          this.$message.success("登陆成功");
+          this.$message.success("登录成功");
           console.log(this.loginForm);
           window.localStorage.setItem("username", this.loginForm.username);
           this.satoken = res.data.tokenValue;
@@ -347,7 +333,6 @@ export default {
     },
     async register() {
         var myHeaders = new Headers();
-
       myHeaders.append("Authorization", "APPCODE 825b6a50bf6a41f18e7d4c4215bef224");
       var requestOptions = {
         method: 'POST',
@@ -356,22 +341,16 @@ export default {
         redirect: 'follow'
       };
       var res={code:0}
-      console.log(222222)
       await fetch("ali?idcard="+this.resForm.username+"&name="+this.resForm.name, requestOptions)
           .then(response => response.text())
           .then(result => res = result)
           .catch(error => console.log('error', error));
       res=JSON.parse(res)
-      console.log(222222)
-      console.log(res)
       if(res.code!=0){
         this.$message.error(res.msg);
       }else{
         var myHeaders1 = new Headers();
-        //myHeaders1.append("satoken" , localStorage.getItem("satoken"));
-       //myHeaders1.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
         myHeaders1.append("Content-Type", "application/json");
-
         var raw2 = JSON.stringify(this.resForm);
         var raw1 = JSON.stringify({
           "username": this.resForm.username,

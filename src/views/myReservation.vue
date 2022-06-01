@@ -140,7 +140,7 @@ export default {
   methods: {
     getAdvice(index, row) {
       this.centerDialogVisible = true;
-      console.log(row.advice);
+      
       if (row.advice == null) this.ad = "尚未给出医嘱";
       else this.ad = row.advice;
 
@@ -151,9 +151,7 @@ export default {
       if (row.finish == false) {
         var id = row.id;
         var code = row.code;
-        console.log(row);
-        console.log(id);
-        console.log(code);
+      
         var myHeaders = new Headers();
         myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
         myHeaders.append("satoken", localStorage.getItem("p_satoken"));
@@ -180,8 +178,7 @@ export default {
     },
     async getInfo() {
       this.tableData = [];
-      console.log("c " + this.currentPage);
-      console.log("p " + this.pageSize);
+      
       var name = "张三";
       var dept = "消化科";
       var time = "2021-12-24";
@@ -222,8 +219,7 @@ export default {
 
       res = JSON.parse(res);
       this.gettable = res;
-      console.log(url);
-      console.log(res);
+      
       for (let i = 0; i < res.data.list.length; i++) {
         name = res.data.list[i].hospital_name;
         dept = res.data.list[i].department_name;
@@ -261,8 +257,7 @@ export default {
     async handleCurrentChange(num) {
       this.currentPage = num - 1;
       this.tableData = [];
-      console.log("传进去的c " + this.currentPage);
-      console.log("本地的p " + this.pageSize);
+      
       var name = "张三";
       var dept = "消化科";
       var time = "2021-12-24";
@@ -304,8 +299,7 @@ export default {
 
       res = JSON.parse(res);
       this.gettable = res;
-      console.log(url);
-      console.log(res);
+     
       for (let i = 0; i < res.data.list.length; i++) {
         name = res.data.list[i].hospital_name;
         dept = res.data.list[i].department_name;
@@ -341,15 +335,14 @@ export default {
         (this.totalPage = res.data.totalPage),
         (this.totalNumber = res.data.totalNumber);
 
-      console.log("显示的页码c " + this.currentPage);
+
     },
     async handleSizeChange(num) {
-      console.log("传进去的p " + num);
+     
       this.currentPage = 0;
       this.pageSize = num;
       this.tableData = [];
-      console.log("本地的c " + this.currentPage - 1);
-      console.log("本地的p " + this.pageSize);
+  
       var name = "张三";
       var dept = "消化科";
       var time = "2021-12-24";
@@ -373,13 +366,6 @@ export default {
         headers: myHeaders,
         redirect: "follow",
       };
-
-      // var url = "http://220.179.227.205:6018/appointment/Patient/";
-      // console.log(localStorage.getItem("username"));
-      // url = url + localStorage.getItem("username") + "/all";
-      //http://220.179.227.205:6018/appointments/details?pageSize=5&currentPage=0&history=true&future=true
-      // console.log(url);
-
       var url =
         "http://220.179.227.205:6014/api/v1/appointments/details?pageSize=" +
         this.pageSize +
@@ -397,8 +383,7 @@ export default {
 
       res = JSON.parse(res);
       this.gettable = res;
-      console.log(url);
-      console.log(res);
+     
       for (let i = 0; i < res.data.list.length; i++) {
         name = res.data.list[i].hospital_name;
         dept = res.data.list[i].department_name;
