@@ -286,7 +286,7 @@ export default {
       var res;
       if (!this.loginForm.checked) {
         await fetch(
-          "four/patients/login",
+          "http://220.179.227.205:6014/api/v1/patients/login",
           requestOptions
         )
           .then((response) => response.text())

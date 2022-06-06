@@ -461,7 +461,7 @@ export default {
 
     async submit() {
       var myHeaders1 = new Headers();
-      var satoken = localStorage.getItem("h_satoken");
+      var satoken = localStorage.getItem("d_satoken");
       myHeaders1.append("satoken", satoken);
       //myHeaders.append("Content-Type", "multipart/form-data");
       var formdata = new FormData();

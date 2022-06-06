@@ -234,43 +234,7 @@ export default {
     changelog() {
       this.log = !this.log;
     },
-    // async login() {
-    //   var myHeaders = new Headers();
-    //   myHeaders.append("Content-Type", "application/json");
-
-    //   var raw = JSON.stringify(this.loginForm);
-
-    //   var requestOptions = {
-    //     method: "POST",
-    //     headers: myHeaders,
-    //     body: raw,
-    //     redirect: "follow",
-    //   };
-    //   var res;
-
-    //   await fetch("http://220.179.227.205:6015/patients/login", requestOptions)
-    //     .then((response) => response.text())
-    //     .then((result) => (res = result))
-    //     .catch((error) => console.log("error", error));
-    //   res = JSON.parse(res);
-    //   //console.log(this.loginForm)
-
-    //   if (res.code != 200) {
-    //     return this.$message.error("登陆失败");
-
-    //     localStorage.removeItem("h_satoken");
-    //   } else {
-    //     this.$message.success("登陆成功");
-    //     console.log(this.loginForm);
-    //     window.localStorage.setItem("username", this.loginForm.username);
-    //     this.h_satoken = res.data.tokenValue;
-    //     localStorage.removeItem("h_satoken");
-    //     localStorage.setItem("h_satoken", this.h_satoken);
-    //     console.log(res.data.tokenValue);
-    //     this.$router.push("/hospital");
-    //   }
-    // },
-
+    
     async login() {
       var res;
       var myHeaders = new Headers();

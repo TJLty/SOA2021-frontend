@@ -450,7 +450,7 @@ export default {
       //myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
 
-      myHeaders.append("satoken", localStorage.getItem("d_satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
@@ -458,7 +458,7 @@ export default {
       };
 
       await fetch(
-        // "http://220.179.227.205:6017/Department/" + deptId + "/doctor",
+       
         "http://220.179.227.205:6014/api/v1/hospitals/" +
           hid +
           "/doctors?department=" +
@@ -479,8 +479,7 @@ export default {
           name = res.data[i].name;
           pictue=res.data[i].img;
           intro = res.data[i].intro;
-          //console.log(name)
-          //console.log(intro)
+          
           this.doctorList.push({
             id,
             name,

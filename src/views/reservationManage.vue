@@ -149,7 +149,7 @@ export default {
       var res;
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("satoken", localStorage.getItem("h_satoken"));
+      myHeaders.append("satoken", localStorage.getItem("p_satoken"));
 
       var requestOptions = {
         method: "GET",
