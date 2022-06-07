@@ -408,10 +408,10 @@ export default {
       res=JSON.parse(res);
       console.log(res);
 
-      if(res===true){
+      if(res.code==200){
         ElMessage.success("预约成功！");
       }else{
-        ElMessage.error("预约失败！");
+        ElMessage.error("预约失败,已经预约过");
       }
 
       //预约成功，回到主界面
