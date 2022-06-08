@@ -230,12 +230,14 @@ export default {
 
     },
     async CTcategory(){
+      
       this.CTresultVisible = true;
       console.log(this.uploadFile.raw)
       var myHeaders = new Headers();
       // var satoken=localStorage.getItem("p_satoken")
       // myHeaders.append("satoken", satoken);
       //myHeaders.append("Content-Type", "multipart/form-data");
+     
       var formdata = new FormData();
       formdata.append("file",this.uploadFile.raw, this.uploadFile.name);
 
@@ -246,7 +248,7 @@ export default {
         redirect: 'follow'
       };
       var res
-      await fetch("AI/api/predict", requestOptions)
+      await fetch("http://220.179.227.205:6030/api/predict", requestOptions)
           .then(response => response.text())
           .then(result => res=result)
           .catch(error =>this.$message.error("分类失败"));
