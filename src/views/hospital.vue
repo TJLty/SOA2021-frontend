@@ -227,7 +227,7 @@ export default {
 
       await fetch(
         
-        "http://220.179.227.205:6014/api/v1/hospitals?filter=",
+        "four/hospitals?filter=",
         requestOptions
       )
         .then((response) => response.text())

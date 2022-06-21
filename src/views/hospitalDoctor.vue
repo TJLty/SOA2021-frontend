@@ -299,7 +299,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("http://220.179.227.205:6014/api/v1/hospitals?filter=", requestOptions)
+      await fetch("four/hospitals?filter=", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));
@@ -359,7 +359,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("http://220.179.227.205:6014/api/v1/hospitals/"+hospitalId+"/doctors?department=", requestOptions)
+      await fetch("four/hospitals/"+hospitalId+"/doctors?department=", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));
@@ -421,11 +421,11 @@ export default {
         redirect: 'follow'
       };
 
-      var reqMonth=1;
+      var reqMonth=6;
       var reqYear=2022;
       var doctorUsername=doctorId;
 
-      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+reqMonth
+      await fetch("four/appointments/?month="+reqMonth
           +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
@@ -465,6 +465,7 @@ export default {
       //请求本月的预约数据
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
+       myHeaders.append("satoken",localStorage.getItem("h_satoken"))
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -475,7 +476,7 @@ export default {
       var reqYear=this.monthTitle.getFullYear();
       var doctorUsername=this.clickDoctorId;
 
-      await fetch("http://220.179.227.205:6014/api/v1/appointments/?month="+reqMonth
+      await fetch("four/appointments/?month="+reqMonth
           +"&year="+reqYear+"&doctor_username="+doctorUsername, requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
@@ -523,7 +524,7 @@ export default {
 
         var myHeaders = new Headers();
         myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
-
+ myHeaders.append("satoken",localStorage.getItem("h_satoken"))
         var requestOptions = {
           method: 'DELETE',
           headers: myHeaders,
@@ -531,7 +532,7 @@ export default {
         };
 
         var res;
-        await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id, requestOptions)
+        await fetch("four/appointments/"+id, requestOptions)
             .then(response => response.text())
             .then(result => (res=result))
             .catch(error => console.log('error', error));
@@ -563,7 +564,7 @@ export default {
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
-
+ myHeaders.append("satoken",localStorage.getItem("h_satoken"))
       var raw = JSON.stringify({
         "date": this.detailInfo.date,
         "slot": slot,
@@ -578,7 +579,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("http://220.179.227.205:6014/api/v1/appointments/"+id, requestOptions)
+      await fetch("four/appointments/"+id, requestOptions)
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
@@ -629,7 +630,7 @@ export default {
         redirect: 'follow'
       };
 
-      await fetch("http://220.179.227.205:6014/api/v1/appointments/", requestOptions)
+      await fetch("four/appointments/", requestOptions)
           .then(response => response.text())
           .then(result => (res=result))
           .catch(error => console.log('error', error));

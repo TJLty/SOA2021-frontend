@@ -89,7 +89,7 @@ export default {
       };
       if (this.page < this.totalPage) {
         await fetch(
-          "http://220.179.227.205:6014/api/v1/appointments/details?pageSize=20&currentPage=" +
+          "four/appointments/details?pageSize=20&currentPage=" +
             this.page +
             "&history=true&future=false",
           requestOptions
@@ -133,7 +133,7 @@ export default {
         this.tableData[index].slot == slot
       ) {
         var res, rps;
-        var url = "http://220.179.227.205:6014/api/v1/appointments/" + this.tableData[index].id + "/details/";
+        var url = "four/appointments/" + this.tableData[index].id + "/details/";
         url += this.tableData[index].code + "?finish=false";
         var myHeaders = new Headers();
         // myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -149,9 +149,7 @@ export default {
           .then((response) => (rps = response.text()))
           .then((result) => (res = result))
           .catch((error) => console.log("error", error));
-        res = JSON.parse(res);
-        console.log(url);
-        console.log(res);
+        
         this.getList();
       } else {
         this.$message.error("该患者不是当前时间段患者，无法撤销");

@@ -329,7 +329,7 @@ export default {
           redirect: "follow",
         };
         var res1;
-        await fetch("http://220.179.227.205:6014/api/v1/files/actions/upload", requestOptions1)
+        await fetch("four/files/actions/upload", requestOptions1)
           .then((response) => response.text())
           .then((result) => (res1 = result))
           .catch((error) => console.log("error", error));
@@ -355,10 +355,10 @@ export default {
           redirect: "follow",
         };
         var res;
-        console.log("http://220.179.227.205:6014/api/v1/patients/" + this.validation);
+        console.log("four/patients/" + this.validation);
         await fetch(
-          "http://220.179.227.205:6014/api/v1/patients/" + this.validation,
-          // "http://220.179.227.205:6014/api/v1/patients/1950698",
+          "four/patients/" + this.validation,
+          // "four/patients/1950698",
           requestOptions
         )
           .then((response) => response.text())
@@ -408,7 +408,7 @@ export default {
         redirect: "follow",
       };
 
-      await fetch("http://220.179.227.205:6014/api/v1/patients/" + this.addForm.username, requestOptions)
+      await fetch("four/patients/" + this.addForm.username, requestOptions)
         .then((response) => response.text())
         .then((result) => (res1 = result))
         .catch((error) => console.log("error", error));
@@ -440,7 +440,7 @@ export default {
       };
 
       await fetch(
-        "http://220.179.227.205:6014/api/v1/patients/" + localStorage.getItem("username"),
+        "four/patients/" + localStorage.getItem("username"),
         requestOptions
       )
         .then((response) => response.text())
@@ -455,7 +455,7 @@ export default {
       }
 
       await fetch(
-        "http://220.179.227.205:6014/api/v1/appointments/details/actions/count?future=true&history=true",
+        "four/appointments/details/actions/count?future=true&history=true",
         requestOptions
       )
         .then((response) => response.text())
@@ -472,7 +472,7 @@ export default {
 
       var res3;
       await fetch(
-        "http://220.179.227.205:6014/api/v1/appointments/details/actions/count?future=true&history=false",
+        "four/appointments/details/actions/count?future=true&history=false",
         requestOptions
       )
         .then((response) => response.text())
