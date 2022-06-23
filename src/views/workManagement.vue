@@ -430,9 +430,12 @@ export default {
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("satoken",localStorage.getItem("d_satoken"));
-
+      console.log(this.detailInfo.date);
+      var tmpstr1=this.detailInfo.date.replace("/","-");
+      var tmpstr2=tmpstr1.replace("/","-");
+      console.log(tmpstr2);
       var raw = JSON.stringify({
-        "date": this.detailInfo.date,
+        "date": tmpstr2,
         "slot": slot,
         "capacity": Number(this.detailInfo.capacity),
       });
