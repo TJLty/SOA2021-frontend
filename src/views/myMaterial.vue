@@ -109,6 +109,7 @@ import Header from "@/components/Header";
 import Aside from "@/components/Aside";
 import {Search, Plus} from "@element-plus/icons";
 import { UploadFilled,Delete } from '@element-plus/icons'
+import { ElMessage } from 'element-plus'
 export default {
   components:{
     Header,
@@ -186,6 +187,11 @@ export default {
       myHeaders.append("satoken", satoken);
       //myHeaders.append("Content-Type", "multipart/form-data");
       var formdata = new FormData();
+      if(this.uploadFile.raw==null ||this.uploadFile.name == null)
+      {
+         ElMessage.error("必要的信息不能为空！");
+         return false;
+      }
       formdata.append("file",this.uploadFile.raw, this.uploadFile.name);
 
       var requestOptions = {
@@ -231,7 +237,7 @@ export default {
     },
     async CTcategory(){
       
-      this.CTresultVisible = true;
+     
       console.log(this.uploadFile.raw)
       var myHeaders = new Headers();
       // var satoken=localStorage.getItem("p_satoken")
@@ -239,6 +245,12 @@ export default {
       //myHeaders.append("Content-Type", "multipart/form-data");
      
       var formdata = new FormData();
+      if(this.uploadFile.raw==null ||this.uploadFile.name == null)
+      {
+         ElMessage.error("必要的信息不能为空！");
+         return false;
+      }
+       this.CTresultVisible = true;
       formdata.append("file",this.uploadFile.raw, this.uploadFile.name);
 
       var requestOptions = {

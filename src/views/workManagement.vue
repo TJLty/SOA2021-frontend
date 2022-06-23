@@ -316,7 +316,14 @@ export default {
       var doctor_username=localStorage.getItem("username");
 
       var res;
-
+      if (!(/(^[1-9]\d*$)/.test(capacity))) { 
+  ElMessage.error("请输入正整数");
+return false; 
+}
+if (capacity>20) { 
+  ElMessage.error("数字过大，请输入20以内数字");
+return false; 
+}
       //这里发送新预约
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
@@ -425,15 +432,23 @@ export default {
       }else{
         slot="AFTERNOON";
       }
-
+var capacity=this.detailInfo.capacity;
+if (!(/(^[1-9]\d*$)/.test(capacity))) { 
+  ElMessage.error("请输入正整数");
+return false; 
+}
+if (capacity>20) { 
+  ElMessage.error("数字过大，请输入20以内数字");
+return false; 
+}
       var myHeaders = new Headers();
       myHeaders.append("User-Agent", "apifox/1.0.0 (https://www.apifox.cn)");
       myHeaders.append("Content-Type", "application/json");
       myHeaders.append("satoken",localStorage.getItem("d_satoken"));
-      console.log(this.detailInfo.date);
+     
       var tmpstr1=this.detailInfo.date.replace("/","-");
       var tmpstr2=tmpstr1.replace("/","-");
-      console.log(tmpstr2);
+      
       var raw = JSON.stringify({
         "date": tmpstr2,
         "slot": slot,
@@ -449,12 +464,18 @@ export default {
       };
 
       console.log(raw);
-
+      var res;
       await fetch("four/appointments/"+id, requestOptions)
           .then(response => response.text())
-          .then(result => console.log(result))
+           .then(result => (res=result))
           .catch(error => console.log('error', error));
 
+           res=JSON.parse(res);
+         if(res.code==200){
+        ElMessage.success("修改成功！");
+      }else{
+        ElMessage.error("修改失败");
+      }
       this.detailInfoDialog = false;
       //location.reload();
     },
